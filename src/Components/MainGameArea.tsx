@@ -7,8 +7,8 @@ import type {ColorBlock} from "../Utils/types.ts";
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
     const [winner, setWinner] = useState<ColorBlock | null>(null);
-    const [betAmount,setBetAmount]=useState<number>(20)
-    const [amountWon,setAmountWon]=useState<number>(0)
+    // const [betAmount,setBetAmount]=useState<number>(20)
+    // const [amountWon,setAmountWon]=useState<number>(0)
     // const [active, setActive] = useState<{
     //     range?: string;
     // }>({});
@@ -53,9 +53,9 @@ export const MainGameArea = () => {
                 <SpinControls
                     handleSpin={handleSpin}
                     spinState={spinState}
-                    amountWon={amountWon}
-                    OnSetBetAmount={setBetAmount}
-                    betAmount={betAmount}
+                    // amountWon={amountWon}
+                    // OnSetBetAmount={setBetAmount}
+                    // betAmount={betAmount}
                     OnSetSelectedLevel={setSelectedLevel}
                     level={selectedLevel}
                 />

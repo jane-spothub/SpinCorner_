@@ -67,7 +67,6 @@ export const colorLevels: Record<number, ColorBlock[]> = {
         { id: 10, amount: "50", hex: "gradient-pink-black",multiplier:2.2},
         { id: 11, amount: "30", hex: "gradient-dark-green",multiplier:2.1},
         { id: 4, amount: "500", hex: "gradient-dark-red",multiplier:2.8},
-
         { id: 12, amount: "15", hex: "gradient-blue",multiplier:1.9},
         { id: 13, amount: "15", hex: "gradient-dark-green",multiplier:1.8},
         { id: 2, amount: "1500", hex: "gradient-pink-black",multiplier:2.95},

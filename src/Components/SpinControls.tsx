@@ -1,14 +1,14 @@
 import { type Dispatch, type FC, type SetStateAction } from "react";
 import { controls } from "../Hooks/useColors.ts";
-import betChip from "../assets/img/scene/bet-amount.png";
-import betChipSelected from "../assets/img/scene/bet-amount-selected.png";
+// import betChip from "../assets/img/scene/bet-amount.png";
+// import betChipSelected from "../assets/img/scene/bet-amount-selected.png";
 
 interface SpinControlsProps {
     handleSpin: () => void;
     spinState: boolean;
-    amountWon: number;
-    betAmount: number;
-    OnSetBetAmount: Dispatch<SetStateAction<number>>;
+    // amountWon: number;
+    // betAmount: number;
+    // OnSetBetAmount: Dispatch<SetStateAction<number>>;
     OnSetSelectedLevel: Dispatch<SetStateAction<number>>;
     level: number;
 }
@@ -16,9 +16,9 @@ interface SpinControlsProps {
 export const SpinControls: FC<SpinControlsProps> = ({
                                                         handleSpin,
                                                         spinState,
-                                                        betAmount,
-                                                        OnSetBetAmount,
-                                                        amountWon,
+                                                        // betAmount,
+                                                        // OnSetBetAmount,
+                                                        // amountWon,
                                                         OnSetSelectedLevel,
                                                         level,
                                                     }) => {
