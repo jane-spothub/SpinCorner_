@@ -1,0 +1,260 @@
+.Spin-main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, rgb(11, 6, 12) 20%, #051d41 75%);
+    height: 100vh;
+    width: 100%;
+
+}
+
+.spin-game-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.Spin-main-controls {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.Bet-amount-area-spin {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.bet-Amount-text{
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.33);
+}
+
+.Bet-spin-area {
+    display: flex;
+    flex-direction: row;
+}
+
+.spin-short-bet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bet-short-spin {
+    position: relative;
+    width: 100%;   /* adjust size */
+    /*height: 80px;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chip-image {
+    flex:1;
+    width: 24px;
+    object-fit: contain;
+}
+
+.chip-text {
+    position: absolute;
+    color: #0e0a0a;
+    font-weight: bold;
+    font-size: 16px;
+    /*text-shadow: 0 0 4px #382b0e;*/
+}
+
+.spin-input-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: rgba(240, 248, 255, 0.2);
+}
+
+.plus-minus-spin {
+    background: #18031f;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.spin-bet-input {
+    background: rgba(240, 248, 255, 0);
+    border: none;
+    outline: none;
+    text-align: center;
+    color:white;
+    font-size:16px;
+
+}
+
+.controls-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.controls-row {
+    display: flex;
+    flex-direction: row;
+    /*justify-content: space-between;*/
+    width: 100%;
+    gap: 3px;
+    margin-bottom: 4px;
+}
+
+.High-low-btn, .px-4 {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+
+    background: linear-gradient(
+            to bottom,
+            rgb(4, 77, 98) 0%,
+            rgb(3, 109, 140) 25%,
+            rgb(4, 77, 98) 100%
+    );
+    background-size: auto 200%;
+    transition: background-position 0.5s;
+}
+
+.High-low-btn, .px-4 {
+    background-position: top center;
+}
+
+.High-low-btn:hover, .px-4:hover {
+    background-position: bottom center; /* slide down on hover */
+}
+
+
+.Odd {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+
+    background: linear-gradient(
+            to bottom,
+            rgba(68, 18, 47, 0.2) 0%,
+            rgb(90, 32, 65) 25%,
+            rgba(68, 18, 47, 0.2) 100%
+    );
+    background-size: auto 200%; /* vertical space */
+    /* start at top */
+    transition: background-position 0.5s;
+}
+
+.active {
+    /*border:1px solid white;*/
+    opacity: 0.2;
+}
+
+/*.in-active{*/
+/*    background: linear-gradient(*/
+/*            to bottom,*/
+/*            rgba(42, 1, 26, 0.2) 0%,*/
+/*            rgba(107, 149, 231, 0.4) 25%,*/
+/*            rgba(68, 18, 47, 0.2) 100%*/
+/*    );*/
+/*}*/
+
+.Odd {
+    background-position: top center;
+}
+.btn-base{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.Even {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    color: black;
+
+
+    background: linear-gradient(
+            to bottom,
+            rgb(196, 80, 3) 0%,
+            rgb(241, 184, 57) 25%,
+            rgb(178, 72, 2) 100%
+    );
+    background-size: auto 200%;
+    transition: background-position 0.5s;
+}
+
+.Even {
+    background-position: top center;
+}
+
+.Odd:hover, .Even:hover {
+    background-position: bottom center; /* animate downward */
+}
+
+.control-spin-btn {
+    flex: 1;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-image: linear-gradient(
+            to left,
+            rgb(0, 42, 255) 0%,
+            rgb(16, 16, 16) 51%,
+            rgb(0, 42, 255) 100%
+    );
+}
+
+.control-spin-btn:hover {
+    background-position: right center;
+}
+
+canvas {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.38);
+    border-radius: 90%;
+}
+
+@media (min-width:600px){
+
+    .chip-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .chip-text {
+        position: absolute;
+        color: #0e0a0a;
+        font-weight: bold;
+        font-size: 24px;
+        text-shadow: 0 0 4px #382b0e;
+    }
+}
