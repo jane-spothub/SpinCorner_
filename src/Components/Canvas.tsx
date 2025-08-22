@@ -356,6 +356,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
                 ctx.textBaseline = "middle";
                 ctx.fillText("..", centerX, centerY);
             }
+
         }
         // After drawing the wheel
         // ctx.fillStyle = "#222"; // same as background
