@@ -324,10 +324,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
             if (winner) {
                 if (winner.amount === "SPIN TENA") {
                     ctx.fillStyle = "rgb(255,254,255)";
-                    ctx.font = "bold 40px Arial";
+                    ctx.font = "bold 3px Arial";
                     ctx.textAlign = "center";
                     ctx.textBaseline = "middle";
-                    ctx.fillText(winner.amount, centerX, centerY);
+                    ctx.fillText("Won Free Spin", centerX, centerY);
                 } else if (winner.amount === "Nunge Tosha") {
                     ctx.fillStyle = "rgb(255,254,255)";
                     ctx.font = "bold 36px Arial";
