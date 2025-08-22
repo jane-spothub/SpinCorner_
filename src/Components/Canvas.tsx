@@ -314,47 +314,54 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
         //
         // ctx.stroke();
         // ctx.restore();
-        if (winner) {
+        if (spinState) {
+            ctx.fillStyle = "rgba(255,254,255,0)";
+            ctx.font = "bold 40px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("", centerX, centerY);
+        } else {
+            if (winner) {
+                if (winner.amount === "SPIN TENA") {
+                    ctx.fillStyle = "rgb(255,254,255)";
+                    ctx.font = "bold 40px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(winner.amount, centerX, centerY);
+                } else if (winner.amount === "Nunge Tosha") {
+                    ctx.fillStyle = "rgb(255,254,255)";
+                    ctx.font = "bold 36px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(winner.amount, centerX, centerY);
 
-            if (winner.amount === "SPIN TENA") {
-                ctx.fillStyle = "rgb(255,254,255)";
-                ctx.font = "bold 40px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(winner.amount, centerX, centerY);
-            } else if (winner.amount === "Nunge Tosha") {
-                ctx.fillStyle = "rgb(255,254,255)";
-                ctx.font = "bold 36px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(winner.amount, centerX, centerY);
+                } else if (winner.amount === "Gonga 25K" || winner.amount === "Gonga 10K" || winner.amount === "Gonga 3K") {
+                    ctx.fillStyle = "rgb(255,254,255)";
+                    ctx.font = "bold 36px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(winner.amount, centerX, centerY);
+                } else {
+                    ctx.fillStyle = "rgb(255,254,255)";
+                    ctx.font = "bold 62px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(winner.amount, centerX, centerY);
+                }
 
-            } else if (winner.amount === "Gonga 25K" || winner.amount === "Gonga 10K" || winner.amount === "Gonga 3K") {
-                ctx.fillStyle = "rgb(255,254,255)";
-                ctx.font = "bold 36px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText(winner.amount, centerX, centerY);
             } else {
-                ctx.fillStyle = "rgb(255,254,255)";
+                ctx.fillStyle = "rgb(255,255,255)";
                 ctx.font = "bold 62px Arial";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillText(winner.amount, centerX, centerY);
+                ctx.fillText("..", centerX, centerY);
             }
-
-        } else {
-            ctx.fillStyle = "rgb(255,255,255)";
-            ctx.font = "bold 62px Arial";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("..", centerX, centerY);
         }
         // After drawing the wheel
         // ctx.fillStyle = "#222"; // same as background
         // ctx.fillRect(0, centerY+40, width, height / 2);
 
-    }, [level, winner]);
+    }, [level, spinState, winner]);
 
     // initial draw
     useEffect(() => {
