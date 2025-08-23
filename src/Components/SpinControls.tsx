@@ -6,6 +6,7 @@ interface SpinControlsProps {
     spinState: boolean;
     OnSetSelectedLevel: Dispatch<SetStateAction<number>>;
     level: number;
+    freeSpinCount: number;
 }
 
 export const SpinControls: FC<SpinControlsProps> = ({
@@ -13,6 +14,7 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                                         spinState,
                                                         OnSetSelectedLevel,
                                                         level,
+                                                        freeSpinCount
                                                     }) => {
     return (
         <div className="Spin-main-controls">
@@ -36,7 +38,11 @@ export const SpinControls: FC<SpinControlsProps> = ({
                         return (
                             <div
                                 key={i}
-                                onClick={() => OnSetSelectedLevel(btn.value as number)}
+                                onClick={() => {
+                                    if (!spinState && freeSpinCount === 0) {
+                                        OnSetSelectedLevel(btn.value as number);
+                                    }
+                                }}
                                 className={`High-low-btn ${isActive ? "active" : "bg-gray-300"}`}
                             >
                                 {btn.label}kes

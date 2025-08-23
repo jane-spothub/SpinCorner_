@@ -80,6 +80,8 @@ export const MainGameArea = () => {
                 />
 
                 <SpinControls
+                    freeSpinCount={freeSpinCount}
+
                     handleSpin={handleSpin}
                     spinState={spinState}
                     OnSetSelectedLevel={setSelectedLevel}
