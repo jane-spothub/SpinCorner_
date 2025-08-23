@@ -6,7 +6,7 @@
     background: linear-gradient(to top, rgb(11, 6, 12) 20%, #051d41 75%);
     height: 100vh;
     width: 100%;
-
+    font-family: "Ubuntu Sans Mono", serif;
 }
 
 .spin-game-area {
@@ -32,6 +32,7 @@
     margin-bottom: 10px;
     display: flex;
     justify-content: space-around;
+    font-size:18px;
     border-radius: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.33);
 }
@@ -52,8 +53,7 @@
 
 .bet-short-spin {
     position: relative;
-    width: 100%;   /* adjust size */
-    /*height: 80px;*/
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,6 @@
     color: #0e0a0a;
     font-weight: bold;
     font-size: 16px;
-    /*text-shadow: 0 0 4px #382b0e;*/
 }
 
 .spin-input-area {
@@ -144,39 +143,19 @@
 }
 
 
-.Odd {
-    flex: 1;
-    padding: 10px 0;
-    border-radius: 5px;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-
-    background: linear-gradient(
-            to bottom,
-            rgba(68, 18, 47, 0.2) 0%,
-            rgb(90, 32, 65) 25%,
-            rgba(68, 18, 47, 0.2) 100%
-    );
-    background-size: auto 200%; /* vertical space */
-    /* start at top */
-    transition: background-position 0.5s;
-}
-
 .active {
     /*border:1px solid white;*/
-    opacity: 0.2;
+    /*opacity: 0.2;*/
+    background: linear-gradient(
+            to bottom,
+            rgb(196, 80, 3) 0%,
+            rgb(241, 184, 57) 25%,
+            rgb(178, 72, 2) 100%
+    );
+    background-size: auto 200%;
+    transition: background-position 0.5s;
+    color:black;
 }
-
-/*.in-active{*/
-/*    background: linear-gradient(*/
-/*            to bottom,*/
-/*            rgba(42, 1, 26, 0.2) 0%,*/
-/*            rgba(107, 149, 231, 0.4) 25%,*/
-/*            rgba(68, 18, 47, 0.2) 100%*/
-/*    );*/
-/*}*/
 
 .Odd {
     background-position: top center;
@@ -233,6 +212,56 @@
 
 .control-spin-btn:hover {
     background-position: right center;
+}
+
+/* popup container animation */
+.popup {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    animation: popupFade 0.6s ease-in-out forwards;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* fade in & out */
+@keyframes popupFade {
+    0% {
+        transform: translate(-50%, 40%);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, 20%);
+        opacity: 1;
+    }
+}
+
+/* glowing breathing text */
+.popup div {
+    animation: glowBreath 2s infinite ease-in-out;
+}
+
+@keyframes glowBreath {
+    0%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #ff0;
+        color: #fff;
+    }
+    50% {
+        text-shadow: 0 0 20px #ff0, 0 0 40px #ff0, 0 0 60px #ff0;
+        color: #ffff88;
+    }
 }
 
 canvas {

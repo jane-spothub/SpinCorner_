@@ -6,11 +6,12 @@ import PointerImg from "../assets/img/scene/pointer-spin2.png"
 interface CanvasProps {
     spinState: boolean;
     OnSetWinner: (w: ColorBlock) => void;
-    winner: ColorBlock | null;
-    level: number
+    // winner: ColorBlock | null;
+    level: number;
+    freeSpinCount: number;
 }
 
-export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level}) => {
+export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpinCount}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const offsetRef = useRef(0); // rotation offset
 
@@ -168,6 +169,22 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
 
             ctx.fill();
 
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+            ctx.closePath();
+
+            ctx.shadowColor = "rgb(10,10,10)"; // soft black shadow
+            ctx.shadowBlur = 5;                  // how soft the shadow is
+            ctx.shadowOffsetX = 0;                // horizontal shift
+            ctx.shadowOffsetY = 0;                // vertical shift
+
+            ctx.strokeStyle = "rgba(59,13,13,0.6)"; // light border line
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+
             // label
             ctx.save();
             ctx.translate(centerX, centerY);
@@ -311,59 +328,62 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
 
         ctx.restore();
 
-        //
-        // ctx.stroke();
-        // ctx.restore();
-        if (spinState) {
-            ctx.fillStyle = "rgba(255,254,255,0)";
+        if (freeSpinCount > 0) {
+            ctx.fillStyle = "rgba(0,0,0,0.6)";
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = "white";
             ctx.font = "bold 40px Arial";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText("", centerX, centerY);
-        } else {
-            if (winner) {
-                if (winner.amount === "SPIN TENA") {
-                    ctx.fillStyle = "rgb(255,254,255)";
-                    ctx.font = "bold 3px Arial";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText("Won Free Spin", centerX, centerY);
-
-                } else if (winner.amount === "Nunge Tosha") {
-                    ctx.fillStyle = "rgb(255,254,255)";
-                    ctx.font = "bold 36px Arial";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(winner.amount, centerX, centerY);
-
-                } else if (winner.amount === "Gonga 25K" || winner.amount === "Gonga 10K" || winner.amount === "Gonga 3K") {
-                    ctx.fillStyle = "rgb(255,254,255)";
-                    ctx.font = "bold 36px Arial";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(winner.amount, centerX, centerY);
-                } else {
-                    ctx.fillStyle = "rgb(255,254,255)";
-                    ctx.font = "bold 62px Arial";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(winner.amount, centerX, centerY);
-                }
-
-            } else {
-                ctx.fillStyle = "rgb(255,255,255)";
-                ctx.font = "bold 62px Arial";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("..", centerX, centerY);
-            }
-
+            ctx.fillText(`${freeSpinCount}`, centerX, centerY);
         }
+
+        // if (spinState) {
+        //     ctx.fillStyle = "rgba(255,254,255,0)";
+        //     ctx.font = "bold 40px Arial";
+        //     ctx.textAlign = "center";
+        //     ctx.textBaseline = "middle";
+        //     ctx.fillText("", centerX, centerY);
+        // } else {
+        //     if (winner) {
+        //         if (winner.amount === "SPIN TENA") {
+        //             ctx.fillStyle = "rgb(255,254,255)";
+        //             ctx.font = "bold 3px Arial";
+        //             ctx.textAlign = "center";
+        //             ctx.textBaseline = "middle";
+        //             ctx.fillText("Won Free Spin", centerX, centerY);
+        //
+        //         } else if (winner.amount === "Nunge Tosha") {
+        //             ctx.fillStyle = "rgb(255,254,255)";
+        //             ctx.font = "bold 36px Arial";
+        //             ctx.textAlign = "center";
+        //             ctx.textBaseline = "middle";
+        //             ctx.fillText(winner.amount, centerX, centerY);
+        //
+        //         } else if (winner.amount === "Gonga 25K" || winner.amount === "Gonga 10K" || winner.amount === "Gonga 3K") {
+        //             ctx.fillStyle = "rgb(255,254,255)";
+        //             ctx.font = "bold 36px Arial";
+        //             ctx.textAlign = "center";
+        //             ctx.textBaseline = "middle";
+        //             ctx.fillText(winner.amount, centerX, centerY);
+        //         } else {
+        //             ctx.fillStyle = "rgb(255,254,255)";
+        //             ctx.font = "bold 62px Arial";
+        //             ctx.textAlign = "center";
+        //             ctx.textBaseline = "middle";
+        //             ctx.fillText(winner.amount, centerX, centerY);
+        //         }
+        //
+        //     }
+        // }
         // After drawing the wheel
         // ctx.fillStyle = "#222"; // same as background
         // ctx.fillRect(0, centerY+40, width, height / 2);
 
-    }, [level, spinState, winner]);
+    }, [freeSpinCount, level]);
 
     // initial draw
     useEffect(() => {
@@ -386,41 +406,46 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, winner, level})
         }
         if (!spinState || prevSpin === spinState) return;
 
-        let rotation = 0;
-        const spinSpeed = Math.random() * 0.2 + 0.3; // random speed
-        const spinDuration = 3000 + Math.random() * 2000; // 3–5s
+        // let rotation = 0;
+        // const spinSpeed = Math.random() * 0.2 + 0.3;
+        const spinDuration = 2500;
         const start = performance.now();
+
+        const colors = colorsRef.current;
+        const sliceAngle = (2 * Math.PI) / colors.length;
+
+// === Step 1: pick random winner at start ===
+        const winnerIndex = Math.floor(Math.random() * colors.length);
+        const sliceMiddle = winnerIndex * sliceAngle + sliceAngle / 2;
+
+// === Step 2: compute final target offset ===
+        const targetOffset = -(sliceMiddle + Math.PI / 2);
+
+// === Step 3: also add extra spins for realism ===
+        const extraSpins = 4 * 2 * Math.PI; // 4 full spins
+        const startOffset = offsetRef.current;
 
         function animate(now: number) {
             const elapsed = now - start;
-            // ease-out deceleration
             const t = Math.min(elapsed / spinDuration, 1);
-            const easeOut = 1 - Math.pow(1 - t, 3);
-            rotation = spinSpeed * (1 - easeOut) * 50;
 
-            offsetRef.current += rotation * 0.02;
+            // ease-out
+            const easeOut = 1 - Math.pow(1 - t, 3);
+
+            // === Step 4: interpolate between start and target with extra spins ===
+            offsetRef.current =
+                startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
+
             drawWheel();
 
-            if (elapsed < spinDuration) {
+            if (t < 1) {
                 requestAnimationFrame(animate);
             } else {
-                // stop spin → find winner
-                // Normalize so 0 rad = top (pointer direction)
-                const finalAngle =
-                    ((-offsetRef.current - Math.PI / 2) % (2 * Math.PI) + 2 * Math.PI) %
-                    (2 * Math.PI);
-
-                const colors = colorsRef.current;
-                const sliceAngle = (2 * Math.PI) / colors.length;
-
-                const winnerIndex = Math.floor(finalAngle / sliceAngle) % colors.length;
-
-                OnSetWinner(colors[winnerIndex]);
-
-
+                offsetRef.current = targetOffset; // lock in
+                drawWheel();
+                OnSetWinner(colors[winnerIndex]); // ✅ stop clean in middle
             }
         }
-
 
         requestAnimationFrame(animate);
     }, [spinState, drawWheel, prevSpin, OnSetWinner, level]);
