@@ -18,18 +18,12 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                                     }) => {
     return (
         <div className="Spin-main-controls">
-            {/* BET AMOUNT */}
             <div className="Bet-amount-area-spin">
-
-
-
-            </div> <div className="Bet-amount-area-spin">
                 <div className="bet-Amount-text">
                     <div>Bet Amount</div>
                     <div>{level}kes</div>
                 </div>
             </div>
-
             {/* LEVEL CONTROLS */}
             <div className="controls-container">
                 <div className="controls-row">
@@ -56,7 +50,6 @@ export const SpinControls: FC<SpinControlsProps> = ({
             <div
                 className="control-spin-btn"
                 onClick={() => {
-                    if (!level) return; // must select level
                     handleSpin();
                 }}
             >
