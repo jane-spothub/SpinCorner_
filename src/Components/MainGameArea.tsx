@@ -39,35 +39,35 @@ export const MainGameArea = () => {
     useEffect(() => {
         if (!spinState && freeSpinCount > 0) {
             const timer = setTimeout(() => {
-                setFreeSpinCount(prev => prev - 1); // decrement first
-                setIsFreeSpin(true); // mark as free
-                setSpinState(true);  // trigger next spin
+                setFreeSpinCount(prev => prev - 1);
+                setIsFreeSpin(true); // mark that THIS spin is a free one
+                setSpinState(true);  // trigger auto spin
             }, 1000);
             return () => clearTimeout(timer);
         }
     }, [spinState, freeSpinCount]);
 
-// Award free spins (only if it was NOT a free spin)
+// Award free spins (only once per spin)
     useEffect(() => {
-        if (!spinState && winner && !isFreeSpin) {
-            let freeSpinsToAdd = 0;
+        if (!spinState && winner) {
+            if (!isFreeSpin) {
+                let freeSpinsToAdd = 0;
 
-            switch (winner.amount) {
-                case "SPIN TENA": freeSpinsToAdd = 1; break;
-                case "Zako 2": freeSpinsToAdd = 2; break;
-                case "Zako 3": freeSpinsToAdd = 3; break;
+                switch (winner.amount) {
+                    case "SPIN TENA": freeSpinsToAdd = 1; break;
+                    case "Zako 2": freeSpinsToAdd = 2; break;
+                    case "Zako 3": freeSpinsToAdd = 3; break;
+                }
+
+                if (freeSpinsToAdd > 0) {
+                    setFreeSpinCount(prev => prev + freeSpinsToAdd);
+                }
             }
 
-            if (freeSpinsToAdd > 0) {
-                setFreeSpinCount(prev => prev + freeSpinsToAdd);
-            }
-        }
-
-        // reset flag after every spin
-        if (!spinState) {
+            // ✅ reset free-spin flag ONLY after we’ve handled everything
             setIsFreeSpin(false);
         }
-    }, [spinState, winner, isFreeSpin]);
+    }, [isFreeSpin, spinState, winner]);
 
     return (
         <div className="Spin-main-container">
@@ -112,7 +112,7 @@ export const MainGameArea = () => {
                                     <div>You have won {winner.amount}kes</div>
                                 )}
                             {winner.amount === "Nunge Tosha" && (
-                                <div>You have won 0kes ! try again</div>
+                                <div>!try again 0kes </div>
                             )}
                             {winner.amount === "Gonga 3K" && (
                                 <div>You have won 3,000kes</div>
