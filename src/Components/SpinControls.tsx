@@ -1,6 +1,5 @@
 import {type Dispatch, type FC, type SetStateAction} from "react";
 import {controls} from "../Hooks/useColors.ts";
-
 interface SpinControlsProps {
     handleSpin: () => void;
     spinState: boolean;
@@ -18,7 +17,8 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                                     }) => {
     return (
         <div className="Spin-main-controls">
-            <div className="Bet-amount-area-spin">
+
+            <div className="Bet-amount-area-spin ">
                 <div className="bet-Amount-text">
                     <div>Bet Amount</div>
                     <div>{level}kes</div>
@@ -46,9 +46,8 @@ export const SpinControls: FC<SpinControlsProps> = ({
                 </div>
             </div>
 
-            {/* SPIN BUTTON */}
             <div
-                className="control-spin-btn"
+                className="control-spin-btn control-btn-img"
                 onClick={() => {
                     handleSpin();
                 }}

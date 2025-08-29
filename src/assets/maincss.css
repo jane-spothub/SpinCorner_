@@ -1,9 +1,15 @@
+:root{
+    --gold: 	#fff400;
+    --light-shadow:	#ffce00;
+    --dark-shadow:#ffb400;
+}
+
 .Spin-main-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
-    background: linear-gradient(to top, rgb(11, 6, 12) 20%, #051d41 75%);
+    background: linear-gradient(to bottom, rgb(11, 6, 12) 20%, #05152d 75%);
     height: 100vh;
     width: 100%;
     font-family: "Ubuntu Sans Mono", serif;
@@ -14,16 +20,62 @@
     flex-direction: column;
 }
 
+.spin-corner-top-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color:white;
+    /*border-bottom: 1px solid rgba(255, 255, 255, 0.34);*/
+    border-radius: 10px;
+    margin-bottom: 5px;
+    padding: 10px 2px;
+}
+
+.spin-corner-icons{
+    width: 40px;
+    height: auto;
+}
+
+
+
+.spin-balance-container{
+    display: flex;
+    gap:10px;
+    align-items: center;
+    /*border-left:1px solid rgba(255, 255, 255, 0.22);*/
+    border-radius: 10px;
+    padding: 2px;
+    /*border-right:1px solid rgba(255, 255, 255, 0.22);*/
+    font-size:1.3rem;
+
+}
+
+.spin-corner-balance{
+    color:greenyellow;
+
+
+}
 .Spin-main-controls {
     display: flex;
     flex-direction: column;
-
+    margin-top: 5px;
 }
 
 .Bet-amount-area-spin {
     display: flex;
     flex-direction: column;
     color: white;
+}
+
+
+.background-img-bottom{
+    height: 70px;
+    width: auto; /* keep image’s aspect ratio */
+    background-image: url("./img/controls/spin-popup.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .bet-Amount-text{
@@ -214,13 +266,11 @@
     background-position: right center;
 }
 
-/* popup container animation */
 .popup {
     position: fixed;
     bottom: 20%;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.85);
     color: white;
     padding: 20px 40px;
     border-radius: 16px;
@@ -229,7 +279,38 @@
     opacity: 0;
     pointer-events: none;
     animation: popupFade 0.6s ease-in-out forwards;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    width: 100%;
+    max-width: 250px;
+    background: linear-gradient(to top, #021f26 20%, rgb(0, 0, 0) 75%);
+
+}
+
+.pop-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    gap:10px;
+}
+
+.three-d-text-lost{
+    width:100%;
+    background: linear-gradient(180deg, #fd0000, #5b0404);
+
+}
+.three-d-text-win{
+    width:100%;
+
+    background: linear-gradient(180deg, #00c6ff, #08617a);
+}
+.amount-won {
+    font-weight: bold;
+    animation: glowBreath 2s infinite ease-in-out;
 }
 
 /* fade in & out */
@@ -248,27 +329,24 @@
     }
 }
 
-/* glowing breathing text */
-.popup div {
-    animation: glowBreath 2s infinite ease-in-out;
-}
 
 @keyframes glowBreath {
     0%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #ff0, 0 0 20px #ff0;
+        text-shadow: 0 0 5px #fff, 0 0 10px #057494, 0 0 20px #00c6ff;
         color: #fff;
     }
     50% {
-        text-shadow: 0 0 20px #ff0, 0 0 40px #ff0, 0 0 60px #ff0;
-        color: #ffff88;
+        text-shadow: 0 0 20px #057798, 0 0 40px #00c6ff, 0 0 60px #00c6ff;
+        color: #00ff67;
     }
 }
 
 canvas {
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     background: rgba(0, 0, 0, 0.38);
-    border-radius: 90%;
+    background: linear-gradient(to top, #05152d 20%, rgba(11, 6, 12, 0.19) 75%);
+    border-radius: 10%;
 }
 
 @media (min-width:600px){
@@ -285,5 +363,8 @@ canvas {
         font-weight: bold;
         font-size: 24px;
         text-shadow: 0 0 4px #382b0e;
+    }
+    .popup{
+        max-width: 400px;
     }
 }

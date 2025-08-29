@@ -1,7 +1,8 @@
 import {useRef, useEffect, type FC, useCallback} from "react";
 import type {ColorBlock} from "../Utils/types.ts";
 import {colorLevels, usePrevious} from "../Hooks/useColors.ts";
-import PointerImg from "../assets/img/scene/pointer-spin2.png"
+import PointerImg from "../assets/img/scene/pointer-spin2.png";
+import AnchorImg from "../assets/img/controls/spin-popup.png";
 
 interface CanvasProps {
     spinState: boolean;
@@ -17,6 +18,29 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
     const colorsRef = useRef<ColorBlock[]>(colorLevels[level]); // default
     const pointer = useRef<HTMLImageElement | null>(null);
+    const anchorRef = useRef<HTMLImageElement | null>(null);
+
+
+    // preload images ONCE at mount
+    useEffect(() => {
+        if (!pointer.current) {
+            const img = new Image();
+            img.src = PointerImg;
+            img.onload = () => {
+                pointer.current = img;
+                drawWheel();
+            };
+        }
+
+        if (!anchorRef.current) {
+            const anchor = new Image();
+            anchor.src = AnchorImg; // ✅ imported asset
+            anchor.onload = () => {
+                anchorRef.current = anchor;
+                drawWheel();
+            };
+        }
+    }, []);
 
 
     const drawWheel = useCallback(() => {
@@ -32,22 +56,27 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.fillRect(0, 0, width, height);
 
         const centerX = width / 2;
-        const centerY = height / 2;
-        const radius = 380; // 600px diameter
+        const centerY = 420;
+        const radius = 410;
 
         ctx.clearRect(0, 0, width, height);
         ctx.save();
 
-// // // define clipping path → top half of the circle
-//         ctx.beginPath();
-//         ctx.arc(centerX, centerY, radius + 5, Math.PI, 0); // semi-circle (180° to 0°)
-//         ctx.lineTo(centerX, centerY+30);
-//         ctx.closePath();
-//         ctx.clip();
         colorsRef.current = colorLevels[level];
         const colors = colorsRef.current;
         const sliceAngle = (2 * Math.PI) / colors.length;
 
+        // === Draw anchor at the bottom ===
+        if (anchorRef.current) {
+            const anchorWidth = 300;   // tweak size
+            const anchorHeight = 100;
+
+            // place so bottom touches canvas edge
+            const anchorX = centerX - anchorWidth / 2;
+            const anchorY = height - anchorHeight;
+
+            ctx.drawImage(anchorRef.current, anchorX, anchorY, anchorWidth, anchorHeight);
+        }
         colors.forEach((block, i) => {
             const startAngle = i * sliceAngle + offsetRef.current;
             const endAngle = startAngle + sliceAngle;
@@ -79,8 +108,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
                 grad.addColorStop(0, "#FFBF00"); // inner (darker orange)
                 grad.addColorStop(0.25, "#f5bf0e");   // bright highlight (almost white gold)
-                // grad.addColorStop(0, "#790446"); // inner
-                // grad.addColorStop(0, "#191970"); // inner (darker orange)
                 grad.addColorStop(1, "#FFBF00"); // outer
 
                 ctx.fillStyle = grad;
@@ -164,11 +191,9 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
                 ctx.fillStyle = grad;
 
-
             }
 
             ctx.fill();
-
             ctx.save();
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
@@ -197,8 +222,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 block.hex === "gradient-dark-red-light" ||
                 block.hex === "gradient-pink-black" ||
                 block.hex === "gradient-dark-green" ||
-                // block.hex === "gradient-dark-purple-blue" ||
-                // block.hex === "gradient-yellow" ||
                 block.hex === ""
             ) {
                 ctx.fillStyle = "#fff"; // text color for dark backgrounds
@@ -232,16 +255,43 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
 // create linear gradient for stroke
         const gradient = ctx.createLinearGradient(centerX - radius, centerY, centerX + radius, centerY);
-        gradient.addColorStop(0, "#021a36");   // light gold
+        gradient.addColorStop(0, "#002fa7");   // light gold
         gradient.addColorStop(0.25, "#002fa7");
         gradient.addColorStop(0.5, "#021a36");
         gradient.addColorStop(0.75, "#002fa7");
-        gradient.addColorStop(1, "#021a36");
+        gradient.addColorStop(1, "#002fa7");
 
-        ctx.lineWidth = 20;
+        ctx.lineWidth = 25;
         ctx.strokeStyle = gradient;
         ctx.stroke();
         ctx.restore();
+
+        // const borderWidth = 0; // must match ctx.lineWidth
+        // const holeCount = 8;    // how many holes
+        // const holeRadius = 12;  // size of the holes
+        //
+        // for (let i = 0; i < holeCount; i++) {
+        //     const angle = (i / holeCount) * Math.PI * 2;
+        //
+        //     // Place at the middle of the stroke line
+        //     const holeDistance = radius - borderWidth / 2;
+        //
+        //     const x = centerX + Math.cos(angle) * holeDistance;
+        //     const y = centerY + Math.sin(angle) * holeDistance;
+        //
+        //     ctx.save();
+        //     ctx.beginPath();
+        //     ctx.arc(x, y, holeRadius, 0, Math.PI * 2);
+        //     ctx.closePath();
+        //
+        //     // Neon glow effect
+        //     ctx.shadowColor = "rgb(1,3,3)"; // neon blue
+        //     ctx.shadowBlur = 20;
+        //     ctx.fillStyle = "rgba(0, 200, 255, 0.8)";
+        //     ctx.fill();
+        //     ctx.restore();
+        // }
+
 
 /// ✨ Inner shadow effect
         ctx.save();
@@ -274,29 +324,28 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.drawImage(pointer.current, pointerX, pointerY, pointerWidth, pointerHeight);
         }
 
-
         // === 🎨 Center Circle with Gradient + Outer + Inner Shadow ===
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
 
-// linear gradient for the circle fill
+        // linear gradient for the circle fill
         const centerGradient = ctx.createRadialGradient(
             centerX, centerY, 0,        // inner circle (at center, radius 0)
             centerX, centerY, 120        // outer circle (at center, radius 60)
         );
 
-// add color stops
+        // add color stops
         centerGradient.addColorStop(0, "#002fa7");   // light gold
         centerGradient.addColorStop(0.25, "#05053f");
         centerGradient.addColorStop(0.5, "#002fa7");
         centerGradient.addColorStop(0.75, "#051b50");
         centerGradient.addColorStop(1, "#002fa7");
 
-// fill with gradient
+        // fill with gradient
         ctx.fillStyle = centerGradient;
 
-// ✅ Outer shadow
+        // ✅ Outer shadow
         ctx.shadowColor = "rgb(0,0,0)";
         ctx.shadowBlur = 20;
         ctx.shadowOffsetX = 0;
@@ -305,7 +354,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.fill();
         ctx.restore();
 
-// === ✨ Inner shadow trick ===
+        // === ✨ Inner shadow trick ===
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, 60, 0, Math.PI * 2);
@@ -313,7 +362,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
         ctx.globalCompositeOperation = "source-atop";
 
-// radial gradient for inner shadow (dark edge, transparent inside)
         // Example: scale inner shadow to ~30% of the wheel radius
         const innerRadius = radius * 0.25;   // where shadow starts fading in
         const outerRadius = radius * 0.35;   // where shadow reaches max
@@ -341,47 +389,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.fillText(`${freeSpinCount}`, centerX, centerY);
         }
 
-        // if (spinState) {
-        //     ctx.fillStyle = "rgba(255,254,255,0)";
-        //     ctx.font = "bold 40px Arial";
-        //     ctx.textAlign = "center";
-        //     ctx.textBaseline = "middle";
-        //     ctx.fillText("", centerX, centerY);
-        // } else {
-        //     if (winner) {
-        //         if (winner.amount === "SPIN TENA") {
-        //             ctx.fillStyle = "rgb(255,254,255)";
-        //             ctx.font = "bold 3px Arial";
-        //             ctx.textAlign = "center";
-        //             ctx.textBaseline = "middle";
-        //             ctx.fillText("Won Free Spin", centerX, centerY);
-        //
-        //         } else if (winner.amount === "Nunge Tosha") {
-        //             ctx.fillStyle = "rgb(255,254,255)";
-        //             ctx.font = "bold 36px Arial";
-        //             ctx.textAlign = "center";
-        //             ctx.textBaseline = "middle";
-        //             ctx.fillText(winner.amount, centerX, centerY);
-        //
-        //         } else if (winner.amount === "Gonga 25K" || winner.amount === "Gonga 10K" || winner.amount === "Gonga 3K") {
-        //             ctx.fillStyle = "rgb(255,254,255)";
-        //             ctx.font = "bold 36px Arial";
-        //             ctx.textAlign = "center";
-        //             ctx.textBaseline = "middle";
-        //             ctx.fillText(winner.amount, centerX, centerY);
-        //         } else {
-        //             ctx.fillStyle = "rgb(255,254,255)";
-        //             ctx.font = "bold 62px Arial";
-        //             ctx.textAlign = "center";
-        //             ctx.textBaseline = "middle";
-        //             ctx.fillText(winner.amount, centerX, centerY);
-        //         }
-        //
-        //     }
-        // }
-        // After drawing the wheel
-        // ctx.fillStyle = "#222"; // same as background
-        // ctx.fillRect(0, centerY+40, width, height / 2);
+
 
     }, [freeSpinCount, level]);
 
@@ -393,35 +401,32 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
     // spin effect
     useEffect(() => {
-        // if (!spinState) return;
         if (!pointer.current) {
             const img = new Image();
             img.src = PointerImg;
             img.onload = () => {
                 pointer.current = img;
-                drawWheel(); // 👈 draw immediately once pointer is ready
+                drawWheel();
             };
         } else {
-            drawWheel(); // if pointer already cached
+            drawWheel();
         }
         if (!spinState || prevSpin === spinState) return;
 
-        // let rotation = 0;
-        // const spinSpeed = Math.random() * 0.2 + 0.3;
         const spinDuration = 2500;
         const start = performance.now();
 
         const colors = colorsRef.current;
         const sliceAngle = (2 * Math.PI) / colors.length;
 
-// === Step 1: pick random winner at start ===
+        // === Step 1: pick random winner at start ===
         const winnerIndex = Math.floor(Math.random() * colors.length);
         const sliceMiddle = winnerIndex * sliceAngle + sliceAngle / 2;
 
-// === Step 2: compute final target offset ===
+        // === Step 2: compute final target offset ===
         const targetOffset = -(sliceMiddle + Math.PI / 2);
 
-// === Step 3: also add extra spins for realism ===
+        // === Step 3: also add extra spins for realism ===
         const extraSpins = 4 * 2 * Math.PI; // 4 full spins
         const startOffset = offsetRef.current;
 
@@ -450,5 +455,5 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         requestAnimationFrame(animate);
     }, [spinState, drawWheel, prevSpin, OnSetWinner, level]);
 
-    return <canvas ref={canvasRef} width={800} height={800}/>;
+    return <canvas ref={canvasRef} width={900} height={900}/>;
 };
