@@ -2,7 +2,7 @@ import {useRef, useEffect, type FC, useCallback} from "react";
 import type {ColorBlock} from "../Utils/types.ts";
 import {colorLevels, usePrevious} from "../Hooks/useColors.ts";
 import PointerImg from "../assets/img/scene/pointer-spin2.png";
-import LogoImg from "../assets/img/scene/spin-corner-logo.png";
+import LogoImg from "../assets/img/scene/spin-corner.png";
 
 // import AnchorImg from "../assets/img/controls/spin-popup.png";
 
@@ -352,11 +352,11 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
         // === 🎯 Center Logo ===
         if (logo.current) {
-            const logoWidth = 280;   // custom width
-            const logoHeight = 120;  // custom height (different from width)
+            const logoWidth = 480;   // custom width
+            const logoHeight = 320;  // custom height (different from width)
 
-            const logoX = centerX - logoWidth / 2;
-            const logoY = centerY - logoHeight / 2;
+            const logoX = centerX- logoWidth / 2;
+            const logoY = centerY+4 - logoHeight / 2;
 
             ctx.drawImage(logo.current, logoX, logoY, logoWidth, logoHeight);
         }
