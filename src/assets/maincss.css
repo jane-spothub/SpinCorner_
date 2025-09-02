@@ -9,10 +9,11 @@
     flex-direction: column;
     /*justify-content: center;*/
     align-items: center;
-    background: linear-gradient(to bottom, rgb(11, 6, 12) 20%, #05152d 75%);
     height: 100vh;
     width: 100%;
     font-family: "Ubuntu Sans Mono", serif;
+    background: url("../assets/img/scene/spin-corner-bg.png") center;
+    background-size: cover;
 }
 
 .spin-game-area {
@@ -27,9 +28,12 @@
     align-items: center;
     color:white;
     /*border-bottom: 1px solid rgba(255, 255, 255, 0.34);*/
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     margin-bottom: 5px;
     padding: 10px 2px;
+    background: #0e0a0a;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .spin-corner-icons{
@@ -53,13 +57,19 @@
 
 .spin-corner-balance{
     color:greenyellow;
+}
 
-
+.main-game-area{
+    display: flex;
+    flex-direction: column;
+    background: rgba(14, 10, 10, 0.22);
 }
 .Spin-main-controls {
     display: flex;
     flex-direction: column;
-    margin-top: 5px;
+    /*margin-top: 5px;*/
+    background: #0e0a0a;
+    border-radius: 10px;
 }
 
 .Bet-amount-area-spin {
@@ -287,14 +297,12 @@
     width: 100%;
     max-width: 250px;
     background: linear-gradient(to top, #021f26 20%, rgb(0, 0, 0) 75%);
-
 }
 
 .pop-container{
     display: flex;
     flex-direction: column;
     width: 100%;
-
     gap:10px;
 }
 
@@ -305,7 +313,6 @@
 }
 .three-d-text-win{
     width:100%;
-
     background: linear-gradient(180deg, #00c6ff, #08617a);
 }
 .amount-won {
@@ -343,10 +350,7 @@
 
 canvas {
     width: 100%;
-    max-width: 700px;
-    background: rgba(0, 0, 0, 0.38);
-    background: linear-gradient(to top, #05152d 20%, rgba(11, 6, 12, 0.19) 75%);
-    border-radius: 10%;
+    max-width: 750px;
 }
 
 @media (min-width:600px){

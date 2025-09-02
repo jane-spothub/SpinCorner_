@@ -129,6 +129,7 @@ export const MainGameArea = () => {
     return (
         <div className="Spin-main-container">
             <div className="spin-game-area">
+                <div className="main-game-area">
                 <div className="spin-corner-top-bar">
                     {isSettingsToggle ? (
                         <img className="spin-corner-icons"
@@ -157,21 +158,23 @@ export const MainGameArea = () => {
                     </div>
                 </div>
 
-                <Canvas
-                    spinState={spinState}
-                    level={selectedLevel}
-                    OnSetWinner={setWinner}
-                    freeSpinCount={freeSpinCount}
-                />
+                    <Canvas
+                        spinState={spinState}
+                        level={selectedLevel}
+                        OnSetWinner={setWinner}
+                        freeSpinCount={freeSpinCount}
+                    />
 
-                <SpinControls
-                    freeSpinCount={freeSpinCount}
+                    <SpinControls
+                        freeSpinCount={freeSpinCount}
 
-                    handleSpin={handleSpin}
-                    spinState={spinState}
-                    OnSetSelectedLevel={setSelectedLevel}
-                    level={selectedLevel}
-                />
+                        handleSpin={handleSpin}
+                        spinState={spinState}
+                        OnSetSelectedLevel={setSelectedLevel}
+                        level={selectedLevel}
+                    />
+                </div>
+
             </div>
 
             {/* Popup */}
