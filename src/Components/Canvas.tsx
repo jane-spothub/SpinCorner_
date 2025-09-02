@@ -4,8 +4,6 @@ import {colorLevels, usePrevious} from "../Hooks/useColors.ts";
 import PointerImg from "../assets/img/scene/pointer-spin2.png";
 import LogoImg from "../assets/img/scene/spin-corner.png";
 
-// import AnchorImg from "../assets/img/controls/spin-popup.png";
-
 interface CanvasProps {
     spinState: boolean;
     OnSetWinner: (w: ColorBlock) => void;
