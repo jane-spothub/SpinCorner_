@@ -4,12 +4,9 @@ import "../assets/maincss.css"
 import {SpinControls} from "./SpinControls.tsx";
 import type {ColorBlock} from "../Utils/types.ts";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
-import SettingsImg from "../assets/img/controls/settings-spin-corner.png"
-import SettingsCloseImg from "../assets/img/controls/close-spin.png"
-// import HowToPlayCloseImg from "../assets/img/controls/exit-or-close.png"
-// import SounOnImg from "../assets/img/controls/sound-on.png"
-// import SounOffImg from "../assets/img/controls/sound-off.png"
-// import HowToPlayImg from "../assets/img/controls/how-to-play-btn.png"
+// import SettingsImg from "../assets/img/controls/settings.png";
+// import SettingsCloseImg from "../assets/img/controls/close-btn.png";
+import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
@@ -39,9 +36,7 @@ export const MainGameArea = () => {
     useEffect(() => {
         if (winner) {
             setIsPopUp(true);
-
             let freeSpinsToAdd = 0;
-
             // Handle amounts
             if (!isNaN(Number(winner.amount))) {
                 // Numeric prize like "50", "1000", etc.
@@ -98,64 +93,36 @@ export const MainGameArea = () => {
         }
     }, [spinState, freeSpinCount]);
 
-// Award free spins (only once per spin)
-//     useEffect(() => {
-//         if (!spinState && winner) {
-//             if (!isFreeSpin) {
-//                 let freeSpinsToAdd = 0;
-//
-//                 switch (winner.amount) {
-//                     case "SPIN TENA":
-//                         freeSpinsToAdd = 1;
-//                         break;
-//                     case "Zako 2":
-//                         freeSpinsToAdd = 2;
-//                         break;
-//                     case "Zako 3":
-//                         freeSpinsToAdd = 3;
-//                         break;
-//                 }
-//
-//                 if (freeSpinsToAdd > 0) {
-//                     setFreeSpinCount(prev => prev + freeSpinsToAdd);
-//                 }
-//             }
-//
-//             // ✅ reset free-spin flag ONLY after we’ve handled everything
-//             setIsFreeSpin(false);
-//         }
-//     }, [isFreeSpin, spinState, winner]);
+
 
     return (
         <div className="Spin-main-container">
             <div className="spin-game-area">
                 <div className="main-game-area">
                     <div className="spin-corner-top-bar">
-                        {isSettingsToggle ? (
-                            <img className="spin-corner-icons"
-                                 src={SettingsCloseImg}
-                                 onClick={() => setIsSettingsToggle(false)}
-                                 alt="settings"
-                            />
-                        ) : (
 
-                            <img className="spin-corner-icons"
-                                 src={SettingsImg}
-                                 onClick={() => setIsSettingsToggle(true)}
-                                 alt="settings"
-                            />
-
-
-                        )}
-
-
-                        <div className="spin-corner-logo">Spin Corner</div>
                         <div className="spin-balance-container">
                             Bal:
                             <div className="spin-corner-balance">
                                 {balance}
                             </div>
                         </div>
+                        <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
+                        {isSettingsToggle ? (
+                            <div className="spin-corner-icons"
+                                 onClick={() => setIsSettingsToggle(false)}>
+                                X
+
+                            </div>
+
+                        ) : (
+                            <div className="spin-corner-icons"
+                                 onClick={() => setIsSettingsToggle(true)}
+                            >
+                                ⚙
+                            </div>
+
+                        )}
                     </div>
 
                     <Canvas

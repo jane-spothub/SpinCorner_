@@ -38,8 +38,8 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.fillRect(0, 0, width, height);
 
         const centerX = width / 2;
-        const centerY = 380;
-        const radius = 350;
+        const centerY = 410;
+        const radius = 380;
 
         ctx.clearRect(0, 0, width, height);
         ctx.save();
@@ -174,29 +174,76 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.rotate(startAngle + sliceAngle / 2);
 
 
-            ctx.font = "bold 26px Arial"; // change size/family to what you use
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
 
-// 🖤 Black outline stroke first
-            ctx.lineWidth = 6;            // thickness of the outline
-            ctx.strokeStyle = "black";
-            ctx.strokeText(block.amount, radius * 0.7, 0);
+            // calculate a text radius
+            const textRadius = radius * 0.55;
+
+// measure width of text
+
+            let label = block.amount;
+
+            if (!isNaN(Number(block.amount))) {
+                const num = Number(block.amount);
+                if (num >= 1000) {
+                    label = num.toLocaleString(); // e.g. 1000 → "1,000"
+                }
+            }
+            const metrics = ctx.measureText(label);
+
+            const textWidth = metrics.width+70;
+
+            if (
+                block.amount.includes("Nunge Tosha")
+                || block.amount.includes("Gonga") ||
+                block.amount.includes("SPIN TENA")
+                ) {
+                ctx.font = "bold 25px Roboto, sans-serif"; // change size/family to what you use
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                // Split into words
+                // const words = block.amount.split(" ");
+                const words = block.amount.split(" ");
+
+                // First line
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = "black";
+                ctx.strokeText(words[0], radius * 0.7, -18);
+                ctx.fillStyle = "#fff";
+                ctx.fillText(words[0], radius * 0.7, -18);
+
+                // Second line
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = "black";
+                ctx.strokeText(words.slice(1).join(" "), radius * 0.7, +18);
+                ctx.fillStyle = "#fff";
+                ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
+            }else{
+                ctx.font = "bold 28px Roboto, sans-serif"; // change size/family to what you use
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.lineWidth = 6;            // thickness of the outline
+                ctx.strokeStyle = "black";
+                // ctx.strokeText(label, radius * 0.7, 0);
+                ctx.strokeText(label, textRadius + textWidth / 2, 0);
+
 
 // 🤍 Fill text (white or whatever you want)
-            ctx.fillStyle = "#fff";       // keep white for dark slices
-            ctx.fillText(block.amount, radius * 0.7, 0);
+                ctx.fillStyle = "#fff";       // keep white for dark slices
+                // ctx.fillText(label, radius * 0.7, 0);
+                ctx.fillText(label,textRadius + textWidth / 2, 0);
 
 // 🔄 Reset shadow so it doesn’t affect other drawings
-            ctx.shadowColor = "transparent";
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            ctx.restore();
-            ctx.textAlign = "center";
+                ctx.shadowColor = "transparent";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.restore();
+                ctx.textAlign = "center";
+
+            }
+// 🖤 Black outline stroke first
 
 
-            ctx.fillText(block.amount, radius * 0.7, 0);
             // 🔄 Reset shadow so it doesn’t affect other drawings
             ctx.shadowColor = "transparent";
             ctx.shadowBlur = 0;
@@ -274,21 +321,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
         ctx.restore();
 
-
-        // pointer at the TOP
-
-
-        // // === 🎨 Center Circle with Gradient + Outer + Inner Shadow ===
-        // ctx.save();
-        // ctx.beginPath();
-        // ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
-        //
-        // // linear gradient for the circle fill
-        // const centerGradient = ctx.createRadialGradient(
-        //     centerX, centerY, 0,        // inner circle (at center, radius 0)
-        //     centerX, centerY, 120        // outer circle (at center, radius 60)
-        // );
-        // === 🎨 Center Circle Gradient (stops at inner border) ===
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
@@ -332,19 +364,9 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.stroke();
         ctx.restore();
 
-
-
         ctx.save();
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 335, 0, Math.PI * 2);
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = "black";
-        ctx.stroke();
-        ctx.restore();
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 349, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, 362, 0, Math.PI * 2);
         ctx.lineWidth = 4;
         ctx.strokeStyle = "black";
         ctx.stroke();
@@ -360,8 +382,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
             ctx.drawImage(logo.current, logoX, logoY, logoWidth, logoHeight);
         }
-
-
 
 
         ctx.globalCompositeOperation = "source-atop";
