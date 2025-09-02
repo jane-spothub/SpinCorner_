@@ -109,7 +109,7 @@ export const MainGameArea = () => {
                         </div>
                         <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
                         {isSettingsToggle ? (
-                            <div className="spin-corner-icons"
+                            <div className="spin-corner-icons-close"
                                  onClick={() => setIsSettingsToggle(false)}>
                                 X
 

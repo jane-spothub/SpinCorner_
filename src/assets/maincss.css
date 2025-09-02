@@ -25,8 +25,7 @@
     justify-content: space-between;
     align-items: center;
     color:white;
-    margin-bottom: 10px;
-    padding: 10px 0;
+   margin-bottom: 5px;
     background: rgba(14, 10, 10, 0.48);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -43,7 +42,25 @@
     display: flex;            /* center perfectly */
     align-items: center;
     justify-content: center;
-    cursor: pointer;          /* make it clickable */
+    cursor: pointer;
+    /*border-radius: 20px;*/
+    /*font-weight: bold;*/
+    border:1px solid rgba(255, 255, 255, 0.35);
+
+}
+.spin-corner-icons-close {
+    width: 30px;              /* increase container size */
+    height: 30px;             /* add equal height */
+    /*border-radius: 20px;*/
+    border-radius: 50%;
+    background: #0e0a0a;
+    text-align: center;
+    padding: 10px;
+    font-size: 26px;          /* make the ⚙ bigger */
+    display: flex;            /* center perfectly */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     font-weight: bold;
     border:1px solid rgba(255, 255, 255, 0.35);
 
@@ -55,8 +72,9 @@
 }
 
 .spin-corner-logo{
-    max-width: 200px;
+    width: 100px;
     height: 40px;
+    display: none;
 }
 
 .spin-balance-container {
@@ -64,10 +82,10 @@
     gap: 10px;
     align-items: center;
     border-radius: 20px;
-    padding: 10px 3px;
+    padding: 10px;
     font-size: 1.3rem;
     border:1px solid rgba(255, 255, 255, 0.35);
-    background: #0e0a0a;
+    background: rgba(14, 10, 10, 0.72);
 }
 
 .spin-corner-balance{
@@ -78,8 +96,9 @@
     display: flex;
     flex-direction: column;
     background: rgba(14, 10, 10, 0.22);
-    background: url("../assets/img/scene/spin-corner-bg.png") center;
+    background: url("../assets/img/scene/Background2.webp") center;
     background-size: cover;
+    height: 100vh;
 }
 .Spin-main-controls {
     display: flex;
@@ -87,6 +106,9 @@
     margin-top: 5px;
     background: rgba(14, 10, 10, 0.7);
     border-radius: 10px;
+    gap:2px;
+    padding: 2px;
+
 }
 
 .Bet-amount-area-spin {
@@ -96,6 +118,7 @@
 }
 
 .bet-Amount-text{
+    padding: 3px 0;
     color: rgba(255, 255, 255, 0.97);
     text-align: center;
     margin: 5px 0;
@@ -173,7 +196,7 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    background: #021f26;
+    /*background: #021f26;*/
 }
 
 .controls-row {
@@ -188,45 +211,45 @@
 
 .High-low-btn, .px-4 {
     flex: 1;
-    padding: 10px 0;
-    border-radius: 5px;
+    /*padding: 10px 0;*/
+    /*border-radius: 5px;*/
     text-align: center;
     color: white;
     font-weight: bold;
-    font-size: 18px;
-    background: linear-gradient(
-            to bottom,
-            rgb(38, 40, 40) 0%,
-            rgb(35, 39, 40) 25%,
-            rgb(32, 33, 33) 100%
-    );
-    background-size: auto 200%;
-    transition: background-position 0.5s;
-    border:1px solid rgba(255, 255, 255, 0.23);
+    /*font-size: 18px;*/
+    background: #021f26;
 
+    /*background: linear-gradient(*/
+    /*        to bottom,*/
+    /*        rgb(38, 40, 40) 0%,*/
+    /*        rgba(37, 40, 35, 0) 25%,*/
+    /*        rgba(32, 33, 33, 0) 100%*/
+    /*);*/
+    transition: background-position 0.5s;
+    /*border:1px solid rgba(255, 255, 255, 0.23);*/
+    border-radius: 20px;
+    padding: 10px 3px;
+    font-size: 1.3rem;
+    border:1px solid rgba(255, 255, 255, 0.35);
 }
 
 .active {
     border:1px solid #FFD700;
-    /*opacity: 0.2;*/
-    background-size: auto 200%;
-    transition: background-position 0.5s;
     color:#FFD700;
 }
 
 .High-low-btn:hover {
     border:1px solid #917b06;
-    /*opacity: 0.2;*/
     color: #887304;
 }
 
-.Odd {
-    background-position: top center;
-}
-.btn-base{
-    font-weight: bold;
-    font-size: 18px;
-}
+/*.Odd {*/
+/*    background-position: top center;*/
+/*}*/
+/*.btn-base{*/
+/*    font-weight: bold;*/
+/*    font-size: 18px;*/
+/*}*/
 
 /*.Even {*/
 /*    flex: 1;*/
@@ -253,7 +276,12 @@
 /*.Odd:hover, .Even:hover {*/
 /*    background-position: bottom center; !* animate downward *!*/
 /*}*/
-
+.spin-btn-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*padding: 2px;*/
+}
 .control-spin-btn {
     flex: 1;
     padding: 10px;
@@ -267,9 +295,9 @@
     background-size: 200% auto;
     background-image: linear-gradient(
             to left,
-           #A020F0 0%,
-            rgb(16, 16, 16) 51%,
-           #A020F0 100%
+           #0070e7 0%,
+            rgb(2, 7, 37) 51%,
+           #0070e7 100%
     );
 }
 
