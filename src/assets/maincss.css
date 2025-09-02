@@ -12,8 +12,8 @@
     height: 100vh;
     width: 100%;
     font-family: "Ubuntu Sans Mono", serif;
-    background: url("../assets/img/scene/spin-corner-bg.png") center;
-    background-size: cover;
+    background: #0e0a0a;
+
 }
 
 .spin-game-area {
@@ -63,6 +63,8 @@
     display: flex;
     flex-direction: column;
     background: rgba(14, 10, 10, 0.22);
+    background: url("../assets/img/scene/spin-corner-bg.png") center;
+    background-size: cover;
 }
 .Spin-main-controls {
     display: flex;

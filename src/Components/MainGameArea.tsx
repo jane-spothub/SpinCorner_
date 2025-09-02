@@ -130,33 +130,33 @@ export const MainGameArea = () => {
         <div className="Spin-main-container">
             <div className="spin-game-area">
                 <div className="main-game-area">
-                <div className="spin-corner-top-bar">
-                    {isSettingsToggle ? (
-                        <img className="spin-corner-icons"
-                             src={SettingsCloseImg}
-                             onClick={() => setIsSettingsToggle(false)}
-                             alt="settings"
-                        />
-                    ) : (
+                    <div className="spin-corner-top-bar">
+                        {isSettingsToggle ? (
+                            <img className="spin-corner-icons"
+                                 src={SettingsCloseImg}
+                                 onClick={() => setIsSettingsToggle(false)}
+                                 alt="settings"
+                            />
+                        ) : (
 
-                        <img className="spin-corner-icons"
-                             src={SettingsImg}
-                             onClick={() => setIsSettingsToggle(true)}
-                             alt="settings"
-                        />
-
-
-                    )}
+                            <img className="spin-corner-icons"
+                                 src={SettingsImg}
+                                 onClick={() => setIsSettingsToggle(true)}
+                                 alt="settings"
+                            />
 
 
-                    <div className="spin-corner-logo">Spin Corner</div>
-                    <div className="spin-balance-container">
-                        Bal:
-                        <div className="spin-corner-balance">
-                            {balance}
+                        )}
+
+
+                        <div className="spin-corner-logo">Spin Corner</div>
+                        <div className="spin-balance-container">
+                            Bal:
+                            <div className="spin-corner-balance">
+                                {balance}
+                            </div>
                         </div>
                     </div>
-                </div>
 
                     <Canvas
                         spinState={spinState}
