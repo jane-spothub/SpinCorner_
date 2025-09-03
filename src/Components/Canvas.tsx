@@ -147,7 +147,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.shadowOffsetX = 0;                // horizontal shift
             ctx.shadowOffsetY = 0;                // vertical shift
 
-            ctx.strokeStyle = "rgba(59,13,13,0.6)"; // light border line
+            ctx.strokeStyle = "rgba(0,0,0,0.6)"; // light border line
             ctx.lineWidth = 4;
             ctx.stroke();
             ctx.restore();
@@ -173,7 +173,8 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             }
             const metrics = ctx.measureText(label);
 
-            const textWidth = metrics.width + 70;
+            const textWidth = metrics.width + 55;
+            // const textWidthZ = metrics.width + 5;
 
             if (
                 block.amount.includes("Nunge Tosha")
@@ -224,7 +225,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                     ctx.fillStyle = "#ffffff";
                     ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
                 }
-            } else {
+            } else if(
+                block.amount.includes("Zako 2")||
+                block.amount.includes("Zako 3")
+            ){
                 // ctx.font = "bold 28px Impact"; // change size/family to what you use
                 const fontSize = radius * 0.075; // ~9% of wheel radius
                 ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
@@ -250,6 +254,30 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 ctx.restore();
                 ctx.textAlign = "center";
 
+            }else{
+                const fontSize = radius * 0.075; // ~9% of wheel radius
+                ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
+                // ctx.font = "bold 28px Roboto, sans-serif"; // change size/family to what you use
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.lineWidth = 6;            // thickness of the outline
+                ctx.strokeStyle = "black";
+                // ctx.strokeText(label, radius * 0.7, 0);
+                ctx.strokeText(label, textRadius + textWidth / 2, 0);
+
+
+// 🤍 Fill text (white or whatever you want)
+                ctx.fillStyle = "#ffffff";       // keep white for dark slices
+                // ctx.fillText(label, radius * 0.7, 0);
+                ctx.fillText(label, textRadius + textWidth / 2, 0);
+
+// 🔄 Reset shadow so it doesn’t affect other drawings
+                ctx.shadowColor = "transparent";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.restore();
+                ctx.textAlign = "center";
             }
 // 🖤 Black outline stroke first
 
