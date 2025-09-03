@@ -116,19 +116,22 @@ export const MainGameArea = () => {
                             </div>
                         </div>
                         <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
-                        {isSettingsToggle ? (
-                            <div className="spin-corner-icons"
-                                 onClick={() => setIsSettingsToggle(false)}
-                            >
-                                ⚙
-                            </div>
-                        ) : (
-                            <div className="spin-corner-icons"
-                                 onClick={() => setIsSettingsToggle(true)}
-                            >
-                                ⚙
-                            </div>
-                        )}
+                        <div className="Spin-main-settings">
+                            {isSettingsToggle ? (
+                                <div className="spin-corner-icons"
+                                     onClick={() => setIsSettingsToggle(false)}
+                                >
+                                    ⚙
+                                </div>
+                            ) : (
+                                <div className="spin-corner-icons"
+                                     onClick={() => setIsSettingsToggle(true)}
+                                >
+                                    ⚙
+                                </div>
+                            )}
+                        </div>
+
 
                     </div>
 

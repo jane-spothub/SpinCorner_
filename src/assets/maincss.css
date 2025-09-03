@@ -26,22 +26,28 @@
     align-items: center;
     color:white;
    margin-bottom: 5px;
-    background: rgba(14, 10, 10, 0.62);
+    background: rgba(14, 10, 10, 0.86);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    /*border:1px solid white;*/
+    padding: 3px 0;
 }
 
+.Spin-main-settings{
+    display: flex;
+    align-items: center;
+    /*padding: 3px 0;*/
+}
 .spin-corner-icons {
-    width: 30px;              /* increase container size */
-    height: 30px;
+    /*width: auto;              !* increase container size *!*/
     font-size: 30px;
     border-radius: 30%;
     background: #0e0a0a;
     text-align: center;
-    padding: 10px;
-    display: flex;            /* center perfectly */
-    align-items: center;
-    justify-content: center;
+    padding: 5px 10px;
+    /*display: flex;            !* center perfectly *!*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     cursor: pointer;
     font-weight: bold;
     background: linear-gradient(
@@ -54,34 +60,9 @@
     color: #FFD700;
 }
 
-.spin-corner-icons-close {
-    width: 30px;              /* increase container size */
-    height: 30px;             /* add equal height */
-    text-align: center;
-    font-size: 26px;          /* make the ⚙ bigger */
-    border-radius: 30%;
-    background: #0e0a0a;
-    padding: 10px;
-    display: flex;            /* center perfectly */
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: linear-gradient(
-            to bottom,
-            #2d3748 0%,
-            rgb(7, 9, 7) 25%,
-            #2d3748 100%
-    );
-    border:1px solid#2d3748;
-    color: #FFD700;
-    /*font-weight: bold;*/
-    /*border:1px solid rgba(255, 255, 255, 0.35);*/
 
-}
-
-.spin-corner-icons:hover,.spin-corner-icons-close:hover{
+.spin-corner-icons:hover{
     border:1px solid rgba(255, 255, 255, 0.51);
-
 }
 
 .spin-corner-logo{
@@ -97,7 +78,7 @@
     border-radius: 20px;
     padding: 10px;
     font-size: 1.3rem;
-    border:1px solid rgba(255, 255, 255, 0.35);
+    /*border:1px solid rgba(255, 255, 255, 0.35);*/
     /*background: rgba(14, 10, 10, 0.72);*/
     background: linear-gradient(
             to bottom,
