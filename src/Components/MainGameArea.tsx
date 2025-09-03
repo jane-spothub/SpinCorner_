@@ -5,6 +5,7 @@ import {SpinControls} from "./SpinControls.tsx";
 import type {ColorBlock} from "../Utils/types.ts";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
+import {GameSettings} from "./GameSettings.tsx";
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
@@ -116,9 +117,10 @@ export const MainGameArea = () => {
                         </div>
                         <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
                         {isSettingsToggle ? (
-                            <div className="spin-corner-icons-close"
-                                 onClick={() => setIsSettingsToggle(false)}>
-                                X
+                            <div className="spin-corner-icons"
+                                 onClick={() => setIsSettingsToggle(false)}
+                            >
+                                ⚙
                             </div>
                         ) : (
                             <div className="spin-corner-icons"
@@ -132,7 +134,6 @@ export const MainGameArea = () => {
 
                     <Canvas
                         spinState={spinState}
-                        level={selectedLevel}
                         OnSetWinner={setWinner}
                         freeSpinCount={freeSpinCount}
                     />
@@ -146,6 +147,9 @@ export const MainGameArea = () => {
                     />
                 </div>
             </div>
+            {isSettingsToggle && (
+                <GameSettings isOpen={isSettingsToggle} onClose={()=>setIsSettingsToggle(false)}/>
+            )}
 
             {/* Popup */}
             {isPopUp && (

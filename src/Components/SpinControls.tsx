@@ -26,7 +26,6 @@ export const SpinControls: FC<SpinControlsProps> = ({
                     <div>{level}kes</div>
                 </div>
             </div>
-            {/* LEVEL CONTROLS */}
             <div className="controls-container">
                 <div className="controls-row">
                     {controls.map((btn, i) => {

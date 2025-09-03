@@ -1,6 +1,6 @@
 import {useRef, useEffect, type FC, useCallback} from "react";
 import type {ColorBlock} from "../Utils/types.ts";
-import {colorLevels, usePrevious} from "../Hooks/useColors.ts";
+import { constantColorBlocks, usePrevious} from "../Hooks/useColors.ts";
 import PointerImg from "../assets/img/scene/pointer-spin2.png";
 import LogoImg from "../assets/img/scene/Spin-Corner-center piece logo.png";
 
@@ -8,15 +8,15 @@ interface CanvasProps {
     spinState: boolean;
     OnSetWinner: (w: ColorBlock) => void;
     // winner: ColorBlock | null;
-    level: number;
+    // level: number;
     freeSpinCount: number;
 }
 
-export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpinCount}) => {
+export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const offsetRef = useRef(0); // rotation offset
     const logo = useRef<HTMLImageElement | null>(null);
-    const colorsRef = useRef<ColorBlock[]>(colorLevels[level]); // default
+    const colorsRef = useRef<ColorBlock[]>(constantColorBlocks); // use constant instead of level-based
     const pointer = useRef<HTMLImageElement | null>(null);
     // const anchorRef = useRef<HTMLImageElement | null>(null);
 
@@ -40,21 +40,12 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.clearRect(0, 0, width, height);
         ctx.save();
 
-        colorsRef.current = colorLevels[level];
+        // colorsRef.current = colorLevels[level];
+        colorsRef.current = constantColorBlocks;
+
         const colors = colorsRef.current;
         const sliceAngle = (2 * Math.PI) / colors.length;
 
-        // // === Draw anchor at the bottom ===
-        // if (anchorRef.current) {
-        //     const anchorWidth = 300;   // tweak size
-        //     const anchorHeight = 100;
-        //
-        //     // place so bottom touches canvas edge
-        //     const anchorX = centerX - anchorWidth / 2;
-        //     const anchorY = height - anchorHeight;
-        //
-        //     ctx.drawImage(anchorRef.current, anchorX, anchorY, anchorWidth, anchorHeight);
-        // }
         colors.forEach((block, i) => {
             const startAngle = i * sliceAngle + offsetRef.current;
             const endAngle = startAngle + sliceAngle;
@@ -65,7 +56,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.arc(centerX, centerY, radius, startAngle, endAngle);
             ctx.closePath();
 
-            // 🎨 check if this slice is orange → use gradient
             if (block.hex === "red-c") {
                 const grad = ctx.createRadialGradient(
                     centerX, centerY, 0,       // inner circle (center, radius 0)
@@ -73,7 +63,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 );
 
                 grad.addColorStop(0, "#fd0708"); // inner (darker orange)
-                // grad.addColorStop(0, "#191970"); // inner (darker orange)
                 grad.addColorStop(1, "#fd0708"); // outer (lighter golden)
 
                 ctx.fillStyle = grad;
@@ -96,7 +85,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 );
 
                 grad.addColorStop(0, "#001f8b"); // inner (darker orange)
-                // grad.addColorStop(0, "#191970"); // inner (darker orange)
                 grad.addColorStop(1, "#001f8b"); // outer (lighter golden)
 
                 ctx.fillStyle = grad;
@@ -107,7 +95,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 );
 
                 grad.addColorStop(0, "#00a285"); // inner (darker orange)
-                // grad.addColorStop(0, "#191970"); // inner (darker orange)
                 grad.addColorStop(1, "#00a285"); // outer (lighter golden)
 
                 ctx.fillStyle = grad;
@@ -118,7 +105,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 );
 
                 grad.addColorStop(0, "#0170e3"); // inner (darker orange)
-                // grad.addColorStop(0, "#191970"); // inner (darker orange)
                 grad.addColorStop(1, "#0170e3"); // outer (lighter golden)
 
                 ctx.fillStyle = grad;
@@ -129,7 +115,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 );
 
                 grad.addColorStop(0, "#e9d889"); // inner (darker orange)
-                // grad.addColorStop(0, "#084b62"); // inner (darker orange)
                 grad.addColorStop(1, "#e9d889"); // outer (lighter golden)
 
                 ctx.fillStyle = grad;
@@ -147,7 +132,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.shadowOffsetX = 0;                // horizontal shift
             ctx.shadowOffsetY = 0;                // vertical shift
 
-            ctx.strokeStyle = "rgba(0,0,0,0.6)"; // light border line
+            ctx.strokeStyle = "rgba(0,0,0,0.6)";
             ctx.lineWidth = 4;
             ctx.stroke();
             ctx.restore();
@@ -178,11 +163,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
             if (
                 block.amount.includes("Nunge Tosha")
-                || block.amount.includes("Gonga") ||
+                || block.amount.includes("Gonga")||
                 block.amount.includes("SPIN TENA")
             ) {
-                const fontSize = radius * 0.075; // ~9% of wheel radius
-                ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
+                const fontSize = radius * 0.085; // ~9% of wheel radius
 
                 // ctx.font = "bold 25px Roboto, sans-serif"; // change size/family to what you use
                 // ctx.font = "bold 28px Impact"; // change size/family to what you use
@@ -195,6 +179,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 // First line
                 ctx.lineWidth = 6;
                 ctx.strokeStyle = "black";
+                ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
                 ctx.strokeText(words[0], radius * 0.7, -18);
                 ctx.fillStyle = "#ffffff";
                 ctx.fillText(words[0], radius * 0.7, -18);
@@ -202,83 +187,107 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
                 // Second line
                 ctx.lineWidth = 6;
                 ctx.strokeStyle = "black";
+                ctx.font = `bold 25px Roboto, sans-serif`;
                 ctx.strokeText(words.slice(1).join(" "), radius * 0.7, +18);
                 ctx.fillStyle = "#ffffff";
                 ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
 
-                if (block.amount.includes("Gonga")||
-                    block.amount.includes("7500")||
-                    block.amount.includes("3000")||
-                    block.amount.includes("2500")
-                ) {
-                    // First line
-                    ctx.lineWidth = 8;
-                    ctx.strokeStyle = "black";
-                    ctx.strokeText(words[0], radius * 0.7, -18);
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fillText(words[0], radius * 0.7, -18);
-
-                    // Second line
-                    ctx.lineWidth = 8;
-                    ctx.strokeStyle = "black";
-                    ctx.strokeText(words.slice(1).join(" "), radius * 0.7, +18);
-                    ctx.fillStyle = "#ffffff";
-                    ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
-                }
-            } else if(
-                block.amount.includes("Zako 2")||
-                block.amount.includes("Zako 3")
-            ){
-                // ctx.font = "bold 28px Impact"; // change size/family to what you use
-                const fontSize = radius * 0.075; // ~9% of wheel radius
-                ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
-                // ctx.font = "bold 28px Roboto, sans-serif"; // change size/family to what you use
+                // if (block.amount.includes("Gonga")||
+                //     block.amount.includes("7500")||
+                //     block.amount.includes("3000")||
+                //     block.amount.includes("2500")
+                // ) {
+                //     // First line
+                //     ctx.lineWidth = 8;
+                //     ctx.strokeStyle = "black";
+                //     ctx.strokeText(words[0], radius * 0.7, -18);
+                //     ctx.fillStyle = "#ffffff";
+                //     ctx.fillText(words[0], radius * 0.7, -18);
+                //
+                //     // Second line
+                //     ctx.lineWidth = 8;
+                //     ctx.strokeStyle = "black";
+                //     ctx.strokeText(words.slice(1).join(" "), radius * 0.7, +18);
+                //     ctx.fillStyle = "#ffffff";
+                //     ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
+                // }
+            } else if (block.amount.includes("Zako 2") || block.amount.includes("Zako 3")) {
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.lineWidth = 6;            // thickness of the outline
+                ctx.lineWidth = 6;
                 ctx.strokeStyle = "black";
-                // ctx.strokeText(label, radius * 0.7, 0);
-                ctx.strokeText(label, textRadius + textWidth / 2, 0);
 
+                // Fixed position at 70% of radius
+                const textPosition = radius * 0.7;
 
-// 🤍 Fill text (white or whatever you want)
-                ctx.fillStyle = "#ffffff";       // keep white for dark slices
-                // ctx.fillText(label, radius * 0.7, 0);
-                ctx.fillText(label, textRadius + textWidth / 2, 0);
+                // Split the text into "Zako" and the number
+                const parts = label.split(" ");
+                const textPart = parts[0]; // "Zako"
+                const numberPart = parts[1]; // "2" or "3"
 
-// 🔄 Reset shadow so it doesn’t affect other drawings
+                // Smaller font size for "Zako"
+                const zakoFontSize = radius * 0.08;
+                ctx.font = `bold ${zakoFontSize}px Roboto, sans-serif`;
+
+                // Calculate width of "Zako"
+                const zakoWidth = ctx.measureText(textPart).width;
+                const spacing = radius * 0.01; // Reduced spacing
+
+                // Draw "Zako" text (smaller) - positioned to the left
+                ctx.strokeText(textPart, textPosition - (zakoWidth / 2), 0);
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText(textPart, textPosition - (zakoWidth / 2), 0);
+
+                // Larger font size for the number
+                const numberFontSize = radius * 0.13;
+                ctx.font = `bold ${numberFontSize}px Roboto, sans-serif`;
+
+                // Draw the number (larger) - positioned to the right of "Zako"
+                ctx.strokeText(numberPart, textPosition + (zakoWidth / 2-15) + spacing, 0);
+                ctx.fillText(numberPart, textPosition + (zakoWidth / 2-15) + spacing, 0);
+
+                // Reset shadow
                 ctx.shadowColor = "transparent";
                 ctx.shadowBlur = 0;
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
                 ctx.restore();
                 ctx.textAlign = "center";
+            } else {
+            let fontSize = radius * 0.075; // Default font size
 
-            }else{
-                const fontSize = radius * 0.075; // ~9% of wheel radius
-                ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
-                // ctx.font = "bold 28px Roboto, sans-serif"; // change size/family to what you use
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.lineWidth = 6;            // thickness of the outline
-                ctx.strokeStyle = "black";
-                // ctx.strokeText(label, radius * 0.7, 0);
-                ctx.strokeText(label, textRadius + textWidth / 2, 0);
-
-
-// 🤍 Fill text (white or whatever you want)
-                ctx.fillStyle = "#ffffff";       // keep white for dark slices
-                // ctx.fillText(label, radius * 0.7, 0);
-                ctx.fillText(label, textRadius + textWidth / 2, 0);
-
-// 🔄 Reset shadow so it doesn’t affect other drawings
-                ctx.shadowColor = "transparent";
-                ctx.shadowBlur = 0;
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.restore();
-                ctx.textAlign = "center";
+            // Custom font sizes for different amounts
+            if (block.amount.includes("3000") || block.amount.includes("7500") || block.amount.includes("2500")) {
+                fontSize = radius * 0.078; // Slightly smaller for large numbers
+            } else if (block.amount.includes("1000") || block.amount.includes("2000")) {
+                fontSize = radius * 0.078; // Medium size
+            } else if (block.amount.includes("500") || block.amount.includes("250")) {
+                fontSize = radius * 0.078; // Larger for medium numbers
+            } else if (block.amount.includes("100") || block.amount.includes("150")) {
+                fontSize = radius * 0.08; // Even larger for smaller numbers
+            } else if (block.amount.includes("50")) {
+                fontSize = radius * 0.085; // Largest for the smallest numbers
             }
+
+            ctx.font = `bold ${fontSize}px Roboto, sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = "black";
+            ctx.strokeText(label, textRadius + textWidth / 2, 0);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillText(label, textRadius + textWidth / 2, 0);
+
+            // Reset shadow
+            ctx.shadowColor = "transparent";
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.restore();
+            ctx.textAlign = "center";
+        }
+
 // 🖤 Black outline stroke first
 
             // 🔄 Reset shadow so it doesn’t affect other drawings
@@ -530,16 +539,16 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         }
 
         if (pointer.current) {
-            const pointerWidth = 80;
+            const pointerWidth = 90;
             const pointerHeight = 60;
 
             const pointerX = centerX - pointerWidth / 2;
-            const pointerY = centerY - radius - pointerHeight + 29;
+            const pointerY = centerY - radius - pointerHeight + 30;
 
             ctx.drawImage(pointer.current, pointerX, pointerY, pointerWidth, pointerHeight);
         }
 
-    }, [freeSpinCount, level]);
+    }, [freeSpinCount]);
 
     // preload images ONCE at mount
     useEffect(() => {
@@ -622,7 +631,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         }
 
         requestAnimationFrame(animate);
-    }, [spinState, drawWheel, prevSpin, OnSetWinner, level]);
-
+    }, [spinState, drawWheel, prevSpin, OnSetWinner]);
     return <canvas ref={canvasRef} width={820} height={820}/>;
 };
