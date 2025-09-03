@@ -624,5 +624,5 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         requestAnimationFrame(animate);
     }, [spinState, drawWheel, prevSpin, OnSetWinner, level]);
 
-    return <canvas ref={canvasRef} width={800} height={800}/>;
+    return <canvas ref={canvasRef} width={820} height={820}/>;
 };

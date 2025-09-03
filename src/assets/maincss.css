@@ -26,47 +26,60 @@
     align-items: center;
     color:white;
    margin-bottom: 5px;
-    background: rgba(14, 10, 10, 0.48);
+    background: rgba(14, 10, 10, 0.62);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
 .spin-corner-icons {
     width: 30px;              /* increase container size */
-    height: 30px;             /* add equal height */
-    border-radius: 50%;
+    height: 30px;
+    font-size: 30px;
+    border-radius: 30%;
     background: #0e0a0a;
     text-align: center;
     padding: 10px;
-    font-size: 30px;          /* make the ⚙ bigger */
-    display: flex;            /* center perfectly */
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    /*border-radius: 20px;*/
-    /*font-weight: bold;*/
-    border:1px solid rgba(255, 255, 255, 0.35);
-
-}
-.spin-corner-icons-close {
-    width: 30px;              /* increase container size */
-    height: 30px;             /* add equal height */
-    /*border-radius: 20px;*/
-    border-radius: 50%;
-    background: #0e0a0a;
-    text-align: center;
-    padding: 10px;
-    font-size: 26px;          /* make the ⚙ bigger */
     display: flex;            /* center perfectly */
     align-items: center;
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
-    border:1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(
+            to bottom,
+            #2d3748 0%,
+            rgb(7, 9, 7) 25%,
+            #2d3748 100%
+    );
+    border:1px solid#2d3748;
+    color: #FFD700;
+}
+
+.spin-corner-icons-close {
+    width: 30px;              /* increase container size */
+    height: 30px;             /* add equal height */
+    text-align: center;
+    font-size: 26px;          /* make the ⚙ bigger */
+    border-radius: 30%;
+    background: #0e0a0a;
+    padding: 10px;
+    display: flex;            /* center perfectly */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: linear-gradient(
+            to bottom,
+            #2d3748 0%,
+            rgb(7, 9, 7) 25%,
+            #2d3748 100%
+    );
+    border:1px solid#2d3748;
+    color: #FFD700;
+    /*font-weight: bold;*/
+    /*border:1px solid rgba(255, 255, 255, 0.35);*/
 
 }
 
-.spin-corner-icons:hover{
+.spin-corner-icons:hover,.spin-corner-icons-close:hover{
     border:1px solid rgba(255, 255, 255, 0.51);
 
 }
@@ -85,11 +98,20 @@
     padding: 10px;
     font-size: 1.3rem;
     border:1px solid rgba(255, 255, 255, 0.35);
-    background: rgba(14, 10, 10, 0.72);
+    /*background: rgba(14, 10, 10, 0.72);*/
+    background: linear-gradient(
+            to bottom,
+            rgba(255, 215, 0, 0.38) 0%,
+            rgb(7, 9, 7) 25%,
+            rgba(255, 215, 0, 0.25) 100%
+    );
+    border:1px solid #FFD700;
+    color: #FFD700;
+    font-weight: bold;
 }
 
 .spin-corner-balance{
-    color:greenyellow;
+    color: #ffcb00;
 }
 
 .main-game-area{
@@ -103,7 +125,6 @@
 .Spin-main-controls {
     display: flex;
     flex-direction: column;
-    margin-top: 5px;
     background: rgba(14, 10, 10, 0.86);
     border-radius: 10px;
     gap:2px;
@@ -121,7 +142,7 @@
     padding: 3px 0;
     color: rgba(255, 255, 255, 0.97);
     text-align: center;
-    margin: 5px 0;
+    margin: 4px 0;
     display: flex;
     justify-content: space-around;
     font-size:18px;
@@ -205,20 +226,16 @@
     /*justify-content: space-between;*/
     width: 100%;
     gap: 3px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
 
 }
 
 .High-low-btn, .px-4 {
     flex: 1;
-    /*padding: 10px 0;*/
-    /*border-radius: 5px;*/
     text-align: center;
     color: white;
     font-weight: bold;
-    /*font-size: 18px;*/
     background: #2d3748;
-
     background: linear-gradient(
             to bottom,
             #2d3748 0%,
@@ -226,9 +243,8 @@
             #2d3748 100%
     );
     transition: background-position 0.5s;
-    /*border:1px solid rgba(255, 255, 255, 0.23);*/
     border-radius: 20px;
-    padding: 10px 3px;
+    padding: 10px;
     font-size: 1.3rem;
     border:1px solid rgba(255, 255, 255, 0.35);
 }
@@ -245,8 +261,8 @@
 }
 
 .High-low-btn:hover {
-    border:1px solid #917b06;
-    color: #887304;
+    border:1px solid #FFD700;
+    color: #FFD700;
 }
 
 /*.Odd {*/
@@ -388,6 +404,7 @@
 canvas {
     width: 100%;
     max-width: 750px;
+    margin:10px 0;
 }
 
 @media (min-width:600px){
