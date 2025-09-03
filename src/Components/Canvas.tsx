@@ -266,6 +266,42 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+// radial gradient fading outward from the wheel’s edge
+        // ✅ Outer shadow gradient (only outside the wheel)
+        // Create radial gradient for shadow just outside the border
+        const mainShadowGradient = ctx.createRadialGradient(
+            centerX, centerY, radius,         // start exactly at the wheel edge
+            centerX, centerY, radius + 37     // extend shadow outward
+        );
+        mainShadowGradient.addColorStop(0, "rgba(0,0,0,0.6)"); // dark at edge
+        mainShadowGradient.addColorStop(1, "rgba(0,0,0,0)");   // fade outward
+
+        ctx.save();
+        ctx.beginPath();
+
+// Draw the outer shadow ring filled with gradient on top behind the border
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius + 30, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true); // cut out center
+        ctx.fillStyle = mainShadowGradient;
+        ctx.fill("nonzero");  // fills only the ring area as shadow
+
+        ctx.restore();
+// Draw shadow circle behind wheel
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius + 5, 0, Math.PI * 2); // slightly larger radius for shadow spread
+        ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+        ctx.shadowBlur = 30;
+        ctx.shadowOffsetX = 20;
+        ctx.shadowOffsetY = 20; // vertical offset for depth effect
+        ctx.fillStyle = "rgba(0, 0, 0, 0)"; // transparent fill, shadow will still appear
+        ctx.fill();
+        ctx.restore();
+
+
+
+
 
 // create linear gradient for stroke
         const gradient = ctx.createLinearGradient(centerX - radius, centerY, centerX + radius, centerY);
@@ -343,10 +379,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
         ctx.restore();
 
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
-
 // gradient fill that ends at radius 90 instead of 120
         const gradientRadius = 92; // 👈 same as your inner border radius
         const centerGradient = ctx.createRadialGradient(
@@ -362,6 +394,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
 
         ctx.fillStyle = centerGradient;
         ctx.fill();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
 
         ctx.shadowColor = "rgba(0,0,0,0.92)";
         ctx.shadowBlur = 15;
@@ -450,7 +486,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.font = "bold 40px Arial";
+            ctx.font = "bold 60px Arial";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
@@ -470,7 +506,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, level, freeSpin
             const pointerHeight = 60;
 
             const pointerX = centerX - pointerWidth / 2;
-            const pointerY = centerY - radius - pointerHeight + 28;
+            const pointerY = centerY - radius - pointerHeight + 29;
 
             ctx.drawImage(pointer.current, pointerX, pointerY, pointerWidth, pointerHeight);
         }

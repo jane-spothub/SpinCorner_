@@ -4,8 +4,6 @@ import "../assets/maincss.css"
 import {SpinControls} from "./SpinControls.tsx";
 import type {ColorBlock} from "../Utils/types.ts";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
-// import SettingsImg from "../assets/img/controls/settings.png";
-// import SettingsCloseImg from "../assets/img/controls/close-btn.png";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 
 export const MainGameArea = () => {
@@ -14,16 +12,28 @@ export const MainGameArea = () => {
     const [selectedLevel, setSelectedLevel] = useState<number>(99);
     const [balance, setBalance] = useState<number>(1000);
     const [freeSpinCount, setFreeSpinCount] = useState<number>(0);
-    const [isPopUp, setIsPopUp] = useState<boolean>(false)
-    const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false)
+    const [isPopUp, setIsPopUp] = useState<boolean>(false);
+    const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false);
 
     const handleSpin = () => {
         if (spinState) return;
+
+        // Determine how many spins based on selected level
+        let spinsToAdd = 0;
+        if (selectedLevel === 99) spinsToAdd = 3; // Add 3 more spins (total 4)
+        else if (selectedLevel === 49) spinsToAdd = 1; // Add 1 more spin (total 2)
+        // For level 20, we don't add any extra spins (just the normal 1 spin)
+
+        // Add the extra spins to freeSpinCount
+        if (spinsToAdd > 0) {
+            setFreeSpinCount(prev => prev + spinsToAdd);
+        }
+
         setSpinState(true);
         setBalance((prev) => prev - selectedLevel);
     };
 
-// Spin end handler
+    // Spin end handler
     useEffect(() => {
         if (spinState) {
             const timer = setTimeout(() => {
@@ -37,9 +47,9 @@ export const MainGameArea = () => {
         if (winner) {
             setIsPopUp(true);
             let freeSpinsToAdd = 0;
+
             // Handle amounts
             if (!isNaN(Number(winner.amount))) {
-                // Numeric prize like "50", "1000", etc.
                 const winAmount = Number(winner.amount)
                 setBalance(prev => prev + winAmount);
             } else {
@@ -82,7 +92,7 @@ export const MainGameArea = () => {
         }
     }, [winner]);
 
-// Consume free spins when spin ends
+    // Consume free spins when spin ends
     useEffect(() => {
         if (!spinState && freeSpinCount > 0) {
             const timer = setTimeout(() => {
@@ -93,14 +103,11 @@ export const MainGameArea = () => {
         }
     }, [spinState, freeSpinCount]);
 
-
-
     return (
         <div className="Spin-main-container">
             <div className="spin-game-area">
                 <div className="main-game-area">
                     <div className="spin-corner-top-bar">
-
                         <div className="spin-balance-container">
                             Bal:
                             <div className="spin-corner-balance">
@@ -112,17 +119,15 @@ export const MainGameArea = () => {
                             <div className="spin-corner-icons-close"
                                  onClick={() => setIsSettingsToggle(false)}>
                                 X
-
                             </div>
-
                         ) : (
                             <div className="spin-corner-icons"
                                  onClick={() => setIsSettingsToggle(true)}
                             >
                                 ⚙
                             </div>
-
                         )}
+
                     </div>
 
                     <Canvas
@@ -134,14 +139,12 @@ export const MainGameArea = () => {
 
                     <SpinControls
                         freeSpinCount={freeSpinCount}
-
                         handleSpin={handleSpin}
                         spinState={spinState}
                         OnSetSelectedLevel={setSelectedLevel}
                         level={selectedLevel}
                     />
                 </div>
-
             </div>
 
             {/* Popup */}
@@ -151,7 +154,6 @@ export const MainGameArea = () => {
                         <div className="pop-container">
                             {winner.amount === "Nunge Tosha" ? (
                                 <div className="three-d-text-lost">You Lost!</div>
-
                             ) : (
                                 <div className="three-d-text-win">You Won!</div>
                             )}
@@ -187,13 +189,11 @@ export const MainGameArea = () => {
                             {winner.amount === "Gonga 25K" && (
                                 <div className="amount-won"> 25,000kes</div>
                             )}
-
                         </div>
                     )}
                 </div>
             )}
             <HowToPlaySpin/>
-
         </div>
     );
 };

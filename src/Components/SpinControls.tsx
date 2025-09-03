@@ -1,5 +1,6 @@
 import {type Dispatch, type FC, type SetStateAction} from "react";
 import {controls} from "../Hooks/useColors.ts";
+import BetHistoryTable from "./BetHistoryTable.tsx";
 
 interface SpinControlsProps {
     handleSpin: () => void;
@@ -40,7 +41,11 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                 }}
                                 className={`High-low-btn ${isActive ? "active" : "bg-gray-300"}`}
                             >
-                                {btn.label}kes
+                                {{
+                                    99: "4 Spins",
+                                    49: "2 Spins",
+                                    20: "1 Spin"
+                                }[btn.label] || ""}
                             </div>
                         );
                     })}
@@ -56,6 +61,7 @@ export const SpinControls: FC<SpinControlsProps> = ({
                     {spinState ? "..." : "Spin"}
                 </div>
             </div>
+            <BetHistoryTable />
 
         </div>
     );

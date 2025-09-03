@@ -98,13 +98,13 @@
     background: rgba(14, 10, 10, 0.22);
     background: url("../assets/img/scene/Background2.webp") center;
     background-size: cover;
-    height: 100vh;
 }
+
 .Spin-main-controls {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
-    background: rgba(14, 10, 10, 0.7);
+    background: rgba(14, 10, 10, 0.86);
     border-radius: 10px;
     gap:2px;
     padding: 2px;
@@ -217,14 +217,14 @@
     color: white;
     font-weight: bold;
     /*font-size: 18px;*/
-    background: #021f26;
+    background: #2d3748;
 
-    /*background: linear-gradient(*/
-    /*        to bottom,*/
-    /*        rgb(38, 40, 40) 0%,*/
-    /*        rgba(37, 40, 35, 0) 25%,*/
-    /*        rgba(32, 33, 33, 0) 100%*/
-    /*);*/
+    background: linear-gradient(
+            to bottom,
+            #2d3748 0%,
+            rgb(7, 9, 7) 25%,
+            #2d3748 100%
+    );
     transition: background-position 0.5s;
     /*border:1px solid rgba(255, 255, 255, 0.23);*/
     border-radius: 20px;
@@ -234,8 +234,14 @@
 }
 
 .active {
+    background: linear-gradient(
+            to bottom,
+            rgba(255, 215, 0, 0.49) 0%,
+            rgb(7, 9, 7) 25%,
+            rgba(255, 215, 0, 0.39) 100%
+    );
     border:1px solid #FFD700;
-    color:#FFD700;
+    color: #FFD700;
 }
 
 .High-low-btn:hover {
@@ -288,7 +294,9 @@
     color: white;
     cursor: pointer;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 20px;
+
+    /*border-radius: 5px;*/
     font-weight: bold;
     font-size: 20px;
     transition: 0.5s;
