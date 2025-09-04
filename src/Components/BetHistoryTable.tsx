@@ -30,52 +30,21 @@ export const BetHistoryTable: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: "1px", background: "rgba(26,32,44,0.32)", borderRadius: "8px" }}>
-            <h2 style={{
-                color: "#ecc94b",
-                textAlign: "center",
-                marginBottom: "10px",
-                textShadow: "0 1px 2px rgba(0,0,0,0.5)",
-                fontSize: "1.5rem"
-            }}>
+        <div
+            className="bet-history-container">
+            <h2 className="bet-title">
                 Bet History
             </h2>
-            <table className="bet-history-spin" style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                background: "#2d3748",
-                borderRadius: "6px",
-                overflow: "hidden",
-                color:"white",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
-            }}>
+            <table className="bet-history-spin" >
                 <thead>
-                <tr style={{ background: "#2c5282" }}>
-                    <th style={{
-                        border: "1px solid #4a5568",
-                        padding: "12px",
-                        color: "white",
-                        fontWeight: "bold",
-                        textShadow: "0 1px 1px rgba(0,0,0,0.3)"
-                    }}>
+                <tr style={{ background: "#202733" }}>
+                    <th className="history-bet-amount">
                         Bet Amount
                     </th>
-                    <th style={{
-                        border: "1px solid #4a5568",
-                        padding: "12px",
-                        color: "white",
-                        fontWeight: "bold",
-                        textShadow: "0 1px 1px rgba(0,0,0,0.3)"
-                    }}>
+                    <th className="history-spins-used" >
                         Spins Used
                     </th>
-                    <th style={{
-                        border: "1px solid #4a5568",
-                        padding: "12px",
-                        color: "white",
-                        fontWeight: "bold",
-                        textShadow: "0 1px 1px rgba(0,0,0,0.3)"
-                    }}>
+                    <th className="history-result" >
                         Result
                     </th>
                 </tr>
@@ -83,26 +52,17 @@ export const BetHistoryTable: React.FC = () => {
                 <tbody>
                 {dummyData.map((item, index) => (
                     <tr key={item.id} style={{
-                        background: index % 2 === 0 ? "#2d3748" : "#344155"
+                        background: index % 2 === 0 ? "#080a0e" : "#191f2a"
                     }}>
-                        <td style={{
-                            border: "1px solid #4a5568",
-                            padding: "10px",
-                            textAlign: "center"
-                        }}>
+                        <td
+                            className="bet-item" >
                             {item.betAmount}
                         </td>
-                        <td style={{
-                            border: "1px solid #4a5568",
-                            padding: "10px",
-                            textAlign: "center"
-                        }}>
+                        <td className="bet-item" >
                             {item.spinsUsed}
                         </td>
-                        <td style={{
-                            border: "1px solid #4a5568",
-                            padding: "10px",
-                            textAlign: "center",
+                        <td className="bet-item"
+                            style={{
                             ...getResultStyle(item.result)
                         }}>
                             {item.result}
