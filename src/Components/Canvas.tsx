@@ -314,8 +314,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-// radial gradient fading outward from the wheel’s edge
-        // ✅ Outer shadow gradient (only outside the wheel)
+
         // Create radial gradient for shadow just outside the border
         const mainShadowGradient = ctx.createRadialGradient(
             centerX, centerY, radius,         // start exactly at the wheel edge
@@ -379,18 +378,43 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         const tickWidth = 6;      // thickness of the tick line
 
 
+        // for (let i = 0; i < colors.length; i++) {
+        //     const angle = i * sliceAngle + offsetRef.current;
+        //
+        //     // inner edge
+        //     const xInner = centerX + Math.cos(angle) * (radius - borderWidth / 2);
+        //     const yInner = centerY + Math.sin(angle) * (radius - borderWidth / 2);
+        //
+        //     // outer edge
+        //     const xOuter = centerX + Math.cos(angle) * (radius + borderWidth / 2 + tickLength);
+        //     const yOuter = centerY + Math.sin(angle) * (radius + borderWidth / 2 + tickLength);
+        //
+        //     // draw tick with custom width
+        //     ctx.beginPath();
+        //     ctx.lineWidth = tickWidth;
+        //     ctx.strokeStyle = "#a19176";
+        //     ctx.moveTo(xInner, yInner);
+        //     ctx.lineTo(xOuter, yOuter);
+        //     ctx.stroke();
+        //
+        //     // dot at midpoint
+        //     const dotX = (xInner + xOuter) / 2;
+        //     const dotY = (yInner + yOuter) / 2;
+        //     ctx.beginPath();
+        //     ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
+        //     ctx.fillStyle = "black";
+        //     ctx.fill();
+        // }
         for (let i = 0; i < colors.length; i++) {
             const angle = i * sliceAngle + offsetRef.current;
 
-            // inner edge
+            // === Outer rim tick (already there) ===
             const xInner = centerX + Math.cos(angle) * (radius - borderWidth / 2);
             const yInner = centerY + Math.sin(angle) * (radius - borderWidth / 2);
 
-            // outer edge
             const xOuter = centerX + Math.cos(angle) * (radius + borderWidth / 2 + tickLength);
             const yOuter = centerY + Math.sin(angle) * (radius + borderWidth / 2 + tickLength);
 
-            // draw tick with custom width
             ctx.beginPath();
             ctx.lineWidth = tickWidth;
             ctx.strokeStyle = "#a19176";
@@ -398,13 +422,39 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             ctx.lineTo(xOuter, yOuter);
             ctx.stroke();
 
-            // dot at midpoint
+            // Rim midpoint dot
             const dotX = (xInner + xOuter) / 2;
             const dotY = (yInner + yOuter) / 2;
             ctx.beginPath();
             ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
             ctx.fillStyle = "black";
             ctx.fill();
+
+            // === Inner ticks closer to the center ===
+            const innerTickRadius = radius * 0.55;   // 55% of wheel radius
+            const innerX = centerX + Math.cos(angle) * innerTickRadius;
+            const innerY = centerY + Math.sin(angle) * innerTickRadius;
+
+            const innerTickLength = 8; // small inner tick line
+            const innerX2 = centerX + Math.cos(angle) * (innerTickRadius + innerTickLength);
+            const innerY2 = centerY + Math.sin(angle) * (innerTickRadius + innerTickLength);
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "#a19176";
+            ctx.moveTo(innerX, innerY);
+            ctx.lineTo(innerX2, innerY2);
+            ctx.stroke();
+
+            // Circle in the middle of segment
+            // const circleRadius = radius * 0.4; // 40% of wheel radius
+            // const circleX = centerX + Math.cos(angle + sliceAngle / 2) * circleRadius;
+            // const circleY = centerY + Math.sin(angle + sliceAngle / 2) * circleRadius;
+            //
+            // ctx.beginPath();
+            // ctx.arc(circleX, circleY, 5, 0, Math.PI * 2);
+            // ctx.fillStyle = "#000"; // black dot
+            // ctx.fill();
         }
 
         ctx.restore();
