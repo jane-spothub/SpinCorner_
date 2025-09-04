@@ -501,6 +501,16 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.restore();
 
         // === 🎯 Center Logo ===
+        // if (logo.current) {
+        //     const logoWidth = 300;   // custom width
+        //     const logoHeight = 200;  // custom height (different from width)
+        //
+        //     const logoX = centerX - logoWidth / 2;
+        //     const logoY = centerY - logoHeight / 2;
+        //
+        //     ctx.drawImage(logo.current, logoX, logoY, logoWidth, logoHeight);
+        // }
+        // === 🎯 Center Logo with Shadow ===
         if (logo.current) {
             const logoWidth = 300;   // custom width
             const logoHeight = 200;  // custom height (different from width)
@@ -508,24 +518,23 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             const logoX = centerX - logoWidth / 2;
             const logoY = centerY - logoHeight / 2;
 
+            ctx.save();
+
+            // Shadow settings
+            ctx.shadowColor = "rgba(0,0,0,0.85)"; // dark shadow
+            ctx.shadowBlur = 25;                  // softness
+            ctx.shadowOffsetX = 5;                // slight right shift
+            ctx.shadowOffsetY = 5;                // slight down shift
+
+            // Draw the logo with shadow
             ctx.drawImage(logo.current, logoX, logoY, logoWidth, logoHeight);
+
+            ctx.restore(); // reset shadow so it doesn’t affect other drawings
         }
 
 
+
         ctx.globalCompositeOperation = "source-atop";
-
-        // // Example: scale inner shadow to ~30% of the wheel radius
-        // const innerRadius = radius * 0.25;   // where shadow starts fading in
-        // const outerRadius = radius * 0.35;   // where shadow reaches max
-        // const boxSize = outerRadius * 2;     // bounding square for fillRect
-        //
-        // const innerShadow = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
-        // innerShadow.addColorStop(0, "rgba(0,0,0,0)");
-        // innerShadow.addColorStop(1, "rgba(13,5,14,0.35)");
-        //
-        // ctx.fillStyle = innerShadow;
-        // ctx.fillRect(centerX - outerRadius, centerY - outerRadius, boxSize, boxSize);
-
         ctx.restore();
 
         if (freeSpinCount > 0) {
