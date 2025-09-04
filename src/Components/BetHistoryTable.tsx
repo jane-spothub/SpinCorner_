@@ -38,13 +38,13 @@ export const BetHistoryTable: React.FC = () => {
             <table className="bet-history-spin" >
                 <thead>
                 <tr style={{ background: "#202733" }}>
-                    <th className="history-bet-amount">
+                    <th className="history-bet-titles">
                         Bet Amount
                     </th>
-                    <th className="history-spins-used" >
+                    <th className="history-bet-titles" >
                         Spins Used
                     </th>
-                    <th className="history-result" >
+                    <th className="history-bet-titles" >
                         Result
                     </th>
                 </tr>

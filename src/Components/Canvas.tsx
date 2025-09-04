@@ -163,8 +163,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
 
             if (
                 block.amount.includes("Nunge Tosha")
-                || block.amount.includes("Gonga")||
-                block.amount.includes("SPIN TENA")
+                || block.amount.includes("Gonga")
             ) {
                 const fontSize = radius * 0.085; // ~9% of wheel radius
 
@@ -211,49 +210,61 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
                 //     ctx.fillStyle = "#ffffff";
                 //     ctx.fillText(words.slice(1).join(" "), radius * 0.7, +18);
                 // }
-            } else if (block.amount.includes("Zako 2") || block.amount.includes("Zako 3")) {
+            }else if (
+                block.amount.includes("Zako 2") ||
+                block.amount.includes("Zako 3") ||
+                block.amount.includes("SPIN TENA")
+            ) {
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.lineWidth = 6;
                 ctx.strokeStyle = "black";
 
-                // Fixed position at 70% of radius
                 const textPosition = radius * 0.7;
-
-                // Split the text into "Zako" and the number
                 const parts = label.split(" ");
-                const textPart = parts[0]; // "Zako"
-                const numberPart = parts[1]; // "2" or "3"
 
-                // Smaller font size for "Zako"
-                const zakoFontSize = radius * 0.08;
-                ctx.font = `bold ${zakoFontSize}px Roboto, sans-serif`;
+                if (block.amount.includes("SPIN TENA")) {
+                    // Both words small
+                    const smallFontSize = radius * 0.08;
+                    ctx.font = `bold ${smallFontSize}px Roboto, sans-serif`;
 
-                // Calculate width of "Zako"
-                const zakoWidth = ctx.measureText(textPart).width;
-                const spacing = radius * 0.01; // Reduced spacing
+                    const combinedText = parts.join(" ");
+                    ctx.strokeText(combinedText, textPosition, 0);
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillText(combinedText, textPosition, 0);
+                }
 
-                // Draw "Zako" text (smaller) - positioned to the left
-                ctx.strokeText(textPart, textPosition - (zakoWidth / 2), 0);
-                ctx.fillStyle = "#ffffff";
-                ctx.fillText(textPart, textPosition - (zakoWidth / 2), 0);
+                else {
+                    // Zako case
+                    const textPart = parts[0]; // "Zako"
+                    const numberPart = parts[1]; // "2" or "3"
 
-                // Larger font size for the number
-                const numberFontSize = radius * 0.13;
-                ctx.font = `bold ${numberFontSize}px Roboto, sans-serif`;
+                    const zakoFontSize = radius * 0.08;
+                    ctx.font = `bold ${zakoFontSize}px Roboto, sans-serif`;
 
-                // Draw the number (larger) - positioned to the right of "Zako"
-                ctx.strokeText(numberPart, textPosition + (zakoWidth / 2-15) + spacing, 0);
-                ctx.fillText(numberPart, textPosition + (zakoWidth / 2-15) + spacing, 0);
+                    const zakoWidth = ctx.measureText(textPart).width;
+                    const spacing = radius * 0.01;
 
-                // Reset shadow
+                    ctx.strokeText(textPart, textPosition - (zakoWidth / 2), 0);
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillText(textPart, textPosition - (zakoWidth / 2), 0);
+
+                    const numberFontSize = radius * 0.13;
+                    ctx.font = `bold ${numberFontSize}px Roboto, sans-serif`;
+
+                    ctx.strokeText(numberPart, textPosition + (zakoWidth / 2 - 15) + spacing, 0);
+                    ctx.fillText(numberPart, textPosition + (zakoWidth / 2 - 15) + spacing, 0);
+                }
+
                 ctx.shadowColor = "transparent";
                 ctx.shadowBlur = 0;
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
                 ctx.restore();
                 ctx.textAlign = "center";
-            } else {
+            }
+
+            else {
             let fontSize = radius * 0.075; // Default font size
 
             // Custom font sizes for different amounts
@@ -591,7 +602,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         }
         if (!spinState || prevSpin === spinState) return;
 
-        const spinDuration = 2500;
+        const spinDuration = 3000;
         const start = performance.now();
 
         const colors = colorsRef.current;

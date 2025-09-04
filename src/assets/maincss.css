@@ -679,16 +679,17 @@ canvas {
 
 .bet-history-container{
     padding: 1px;
-    background: rgba(26, 32, 44, 0.26);
+    /*background: rgba(26, 32, 44, 0.26);*/
     border-radius: 8px;
 }
 
 .bet-title{
     color: #ecc94b;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     font-size: 1.5rem;
+
 }
 
 .bet-history-spin{
@@ -701,7 +702,13 @@ canvas {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.history-bet-amount{
+.history-bet-titles{
+    background: linear-gradient(
+            to bottom,
+            rgba(107, 149, 231, 0.39) 0%,
+            rgb(7, 9, 7) 25%,
+            rgba(107, 149, 231, 0.19) 100%
+    );
     border: 1px solid #4a5568;
     padding: 12px;
     color: white;
@@ -709,21 +716,6 @@ canvas {
     text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
 
-.history-spins-used{
-    border: 1px solid #4a5568;
-    padding: 12px;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-}
-
-.history-result{
-    border: 1px solid #4a5568;
-    padding: 12px;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-}
 
 .bet-item{
     border: 1px solid #4a5568;

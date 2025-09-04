@@ -18,7 +18,7 @@ export const MainGameArea = () => {
 
     const handleSpin = () => {
         if (spinState) return;
-
+        if (freeSpinCount > 0) return;
         // Determine how many spins based on selected level
         let spinsToAdd = 0;
         if (selectedLevel === 99) spinsToAdd = 3; // Add 3 more spins (total 4)
@@ -39,7 +39,7 @@ export const MainGameArea = () => {
         if (spinState) {
             const timer = setTimeout(() => {
                 setSpinState(false);
-            }, 2500); // spin duration
+            }, 3000); // spin duration
             return () => clearTimeout(timer);
         }
     }, [spinState]);
@@ -151,7 +151,7 @@ export const MainGameArea = () => {
                 </div>
             </div>
             {isSettingsToggle && (
-                <GameSettings isOpen={isSettingsToggle} onClose={()=>setIsSettingsToggle(false)}/>
+                <GameSettings isOpen={isSettingsToggle} onClose={() => setIsSettingsToggle(false)}/>
             )}
 
             {/* Popup */}
