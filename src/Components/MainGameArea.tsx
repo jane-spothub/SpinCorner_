@@ -10,7 +10,7 @@ import {GameSettings} from "./GameSettings.tsx";
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
     const [winner, setWinner] = useState<ColorBlock | null>(null);
-    const [selectedLevel, setSelectedLevel] = useState<number>(99);
+    const [selectedLevel, setSelectedLevel] = useState<number>(20);
     const [balance, setBalance] = useState<number>(1000);
     const [freeSpinCount, setFreeSpinCount] = useState<number>(0);
     const [isPopUp, setIsPopUp] = useState<boolean>(false);

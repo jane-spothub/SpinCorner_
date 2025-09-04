@@ -111,7 +111,7 @@ export function usePrevious<T>(value: T): T | undefined {
 }
 
 export const controls: ControlButton[] = [
-    { label: "99", value: 99 },
-    { label: "49", value: 49 },
     { label: "20", value: 20 },
+    { label: "49", value: 49 },
+    { label: "99", value: 99 },
 ];

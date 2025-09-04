@@ -40,9 +40,9 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                 className={`High-low-btn ${isActive ? "active" : "bg-gray-300"}`}
                             >
                                 {{
-                                    99: "4 Spins",
+                                    20: "1 Spin",
                                     49: "2 Spins",
-                                    20: "1 Spin"
+                                    99: "4 Spins"
                                 }[btn.label] || ""}
                             </div>
                         );
