@@ -29,25 +29,20 @@
     background: rgba(14, 10, 10, 0.76);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    /*border:1px solid white;*/
     padding: 3px 0;
 }
 
 .Spin-main-settings{
     display: flex;
     align-items: center;
-    /*padding: 3px 0;*/
 }
+
 .spin-corner-icons {
-    /*width: auto;              !* increase container size *!*/
     font-size: 30px;
     border-radius: 30%;
     background: #0e0a0a;
     text-align: center;
     padding: 5px 10px;
-    /*display: flex;            !* center perfectly *!*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
     cursor: pointer;
     font-weight: bold;
     background: linear-gradient(
@@ -78,8 +73,6 @@
     border-radius: 20px;
     padding: 10px;
     font-size: 1.3rem;
-    /*border:1px solid rgba(255, 255, 255, 0.35);*/
-    /*background: rgba(14, 10, 10, 0.72);*/
     background: linear-gradient(
             to bottom,
             rgba(255, 215, 0, 0.38) 0%,
@@ -121,12 +114,13 @@
 
 .bet-Amount-text{
     padding: 3px 0;
-    color: rgba(255, 255, 255, 0.97);
+    color: rgba(255, 255, 255, 0.57);
     text-align: center;
     margin: 4px 0;
     display: flex;
     justify-content: space-around;
     font-size:18px;
+    font-weight: bold;
     border-radius: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.33);
 }
@@ -190,7 +184,6 @@
     text-align: center;
     color:white;
     font-size:16px;
-
 }
 
 .controls-container {
@@ -198,13 +191,11 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    /*background: #021f26;*/
 }
 
 .controls-row {
     display: flex;
     flex-direction: row;
-    /*justify-content: space-between;*/
     width: 100%;
     gap: 3px;
     margin-bottom: 3px;
@@ -246,39 +237,6 @@
     color: #FFD700;
 }
 
-/*.Odd {*/
-/*    background-position: top center;*/
-/*}*/
-/*.btn-base{*/
-/*    font-weight: bold;*/
-/*    font-size: 18px;*/
-/*}*/
-
-/*.Even {*/
-/*    flex: 1;*/
-/*    padding: 10px 0;*/
-/*    border-radius: 5px;*/
-/*    text-align: center;*/
-/*    color: black;*/
-
-
-/*    background: linear-gradient(*/
-/*            to bottom,*/
-/*            rgb(196, 80, 3) 0%,*/
-/*            rgb(241, 184, 57) 25%,*/
-/*            rgb(178, 72, 2) 100%*/
-/*    );*/
-/*    background-size: auto 200%;*/
-/*    transition: background-position 0.5s;*/
-/*}*/
-
-/*.Even {*/
-/*    background-position: top center;*/
-/*}*/
-
-/*.Odd:hover, .Even:hover {*/
-/*    background-position: bottom center; !* animate downward *!*/
-/*}*/
 .spin-btn-container{
     display: flex;
     align-items: center;
@@ -292,17 +250,15 @@
     cursor: pointer;
     text-align: center;
     border-radius: 20px;
-
-    /*border-radius: 5px;*/
     font-weight: bold;
     font-size: 20px;
     transition: 0.5s;
     background-size: 200% auto;
     background-image: linear-gradient(
             to left,
-           #0070e7 0%,
-            rgb(2, 7, 37) 51%,
-           #0070e7 100%
+            #2a55e2 0%,
+            rgb(22, 0, 80) 51%,
+           #2a55e2 100%
     );
 }
 
@@ -580,7 +536,6 @@ canvas {
 }
 
 .how-to-play-section p:before {
-    /*content: "•";*/
     color: #FFD700;
     position: absolute;
     left: 0;
@@ -636,7 +591,9 @@ canvas {
 
 .instruction-step p {
     margin: 0;
-    padding: 0;}
+    padding: 0;
+}
+
 /* Scrollbar styling for how-to-play content */
 .how-to-play-content::-webkit-scrollbar {
     width: 8px;
@@ -679,7 +636,6 @@ canvas {
 
 .bet-history-container{
     padding: 1px;
-    /*background: rgba(26, 32, 44, 0.26);*/
     border-radius: 8px;
 }
 
@@ -722,9 +678,6 @@ canvas {
     padding: 10px;
     text-align: center;
 }
-
-
-
 
 @media (min-width:600px){
 

@@ -373,38 +373,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.lineWidth = 3;
         ctx.strokeStyle = "#c6c3d6";
 
-        const borderWidth = 25;  // must match ctx.lineWidth above
-        const tickLength = -3.5;   // length of the divider tick
-        const tickWidth = 6;      // thickness of the tick line
+        const borderWidth = 25;
+        const tickLength = -3.5;
+        const tickWidth = 6;
 
-
-        // for (let i = 0; i < colors.length; i++) {
-        //     const angle = i * sliceAngle + offsetRef.current;
-        //
-        //     // inner edge
-        //     const xInner = centerX + Math.cos(angle) * (radius - borderWidth / 2);
-        //     const yInner = centerY + Math.sin(angle) * (radius - borderWidth / 2);
-        //
-        //     // outer edge
-        //     const xOuter = centerX + Math.cos(angle) * (radius + borderWidth / 2 + tickLength);
-        //     const yOuter = centerY + Math.sin(angle) * (radius + borderWidth / 2 + tickLength);
-        //
-        //     // draw tick with custom width
-        //     ctx.beginPath();
-        //     ctx.lineWidth = tickWidth;
-        //     ctx.strokeStyle = "#a19176";
-        //     ctx.moveTo(xInner, yInner);
-        //     ctx.lineTo(xOuter, yOuter);
-        //     ctx.stroke();
-        //
-        //     // dot at midpoint
-        //     const dotX = (xInner + xOuter) / 2;
-        //     const dotY = (yInner + yOuter) / 2;
-        //     ctx.beginPath();
-        //     ctx.arc(dotX, dotY, 3, 0, Math.PI * 2);
-        //     ctx.fillStyle = "black";
-        //     ctx.fill();
-        // }
         for (let i = 0; i < colors.length; i++) {
             const angle = i * sliceAngle + offsetRef.current;
 
@@ -550,16 +522,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.stroke();
         ctx.restore();
 
-        // === 🎯 Center Logo ===
-        // if (logo.current) {
-        //     const logoWidth = 300;   // custom width
-        //     const logoHeight = 200;  // custom height (different from width)
-        //
-        //     const logoX = centerX - logoWidth / 2;
-        //     const logoY = centerY - logoHeight / 2;
-        //
-        //     ctx.drawImage(logo.current, logoX, logoY, logoWidth, logoHeight);
-        // }
+
         // === 🎯 Center Logo with Shadow ===
         if (logo.current) {
             const logoWidth = 300;   // custom width

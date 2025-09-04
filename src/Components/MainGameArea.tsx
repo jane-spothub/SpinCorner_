@@ -6,6 +6,7 @@ import type {ColorBlock} from "../Utils/types.ts";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 import {GameSettings} from "./GameSettings.tsx";
+import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
@@ -15,8 +16,11 @@ export const MainGameArea = () => {
     const [freeSpinCount, setFreeSpinCount] = useState<number>(0);
     const [isPopUp, setIsPopUp] = useState<boolean>(false);
     const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false);
+    const [isMuted, setIsMuted] = useState(false);
 
+    const {playSpinCornerSnd,playSpinWheelLoop} = useSpinAudio(isMuted)
     const handleSpin = () => {
+        playSpinCornerSnd("BetAmountSnd");
         if (spinState) return;
         if (freeSpinCount > 0) return;
         // Determine how many spins based on selected level
@@ -37,18 +41,25 @@ export const MainGameArea = () => {
     // Spin end handler
     useEffect(() => {
         if (spinState) {
+            playSpinWheelLoop();
             const timer = setTimeout(() => {
                 setSpinState(false);
             }, 3000); // spin duration
             return () => clearTimeout(timer);
         }
-    }, [spinState]);
+    }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
 
     useEffect(() => {
         if (winner) {
-            setIsPopUp(true);
-            let freeSpinsToAdd = 0;
+            setIsPopUp(false);
+            setTimeout(() => setIsPopUp(true), 25); // force retrigger
+            if (winner.amount === "Nunge Tosha") {
+                playSpinCornerSnd("popUpLose");
+            } else {
+                playSpinCornerSnd("popUpWin");
+            }
 
+            let freeSpinsToAdd = 0;
             // Handle amounts
             if (!isNaN(Number(winner.amount))) {
                 const winAmount = Number(winner.amount)
@@ -91,7 +102,7 @@ export const MainGameArea = () => {
 
             return () => clearTimeout(timer);
         }
-    }, [winner]);
+    }, [playSpinCornerSnd, winner]);
 
     // Consume free spins when spin ends
     useEffect(() => {
@@ -151,7 +162,12 @@ export const MainGameArea = () => {
                 </div>
             </div>
             {isSettingsToggle && (
-                <GameSettings isOpen={isSettingsToggle} onClose={() => setIsSettingsToggle(false)}/>
+                <GameSettings
+                    isOpen={isSettingsToggle}
+                    onClose={() => setIsSettingsToggle(false)}
+                    OnSetIsMuted={setIsMuted}
+                    isMuted={isMuted}
+                />
             )}
 
             {/* Popup */}
@@ -161,7 +177,8 @@ export const MainGameArea = () => {
                         <div className="pop-container">
                             {winner.amount === "Nunge Tosha" ? (
                                 <div className="three-d-text-lost">You Lost!</div>
-                            ) : (
+
+                                ) : (
                                 <div className="three-d-text-win">You Won!</div>
                             )}
 

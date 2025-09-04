@@ -1,17 +1,18 @@
 // GameSettings.tsx
-import {useState} from "react";
+import {type Dispatch, type SetStateAction, useState} from "react";
 
 interface GameSettingsProps {
     isOpen: boolean;
     onClose: () => void;
+    OnSetIsMuted:Dispatch<SetStateAction<boolean>>;
+    isMuted:boolean;
 }
 
-export const GameSettings = ({isOpen, onClose}: GameSettingsProps) => {
-    const [isMuted, setIsMuted] = useState(false);
+export const GameSettings = ({isOpen, onClose,OnSetIsMuted,isMuted}: GameSettingsProps) => {
     const [showHowToPlay, setShowHowToPlay] = useState(false);
 
     const toggleMute = () => {
-        setIsMuted(!isMuted);
+        OnSetIsMuted(!isMuted);
         // Add your sound mute/unmute logic here
     };
 
