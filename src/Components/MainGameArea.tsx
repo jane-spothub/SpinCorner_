@@ -103,7 +103,7 @@ export const MainGameArea = () => {
 
         setIsPopUp(true);
 
-        if (winner.type === "text" && winner.value === "NUNGE TOSHAKA") {
+        if (winner.value === "NUNGE TOSHEKA") {
             playSpinCornerSnd("popUpLose");
         } else {
             playSpinCornerSnd("popUpWin");
