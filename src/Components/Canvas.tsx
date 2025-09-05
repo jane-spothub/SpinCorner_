@@ -307,9 +307,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             const easeOut = 1 - Math.pow(1 - t, 3);
 
             // Interpolate offset
+            // offsetRef.current =
+            //     startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
             offsetRef.current =
-                startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
-
+                startOffset - extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
             drawWheel();
 
             if (t < 1) {
