@@ -49,47 +49,47 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         colorsRef.current = wheelData;
-        const colors = colorsRef.current;
-        const sliceAngle = (2 * Math.PI) / colors.length;
-        const sliceColors = ["#f44336", "#2196f3", "#4caf50", "#ffeb3b", "#9c27b0"];
-
-        const innerRadius = 100; // 👈 adjust until it matches the black circle in the real wheel
-
-        colors.forEach((block, i) => {
-            const startAngle = i * sliceAngle + offsetRef.current;
-            const endAngle = startAngle + sliceAngle;
-
-            ctx.beginPath();
-
-            // start at inner arc
-            ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
-            // outer arc
-            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-            ctx.closePath();
-
-            // fill background
-            ctx.fillStyle = sliceColors[i % sliceColors.length];
-            ctx.fill();
-
-            ctx.strokeStyle = "#000";
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            // 📝 draw text
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate((startAngle + endAngle) / 2);
-
-            ctx.textAlign = "center";
-            ctx.fillStyle = "#000";
-            ctx.font = "bold 22px Arial";
-            ctx.fillText(
-                block.value.toString(),
-                (innerRadius + radius) / 2, // 👈 place text halfway between inner & outer radius
-                0
-            );
-            ctx.restore();
-        });
+        // const colors = colorsRef.current;
+        // const sliceAngle = (2 * Math.PI) / colors.length;
+        // const sliceColors = ["#f44336", "#2196f3", "#4caf50", "#ffeb3b", "#9c27b0"];
+        //
+        // const innerRadius = 100; // 👈 adjust until it matches the black circle in the real wheel
+        //
+        // colors.forEach((block, i) => {
+        //     const startAngle = i * sliceAngle + offsetRef.current;
+        //     const endAngle = startAngle + sliceAngle;
+        //
+        //     ctx.beginPath();
+        //
+        //     // start at inner arc
+        //     ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+        //     // outer arc
+        //     ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        //     ctx.closePath();
+        //
+        //     // fill background
+        //     ctx.fillStyle = sliceColors[i % sliceColors.length];
+        //     ctx.fill();
+        //
+        //     ctx.strokeStyle = "#000";
+        //     ctx.lineWidth = 2;
+        //     ctx.stroke();
+        //
+        //     // 📝 draw text
+        //     ctx.save();
+        //     ctx.translate(centerX, centerY);
+        //     ctx.rotate((startAngle + endAngle) / 2);
+        //
+        //     ctx.textAlign = "center";
+        //     ctx.fillStyle = "#000";
+        //     ctx.font = "bold 22px Arial";
+        //     ctx.fillText(
+        //         block.value.toString(),
+        //         (innerRadius + radius) / 2, // 👈 place text halfway between inner & outer radius
+        //         0
+        //     );
+        //     ctx.restore();
+        // });
 
 
         // Create radial gradient for shadow just outside the border
