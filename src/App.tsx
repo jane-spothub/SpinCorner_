@@ -5,6 +5,7 @@ import { useState } from "react";
 
 // 🔊 Add all assets you want to preload here
 import spinLogo from "./assets/img/scene/Spin-Corner-center piece logo.png";
+import spinBackground from "./assets/img/scene/Background2.webp";
 import wheelBg from "./assets/img/SPINCORNERwheel.webp";
 import pointer from "./assets/img/scene/pointer-spin2.png";
 import RollSndSrc from "./SpinCornerAudio/AudioFiles/wheelrolling.wav";
@@ -25,6 +26,7 @@ function App() {
         BetAmountSnd,
         playBetSnd,
         pointer,
+        spinBackground
         // add more images/sounds here
     ];
 
