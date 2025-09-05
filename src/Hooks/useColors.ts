@@ -26,10 +26,19 @@ import {useEffect, useRef} from "react";
 // ];
 
 export const wheelData: WheelSegment[] = [
+    { type: "number", value: 3000 },
+    { type: "text", value: "ZAKO 2" },
+    { type: "number", value: 250 },
+    { type: "number", value: 100 },
+    { type: "number", value: 7500 },
+    { type: "number", value: 2000 },
+    { type: "number", value: 150 },
+    { type: "number", value: 250 },
+    { type: "number", value: 1000 },
     { type: "number", value: 50 },
     { type: "number", value: 2500 },
     { type: "text", value: "ZAKO 3" },
-    { type: "number", value: 150 },
+    { type: "number", value: 150},
     { type: "text", value: "NUNGE TOSHEKA" },
     { type: "text", value: "GONGA 25K" },
     { type: "text", value: "SPIN TENA" },
@@ -37,15 +46,6 @@ export const wheelData: WheelSegment[] = [
     { type: "number", value: 250 },
     { type: "number", value: 1000 },
     { type: "number", value: 50 },
-    { type: "number", value: 3000 },
-    { type: "text", value: "ZAKO 2" },
-    { type: "number", value: 250},
-    { type: "number", value: 100 },
-    { type: "number", value: 7500 },
-    { type: "number", value: 2000 },
-    { type: "number", value: 150 },
-    { type: "number", value: 250 },
-    { type: "number", value: 1000 }
 ];
 
 
