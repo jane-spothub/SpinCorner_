@@ -26,9 +26,11 @@
     align-items: center;
     color:white;
    margin-bottom: 5px;
-    background: rgba(14, 10, 10, 0.76);
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    background: #202636;
+
+    /*background: rgba(14, 10, 10, 0.76);*/
+    /*border-bottom-right-radius: 10px;*/
+    /*border-bottom-left-radius: 10px;*/
     padding: 3px 0;
 }
 
@@ -40,17 +42,17 @@
 .spin-corner-icons {
     font-size: 30px;
     border-radius: 30%;
-    background: #0e0a0a;
+    background: #181a1f;
     text-align: center;
     padding: 5px 10px;
     cursor: pointer;
     font-weight: bold;
-    background: linear-gradient(
-            to bottom,
-            #2d3748 0%,
-            rgb(7, 9, 7) 25%,
-            #2d3748 100%
-    );
+    /*background: linear-gradient(*/
+    /*        to bottom,*/
+    /*       rgb(7, 9, 7) 0%,*/
+    /*        rgb(7, 9, 7) 25%,*/
+    /*       rgb(7, 9, 7) 100%*/
+    /*);*/
     border:1px solid#2d3748;
     color: #FFD700;
 }
@@ -73,15 +75,16 @@
     border-radius: 20px;
     padding: 10px;
     font-size: 1.3rem;
-    background: linear-gradient(
-            to bottom,
-            rgba(255, 215, 0, 0.38) 0%,
-            rgb(7, 9, 7) 25%,
-            rgba(255, 215, 0, 0.25) 100%
-    );
-    border:1px solid #FFD700;
+    /*background: linear-gradient(*/
+    /*        to bottom,*/
+    /*        rgb(7, 9, 7) 0%,*/
+    /*        rgb(7, 9, 7) 25%,*/
+    /*        rgb(7, 9, 7) 100%*/
+    /*);*/
+    /*border:1px solid #FFD700;*/
     color: #FFD700;
     font-weight: bold;
+    background: #181a1f;
 }
 
 .spin-corner-balance{
@@ -99,10 +102,11 @@
 .Spin-main-controls {
     display: flex;
     flex-direction: column;
-    background: rgba(14, 10, 10, 0.86);
-    border-radius: 10px;
+    /*background: rgba(14, 10, 10, 0.86);*/
+    /*border-radius: 10px;*/
     gap:2px;
     padding: 2px;
+    background: #1d2027;
 
 }
 
@@ -113,16 +117,19 @@
 }
 
 .bet-Amount-text{
-    padding: 3px 0;
+    padding: 5px 0;
     color: rgba(255, 255, 255, 0.57);
     text-align: center;
     margin: 4px 0;
     display: flex;
     justify-content: space-around;
-    font-size:18px;
+    font-size:20px;
     font-weight: bold;
     border-radius: 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.33);
+}
+.spins-value{
+    color:#FFD700;
 }
 
 .Bet-spin-area {
@@ -210,9 +217,9 @@
     background: #2d3748;
     background: linear-gradient(
             to bottom,
-            #2d3748 0%,
+            rgba(45, 55, 72, 0) 0%,
             rgb(7, 9, 7) 25%,
-            #2d3748 100%
+            rgba(45, 55, 72, 0) 100%
     );
     transition: background-position 0.5s;
     border-radius: 20px;
@@ -224,12 +231,12 @@
 .active {
     background: linear-gradient(
             to bottom,
-            rgba(255, 215, 0, 0.49) 0%,
-            rgb(7, 9, 7) 25%,
-            rgba(255, 215, 0, 0.39) 100%
+            #FFD700 0%,
+            #FFD700 25%,
+            #FFD700 100%
     );
     border:1px solid #FFD700;
-    color: #FFD700;
+    color: #000000;
 }
 
 .High-low-btn:hover {
@@ -249,21 +256,24 @@
     color: white;
     cursor: pointer;
     text-align: center;
-    border-radius: 20px;
+    border-radius: 15px;
     font-weight: bold;
     font-size: 20px;
-    transition: 0.5s;
-    background-size: 200% auto;
-    background-image: linear-gradient(
-            to left,
-            #2a55e2 0%,
-            rgb(22, 0, 80) 51%,
-           #2a55e2 100%
-    );
+    background: #1c49c0;
+    /*transition: 0.5s;*/
+    /*background-size: 200% auto;*/
+    /*background-image: linear-gradient(*/
+    /*        to left,*/
+    /*        #2a55e2 0%,*/
+    /*        rgb(22, 0, 80) 51%,*/
+    /*       #2a55e2 100%*/
+    /*);*/
 }
 
-.control-spin-btn:hover {
-    background-position: right center;
+.active-spin {
+    /*background-position: right center;*/
+    background: rgba(0, 70, 255, 0.4);
+
 }
 
 .popup {
@@ -341,7 +351,7 @@
 canvas {
     width: 100%;
     max-width: 750px;
-    margin:10px 0;
+    margin:5px 0;
 }
 
 /* Settings Overlay */

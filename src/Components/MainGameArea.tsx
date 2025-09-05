@@ -101,39 +101,23 @@ export const MainGameArea = () => {
     useEffect(() => {
         if (!winner) return;
 
-        // Always reset and show popup
         setIsPopUp(true);
 
-        // Play sound
-        if (winner.type === "text" && winner.value === "NUNGE TOSHEKA") {
+        if (winner.type === "text" && winner.value === "NUNGE TOSHAKA") {
             playSpinCornerSnd("popUpLose");
         } else {
             playSpinCornerSnd("popUpWin");
         }
 
         let freeSpinsToAdd = 0;
-
         if (winner.type === "number") {
             setBalance(prev => prev + winner.value);
         } else {
             switch (winner.value) {
-                case "ZAKO 2":
-                    freeSpinsToAdd = 2;
-                    break;
-                case "ZAKO 3":
-                    freeSpinsToAdd = 3;
-                    break;
-                case "SPIN TENA":
-                    freeSpinsToAdd = 1;
-                    break;
-                case "GONGA 25K":
-                    setBalance(prev => prev + 25000);
-                    break;
-                case "NUNGE TOSHEKA":
-                    // do nothing (loss)
-                    break;
-                default:
-                    break;
+                case "ZAKO 2": freeSpinsToAdd = 2; break;
+                case "ZAKO 3": freeSpinsToAdd = 3; break;
+                case "SPIN TENA": freeSpinsToAdd = 1; break;
+                case "GONGA 25K": setBalance(prev => prev + 25000); break;
             }
         }
 
@@ -141,11 +125,11 @@ export const MainGameArea = () => {
             setFreeSpinCount(prev => prev + freeSpinsToAdd);
         }
 
-        // Hide popup after 3s
         const timer = setTimeout(() => setIsPopUp(false), 3000);
         return () => clearTimeout(timer);
 
-    }, [winner, playSpinCornerSnd]);
+    }, [winner]);
+
 
     // Consume free spins when spin ends
     useEffect(() => {
