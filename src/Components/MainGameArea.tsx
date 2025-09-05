@@ -101,7 +101,8 @@ export const MainGameArea = () => {
     useEffect(() => {
         if (!winner) return;
 
-        setIsPopUp(true);
+        setIsPopUp(false); // reset first
+        setTimeout(() => setIsPopUp(true), 20);
 
         if (winner.value === "NUNGE TOSHEKA") {
             playSpinCornerSnd("popUpLose");
