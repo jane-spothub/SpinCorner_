@@ -50,54 +50,102 @@ export const MainGameArea = () => {
         }
     }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
 
+    // useEffect(() => {
+    //     if (winner) {
+    //         setIsPopUp(false);
+    //         setTimeout(() => setIsPopUp(true), 25); // force retrigger
+    //         if (winner.type === "text" && winner.value === "Nunge Tosha") {
+    //             playSpinCornerSnd("popUpLose");
+    //         } else {
+    //             playSpinCornerSnd("popUpWin");
+    //         }
+    //
+    //         let freeSpinsToAdd = 0;
+    //         // Handle amounts
+    //         if (winner.type === "number") {
+    //             // const winAmount = Number(winner.amount)
+    //             setBalance(prev => prev + winner.value);
+    //         } else {
+    //             switch (winner.value) {
+    //                 case "ZAKO 2":
+    //                     freeSpinsToAdd = 2;
+    //                     break;
+    //                 case "ZAKO 3":
+    //                     freeSpinsToAdd = 3;
+    //                     break;
+    //                 case "SPIN TENA":
+    //                     freeSpinsToAdd = 1;
+    //                     break;
+    //                 case "GONGA 25K":
+    //                     setBalance(prev => prev + 25000);
+    //                     break;
+    //                 case "NUNGE TOSHEKA":
+    //                     // Do nothing (loss)
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         }
+    //
+    //         if (freeSpinsToAdd > 0) {
+    //             setFreeSpinCount(prev => prev + freeSpinsToAdd);
+    //         }
+    //
+    //         const timer = setTimeout(() => {
+    //             setIsPopUp(false);
+    //         }, 3000);
+    //
+    //         return () => clearTimeout(timer);
+    //     }
+    // }, [playSpinCornerSnd, winner]);
     useEffect(() => {
-        if (winner) {
-            setIsPopUp(false);
-            setTimeout(() => setIsPopUp(true), 25); // force retrigger
-            if (winner.type === "text" && winner.value === "Nunge Tosha") {
-                playSpinCornerSnd("popUpLose");
-            } else {
-                playSpinCornerSnd("popUpWin");
-            }
+        if (!winner) return;
 
-            let freeSpinsToAdd = 0;
-            // Handle amounts
-            if (winner.type === "number") {
-                // const winAmount = Number(winner.amount)
-                setBalance(prev => prev + winner.value);
-            } else {
-                switch (winner.value) {
-                    case "ZAKO 2":
-                        freeSpinsToAdd = 2;
-                        break;
-                    case "ZAKO 3":
-                        freeSpinsToAdd = 3;
-                        break;
-                    case "SPIN TENA":
-                        freeSpinsToAdd = 1;
-                        break;
-                    case "GONGA 25K":
-                        setBalance(prev => prev + 25000);
-                        break;
-                    case "NUNGE TOSHEKA":
-                        // Do nothing (loss)
-                        break;
-                    default:
-                        break;
-                }
-            }
+        // Always reset and show popup
+        setIsPopUp(true);
 
-            if (freeSpinsToAdd > 0) {
-                setFreeSpinCount(prev => prev + freeSpinsToAdd);
-            }
-
-            const timer = setTimeout(() => {
-                setIsPopUp(false);
-            }, 3000);
-
-            return () => clearTimeout(timer);
+        // Play sound
+        if (winner.type === "text" && winner.value === "NUNGE TOSHEKA") {
+            playSpinCornerSnd("popUpLose");
+        } else {
+            playSpinCornerSnd("popUpWin");
         }
-    }, [playSpinCornerSnd, winner]);
+
+        let freeSpinsToAdd = 0;
+
+        if (winner.type === "number") {
+            setBalance(prev => prev + winner.value);
+        } else {
+            switch (winner.value) {
+                case "ZAKO 2":
+                    freeSpinsToAdd = 2;
+                    break;
+                case "ZAKO 3":
+                    freeSpinsToAdd = 3;
+                    break;
+                case "SPIN TENA":
+                    freeSpinsToAdd = 1;
+                    break;
+                case "GONGA 25K":
+                    setBalance(prev => prev + 25000);
+                    break;
+                case "NUNGE TOSHEKA":
+                    // do nothing (loss)
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (freeSpinsToAdd > 0) {
+            setFreeSpinCount(prev => prev + freeSpinsToAdd);
+        }
+
+        // Hide popup after 3s
+        const timer = setTimeout(() => setIsPopUp(false), 3000);
+        return () => clearTimeout(timer);
+
+    }, [winner, playSpinCornerSnd]);
 
     // Consume free spins when spin ends
     useEffect(() => {

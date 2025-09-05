@@ -235,6 +235,48 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
     }, [drawWheel]);
     const prevSpin = usePrevious(spinState); // track previous value
 
+//     useEffect(() => {
+//         if (!spinState || prevSpin === spinState) return;
+//         colorsRef.current = wheelData;
+//         const colors = colorsRef.current;
+//         const spinDuration = 3000;
+//         const start = performance.now();
+//
+//         // === Step 1: pick random winner at start ===
+//         const winnerIndex = Math.floor(Math.random() * colors.length);
+//         const sliceAngle = (2 * Math.PI) / colors.length;
+//         const sliceMiddle = winnerIndex * sliceAngle + sliceAngle / 2;
+// // pointer is at 12 o’clock => -90deg => -Math.PI/2
+//         const targetOffset = -sliceMiddle + Math.PI / 2;
+//
+// // === Step 3: add extra spins ===
+//         const extraSpins = 4 * 2 * Math.PI;
+//         const startOffset = offsetRef.current % (2 * Math.PI);
+//
+//         function animate(now: number) {
+//             const elapsed = now - start;
+//             const t = Math.min(elapsed / spinDuration, 1);
+//
+//             // ease-out
+//             const easeOut = 1 - Math.pow(1 - t, 3);
+//             // === Step 4: interpolate between start and target with extra spins ===
+//             offsetRef.current =
+//                 startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
+//
+//             drawWheel();
+//
+//             if (t < 1) {
+//                 requestAnimationFrame(animate);
+//             } else {
+//                 offsetRef.current = targetOffset; // lock in
+//                 drawWheel();
+//                 OnSetWinner(colors[winnerIndex]);
+//             }
+//         }
+//
+//         requestAnimationFrame(animate);
+//     }, [spinState, drawWheel, prevSpin, OnSetWinner]);
+
     useEffect(() => {
         if (!spinState || prevSpin === spinState) return;
         colorsRef.current = wheelData;
@@ -242,16 +284,18 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         const spinDuration = 3000;
         const start = performance.now();
 
-        // === Step 1: pick random winner at start ===
+        // === Step 1: pick random winner ===
         const winnerIndex = Math.floor(Math.random() * colors.length);
         const sliceAngle = (2 * Math.PI) / colors.length;
-        const sliceMiddle = winnerIndex * sliceAngle + sliceAngle / 2;
 
-// === Step 2: compute final target offset ===
-// pointer is at 12 o’clock => -90deg => -Math.PI/2
-        const targetOffset = -sliceMiddle + Math.PI / 2;
+        // === Step 2: pick random stop position inside the winner slice ===
+        const startAngle = winnerIndex * sliceAngle;
+        const randomAngleInSlice = startAngle + Math.random() * sliceAngle;
 
-// === Step 3: add extra spins ===
+        // pointer is at 12 o’clock => -90deg => -Math.PI/2
+        const targetOffset = -randomAngleInSlice + Math.PI / 2;
+
+        // === Step 3: add extra spins ===
         const extraSpins = 4 * 2 * Math.PI;
         const startOffset = offsetRef.current % (2 * Math.PI);
 
@@ -259,10 +303,10 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             const elapsed = now - start;
             const t = Math.min(elapsed / spinDuration, 1);
 
-            // ease-out
+            // ease-out cubic
             const easeOut = 1 - Math.pow(1 - t, 3);
 
-            // === Step 4: interpolate between start and target with extra spins ===
+            // Interpolate offset
             offsetRef.current =
                 startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
 
@@ -279,7 +323,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
 
         requestAnimationFrame(animate);
     }, [spinState, drawWheel, prevSpin, OnSetWinner]);
-
 
     return <canvas ref={canvasRef} width={820} height={820}/>;
 };
