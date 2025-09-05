@@ -14,3 +14,8 @@ export type ControlButton = {
     label: string;
     value: number;
 };
+
+// every segment is either a number prize or a text prize
+export type WheelSegment =
+    | { type: "number"; value: number }
+    | { type: "text"; value: string };
