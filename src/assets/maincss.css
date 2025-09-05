@@ -241,7 +241,7 @@
 
 .High-low-btn:hover {
     border:1px solid #FFD700;
-    color:#000000;
+    /*color: #ffffff;*/
 }
 
 .spin-btn-container{
