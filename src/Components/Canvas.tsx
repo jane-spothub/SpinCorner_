@@ -293,7 +293,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         const randomAngleInSlice = startAngle + Math.random() * sliceAngle;
 
         // pointer is at 12 o’clock => -90deg => -Math.PI/2
-        const targetOffset = -randomAngleInSlice + Math.PI / 2;
+        const targetOffset = -randomAngleInSlice - Math.PI / 2;
 
         // === Step 3: add extra spins ===
         const extraSpins = 4 * 2 * Math.PI;
