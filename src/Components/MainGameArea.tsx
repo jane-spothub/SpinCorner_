@@ -31,8 +31,10 @@ export const MainGameArea = () => {
         //     amount: "20"
         // }
         // sendSpinData(sendSData);
-        if (spinState) return;
-        if (freeSpinCount > 0) return;
+
+
+        // if (spinState) return;
+        // if (freeSpinCount > 0) return;
         // spins based on selected level
         let spinsToAdd = 0;
         if (selectedLevel === 99) spinsToAdd = 3; // Add 3 more spins (total 4)

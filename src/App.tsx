@@ -2,7 +2,8 @@ import './App.css'
 import { MainGameArea } from "./Components/MainGameArea";
 import { Loader } from "./Components/Loader";
 import { useState } from "react";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // 🔊 all assets to preload
 import spinLogo from "./assets/img/scene/Spin-Corner-center piece logo.png";
 import spinBackground from "./assets/img/scene/Background2.webp";
@@ -35,7 +36,11 @@ function App() {
             {!loaded ? (
                 <Loader assets={assets} onComplete={() => setLoaded(true)} />
             ) : (
-                <MainGameArea />
+                <>
+                    <MainGameArea />
+                    <ToastContainer position="top-center" autoClose={3000} />
+                </>
+
             )}
         </>
     );

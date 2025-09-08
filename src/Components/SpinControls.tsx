@@ -1,6 +1,7 @@
 import {type Dispatch, type FC, type SetStateAction} from "react";
 import {controls} from "../Hooks/useColors.ts";
 import BetHistoryTable from "./BetHistoryTable.tsx";
+import { toast } from "react-toastify";
 
 interface SpinControlsProps {
     handleSpin: () => void;
@@ -55,10 +56,17 @@ export const SpinControls: FC<SpinControlsProps> = ({
                 <div
                     className={`control-spin-btn ${spinState ? "active-spin":""}`}
                     onClick={() => {
-                        handleSpin();
+                        if (spinState && freeSpinCount> 0) {
+                            toast.info("Spin ongoing, please wait!");
+
+                            return;
+                        }else{
+                            handleSpin();
+
+                        }
                     }}
                 >
-                    {spinState ? "..." : "Spin"}
+                    {spinState ? "Spin" : "Spin"}
                 </div>
             </div>
             <BetHistoryTable />
