@@ -95,7 +95,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         // Create radial gradient for shadow just outside the border
 
 
-
         if (wheelImg.current) {
             ctx.save();
             ctx.translate(centerX, centerY);
@@ -109,9 +108,9 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         }
         const mainShadowGradient = ctx.createRadialGradient(
             centerX, centerY, radius,         // start exactly at the wheel edge
-            centerX, centerY, radius + 37     // extend shadow outward
+            centerX, centerY, radius + 27     // extend shadow outward
         );
-        mainShadowGradient.addColorStop(0, "rgba(0,0,0,0.6)"); // dark at edge
+        mainShadowGradient.addColorStop(0, "rgba(0,0,0,0.47)"); // dark at edge
         mainShadowGradient.addColorStop(1, "rgba(0,0,0,0)");   // fade outward
 
         ctx.save();
@@ -119,7 +118,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
 
 // Draw the outer shadow ring filled with gradient on top behind the border
         ctx.beginPath();
-        ctx.arc(centerX, centerY, radius + 30, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, radius + 70, 0, Math.PI * 2);
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true); // cut out center
         ctx.fillStyle = mainShadowGradient;
         ctx.fill("nonzero");  // fills only the ring area as shadow
@@ -129,12 +128,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.save();
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius + 5, 0, Math.PI * 2); // slightly larger radius for shadow spread
-        ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
-        ctx.shadowBlur = 30;
-        ctx.shadowOffsetX = 20;
-        ctx.shadowOffsetY = 20; // vertical offset for depth effect
-        ctx.fillStyle = "rgba(0, 0, 0, 0)"; // transparent fill, shadow will still appear
-        ctx.fill();
         ctx.restore();
 
 
