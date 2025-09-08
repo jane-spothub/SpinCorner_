@@ -282,7 +282,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         const startAngle = winnerIndex * sliceAngle;
 
 // === Step 2: pick random stop position inside the winner slice (with margin) ===
-        const marginRatio = 0.15; // 15% margin on each side
+        const marginRatio = 0.12; // 15% margin on each side
         const safeSliceAngle = sliceAngle * (1 - 2 * marginRatio);
 
         const randomAngleInSlice =

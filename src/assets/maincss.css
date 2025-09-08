@@ -278,9 +278,9 @@
 
 .popup {
     position: fixed;
-    bottom: 20%;
+    bottom: 45%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(50%);
     color: white;
     padding: 20px 40px;
     border-radius: 16px;
