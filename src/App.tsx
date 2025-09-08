@@ -3,7 +3,7 @@ import { MainGameArea } from "./Components/MainGameArea";
 import { Loader } from "./Components/Loader";
 import { useState } from "react";
 
-// 🔊 all assets you want to preload here
+// 🔊 all assets to preload
 import spinLogo from "./assets/img/scene/Spin-Corner-center piece logo.png";
 import spinBackground from "./assets/img/scene/Background2.webp";
 import wheelBg from "./assets/img/SPINCORNERwheel.webp";

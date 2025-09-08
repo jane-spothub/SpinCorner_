@@ -20,21 +20,25 @@ export const Loader = ({ assets, onComplete }: LoaderProps) => {
             }
         };
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
         assets.forEach((src) => {
-            if (src.match(/\.(mp3|wav|ogg)$/)) {
-                // audio preload
+            if (!isIOS && src.match(/\.(mp3|wav|ogg)$/)) {
                 const audio = new Audio();
                 audio.src = src;
                 audio.oncanplaythrough = handleAssetLoad;
                 audio.onerror = handleAssetLoad;
-            } else {
-                // image preload
+            } else if (!src.match(/\.(mp3|wav|ogg)$/)) {
                 const img = new Image();
                 img.src = src;
                 img.onload = handleAssetLoad;
                 img.onerror = handleAssetLoad;
+            } else {
+                // skip iOS audio preload, count it as loaded
+                handleAssetLoad();
             }
         });
+
     }, [assets, onComplete]);
 
     return (

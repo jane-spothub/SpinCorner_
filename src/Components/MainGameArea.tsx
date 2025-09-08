@@ -24,17 +24,15 @@ export const MainGameArea = () => {
         playSpinCornerSnd("BetAmountSnd");
         if (spinState) return;
         if (freeSpinCount > 0) return;
-        // Determine how many spins based on selected level
+        // spins based on selected level
         let spinsToAdd = 0;
         if (selectedLevel === 99) spinsToAdd = 3; // Add 3 more spins (total 4)
         else if (selectedLevel === 49) spinsToAdd = 1; // Add 1 more spin (total 2)
         // For level 20, we don't add any extra spins (just the normal 1 spin)
 
-        // Add the extra spins to freeSpinCount
         if (spinsToAdd > 0) {
             setFreeSpinCount(prev => prev + spinsToAdd);
         }
-
         setSpinState(true);
         setBalance((prev) => prev - selectedLevel);
     };
@@ -50,54 +48,6 @@ export const MainGameArea = () => {
         }
     }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
 
-    // useEffect(() => {
-    //     if (winner) {
-    //         setIsPopUp(false);
-    //         setTimeout(() => setIsPopUp(true), 25); // force retrigger
-    //         if (winner.type === "text" && winner.value === "Nunge Tosha") {
-    //             playSpinCornerSnd("popUpLose");
-    //         } else {
-    //             playSpinCornerSnd("popUpWin");
-    //         }
-    //
-    //         let freeSpinsToAdd = 0;
-    //         // Handle amounts
-    //         if (winner.type === "number") {
-    //             // const winAmount = Number(winner.amount)
-    //             setBalance(prev => prev + winner.value);
-    //         } else {
-    //             switch (winner.value) {
-    //                 case "ZAKO 2":
-    //                     freeSpinsToAdd = 2;
-    //                     break;
-    //                 case "ZAKO 3":
-    //                     freeSpinsToAdd = 3;
-    //                     break;
-    //                 case "SPIN TENA":
-    //                     freeSpinsToAdd = 1;
-    //                     break;
-    //                 case "GONGA 25K":
-    //                     setBalance(prev => prev + 25000);
-    //                     break;
-    //                 case "NUNGE TOSHEKA":
-    //                     // Do nothing (loss)
-    //                     break;
-    //                 default:
-    //                     break;
-    //             }
-    //         }
-    //
-    //         if (freeSpinsToAdd > 0) {
-    //             setFreeSpinCount(prev => prev + freeSpinsToAdd);
-    //         }
-    //
-    //         const timer = setTimeout(() => {
-    //             setIsPopUp(false);
-    //         }, 3000);
-    //
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [playSpinCornerSnd, winner]);
     useEffect(() => {
         if (!winner) return;
 
@@ -130,7 +80,6 @@ export const MainGameArea = () => {
         return () => clearTimeout(timer);
 
     }, [winner]);
-
 
     // Consume free spins when spin ends
     useEffect(() => {
@@ -227,7 +176,7 @@ export const MainGameArea = () => {
                             )}
 
                             {winner.type === "text" && winner.value === "NUNGE TOSHEKA" && (
-                                <div className="amount-won">try again !! </div>
+                                <div className="amount-won">Try Again !! </div>
                             )}
 
                         </div>
