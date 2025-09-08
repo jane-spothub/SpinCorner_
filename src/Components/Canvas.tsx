@@ -90,10 +90,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         //     );
         //     ctx.restore();
         // });
-
-
         // Create radial gradient for shadow just outside the border
-
 
         if (wheelImg.current) {
             ctx.save();
