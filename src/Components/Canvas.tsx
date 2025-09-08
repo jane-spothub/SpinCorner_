@@ -271,7 +271,7 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         if (!spinState || prevSpin === spinState) return;
         colorsRef.current = wheelData;
         const colors = colorsRef.current;
-        const spinDuration = 3000;
+        const spinDuration = 5000;
         const start = performance.now();
 
         // === Step 1: pick random winner ===
@@ -280,7 +280,13 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
 
         // === Step 2: pick random stop position inside the winner slice ===
         const startAngle = winnerIndex * sliceAngle;
-        const randomAngleInSlice = startAngle + Math.random() * sliceAngle;
+
+// === Step 2: pick random stop position inside the winner slice (with margin) ===
+        const marginRatio = 0.15; // 15% margin on each side
+        const safeSliceAngle = sliceAngle * (1 - 2 * marginRatio);
+
+        const randomAngleInSlice =
+            startAngle + sliceAngle * marginRatio + Math.random() * safeSliceAngle;
 
         // pointer is at 12 o’clock => -90deg => -Math.PI/2
         const targetOffset = -randomAngleInSlice - Math.PI / 2;
@@ -294,13 +300,13 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             const t = Math.min(elapsed / spinDuration, 1);
 
             // ease-out cubic
-            const easeOut = 1 - Math.pow(1 - t, 3);
+            const easeOut = 1 - Math.pow(1 - t, 4);
 
             // Interpolate offset
             // offsetRef.current =
             //     startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
             offsetRef.current =
-                startOffset - extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
+                startOffset + extraSpins * easeOut + (targetOffset - startOffset) * easeOut;
             drawWheel();
 
             if (t < 1) {

@@ -2,12 +2,12 @@ import {Canvas} from "./Canvas";
 import {useEffect, useState} from "react";
 import "../assets/maincss.css"
 import {SpinControls} from "./SpinControls.tsx";
-// import type {ColorBlock} from "../Utils/types.ts";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 import {GameSettings} from "./GameSettings.tsx";
 import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
 import type {WheelSegment} from "../Utils/types.ts";
+// import {SpinCornerSockets} from "../SpinCornerSockets/SpinCornerSockets.ts";
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
@@ -18,10 +18,19 @@ export const MainGameArea = () => {
     const [isPopUp, setIsPopUp] = useState<boolean>(false);
     const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false);
     const [isMuted, setIsMuted] = useState(false);
-
+    // const {connectSocket, sendSpinData, getSocket} = SpinCornerSockets()
     const {playSpinCornerSnd, playSpinWheelLoop} = useSpinAudio(isMuted)
+    // const [set]
+    const [popupKey, setPopupKey] = useState(0);
     const handleSpin = () => {
         playSpinCornerSnd("BetAmountSnd");
+        // const sendSData: BuySpinsRequest = {
+        //     msisdn: "254707717501",
+        //     action: "buyspins",
+        //     spins: "1x",
+        //     amount: "20"
+        // }
+        // sendSpinData(sendSData);
         if (spinState) return;
         if (freeSpinCount > 0) return;
         // spins based on selected level
@@ -35,15 +44,49 @@ export const MainGameArea = () => {
         }
         setSpinState(true);
         setBalance((prev) => prev - selectedLevel);
-    };
 
+    };
+    // useEffect(() => {
+    //     connectSocket();
+    //     const socket = getSocket();
+    //     if (!socket) return;
+    //
+    //     socket.onmessage = (event: MessageEvent<string>) => {
+    //         try {
+    //             const data: SpinResult = JSON.parse(event.data);
+    //             console.log("Game response:", data);
+    //             setSpinResponse(data);
+    //             setTimeout(() => {
+    //                 setBalance(data.Balance);
+    //                 setAmountWon(parseFloat(data.winnings));
+    //             }, 2500)
+    //
+    //             // If backend says insufficient balance, show toast
+    //             if (data.message === "Insufficient Account Balance") {
+    //                 showToast(data.message);
+    //             }
+    //
+    //             if (data.winningPaylines) {
+    //                 const serverReels = data.winningPaylines.reels;
+    //                 setServerReels(serverReels);
+    //
+    //                 const results = mapServerWinsToResults(
+    //                     data.winningPaylines.wins || []
+    //                 );
+    //                 setPaylineResults(results);
+    //             }
+    //         } catch (err) {
+    //             console.error("Error parsing server message:", err);
+    //         }
+    //     };
+    // }, [connectSocket, getSocket]);
     // Spin end handler
     useEffect(() => {
         if (spinState) {
             playSpinWheelLoop();
             const timer = setTimeout(() => {
                 setSpinState(false);
-            }, 3500); // spin duration
+            }, 5000); // spin duration
             return () => clearTimeout(timer);
         }
     }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
@@ -51,8 +94,13 @@ export const MainGameArea = () => {
     useEffect(() => {
         if (!winner) return;
 
-        setIsPopUp(false); // reset first
-        setTimeout(() => setIsPopUp(true), 20);
+        setIsPopUp(false);
+        setTimeout(() =>
+
+        {    setPopupKey(prev => prev + 1); // forces popup to remount
+
+            setIsPopUp(true)
+        }, 20);
 
         if (winner.value === "NUNGE TOSHEKA") {
             playSpinCornerSnd("popUpLose");
@@ -65,10 +113,18 @@ export const MainGameArea = () => {
             setBalance(prev => prev + winner.value);
         } else {
             switch (winner.value) {
-                case "ZAKO 2": freeSpinsToAdd = 2; break;
-                case "ZAKO 3": freeSpinsToAdd = 3; break;
-                case "SPIN TENA": freeSpinsToAdd = 1; break;
-                case "GONGA 25K": setBalance(prev => prev + 25000); break;
+                case "ZAKO 2":
+                    freeSpinsToAdd = 2;
+                    break;
+                case "ZAKO 3":
+                    freeSpinsToAdd = 3;
+                    break;
+                case "SPIN TENA":
+                    freeSpinsToAdd = 1;
+                    break;
+                case "GONGA 25K":
+                    setBalance(prev => prev + 25000);
+                    break;
             }
         }
 
@@ -76,7 +132,7 @@ export const MainGameArea = () => {
             setFreeSpinCount(prev => prev + freeSpinsToAdd);
         }
 
-        const timer = setTimeout(() => setIsPopUp(false), 3000);
+        const timer = setTimeout(() => setIsPopUp(false), 4500);
         return () => clearTimeout(timer);
 
     }, [winner]);
@@ -94,6 +150,7 @@ export const MainGameArea = () => {
 
     return (
         <div className="Spin-main-container">
+
             <div className="spin-game-area">
                 <div className="main-game-area">
                     <div className="spin-corner-top-bar">
@@ -138,6 +195,7 @@ export const MainGameArea = () => {
                     />
                 </div>
             </div>
+
             {isSettingsToggle && (
                 <GameSettings
                     isOpen={isSettingsToggle}
@@ -147,9 +205,8 @@ export const MainGameArea = () => {
                 />
             )}
 
-            {/* Popup */}
             {isPopUp && (
-                <div className="popup">
+                <div className="popup" key={popupKey}>
                     {winner && (
                         <div className="pop-container">
                             {winner.type === "text" && winner.value === "NUNGE TOSHEKA" ? (
