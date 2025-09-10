@@ -6,13 +6,20 @@ import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 import {GameSettings} from "./GameSettings.tsx";
 import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
-import type {BuySpinsRequest, SpinResult, WheelSegment} from "../Utils/types.ts";
+import type {
+    BetHistoryItem,
+    BetHistoryResponse,
+    BetHistorySendData,
+    BuySpinsRequest,
+    SpinResult,
+    WheelSegment
+} from "../Utils/types.ts";
 import {SpinCornerSockets} from "../SpinCornerSockets/SpinCornerSockets.ts";
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
     const [selectedLevel, setSelectedLevel] = useState<number>(20);
-    const [balance, setBalance] = useState<string|number>("---");
+    const [balance, setBalance] = useState<string | number>("---");
     const [freeSpinCount, setFreeSpinCount] = useState<number>(0);
     const [isPopUp, setIsPopUp] = useState<boolean>(false);
     const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false);
@@ -20,7 +27,7 @@ export const MainGameArea = () => {
     const {connectSocket, sendSpinData, getSocket} = SpinCornerSockets()
     const {playSpinCornerSnd, playSpinWheelLoop} = useSpinAudio(isMuted)
     const [popupKey, setPopupKey] = useState(0);
-
+    const [history, setHistory] = useState<BetHistoryItem[]>([])
     const [resultQueue, setResultQueue] = useState<WheelSegment[]>([]);
     const [currentResult, setCurrentResult] = useState<WheelSegment | null>(null);
 
@@ -34,6 +41,12 @@ export const MainGameArea = () => {
             amount: `${selectedLevel}`
         }
         sendSpinData(sendSData);
+
+        const sendHData: BetHistorySendData = {
+            history: "1",
+            msisdn: "254707717501"
+        }
+        sendSpinData(sendHData);
 
         // if (spinState) return;
         // if (freeSpinCount > 0) return;
@@ -52,9 +65,27 @@ export const MainGameArea = () => {
         connectSocket();
         const socket = getSocket();
         if (!socket) return;
-
         socket.onmessage = (event: MessageEvent<string>) => {
+            // console.log("all game response:", event.data);
+
             try {
+                const parsed = JSON.parse(event.data);
+
+                if (Array.isArray(parsed.data)) {
+                    // ✅ History response
+                    const historyData: BetHistoryResponse = parsed;
+
+                    // Transform backend data → table items
+                    const tableData: BetHistoryItem[] = historyData.data.map((item, index) => ({
+                        id: index + 1,
+                        betAmount: `${item.Multiplier}x`, // or map from your logic
+                        spinsUsed: "1 Spin",             // you can infer from Multiplier
+                        result: item.WinAmount
+                    }));
+
+                    setHistory(tableData);
+                    return;
+                }
                 const data: SpinResult = JSON.parse(event.data);
                 // console.log("Game response:", data);
                 const outcome: WheelSegment =
@@ -203,6 +234,7 @@ export const MainGameArea = () => {
                         spinState={spinState}
                         OnSetSelectedLevel={setSelectedLevel}
                         level={selectedLevel}
+                        history={history}
                     />
                 </div>
             </div>
@@ -220,22 +252,22 @@ export const MainGameArea = () => {
                 <>
 
                 {currentResult && (
-                <div className="popup" key={popupKey}
-                style={{
-                    border:`${currentResult.type === "text" && currentResult.value === "Nunge Tosha"? (
-                        "2px solid red"
-                    ):(
-                        "2px solid #FFD700"  
-                    )}`,
-                    boxShadow:`${currentResult.type === "text" && currentResult.value === "Nunge Tosha"? (
-                    "0 0 20px red"
-                    ):(
-                        "0 0 20px rgba(255, 215, 0, 0.3)"
-                    )}`
+                    <div className="popup" key={popupKey}
+                         style={{
+                             border: `${currentResult.type === "text" && currentResult.value === "Nunge Tosha" ? (
+                                 "2px solid red"
+                             ) : (
+                                 "2px solid #FFD700"
+                             )}`,
+                             boxShadow: `${currentResult.type === "text" && currentResult.value === "Nunge Tosha" ? (
+                                 "0 0 20px red"
+                             ) : (
+                                 "0 0 20px rgba(255, 215, 0, 0.3)"
+                             )}`
 
 
-                }}
-                >
+                         }}
+                    >
 
                         <div className="pop-container">
                             {/* Win/Loss header */}
@@ -274,7 +306,7 @@ export const MainGameArea = () => {
                         </div>
 
 
-                </div>
+                    </div>
                 )}
                 </>
             )}

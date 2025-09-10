@@ -1,8 +1,8 @@
 import {useCallback, useRef} from 'react';
-import type {BuySpinsRequest} from "../Utils/types.ts";
+import type {BetHistorySendData, BuySpinsRequest} from "../Utils/types.ts";
 
 export const SpinCornerSockets = () => {
-    const messageQueue = useRef<(BuySpinsRequest)[]>([]);
+    const messageQueue = useRef<(BuySpinsRequest| BetHistorySendData)[]>([]);
     const ws = useRef<WebSocket | null>(null);
 
     const connectSocket = useCallback(() => {
@@ -46,7 +46,7 @@ export const SpinCornerSockets = () => {
         };
     }, []);
 
-    const sendSpinData = (data: BuySpinsRequest) => {
+    const sendSpinData = (data: BuySpinsRequest | BetHistorySendData) => {
         const message = JSON.stringify(data);
 
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {

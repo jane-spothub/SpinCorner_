@@ -1,7 +1,8 @@
 import {type Dispatch, type FC, type SetStateAction} from "react";
 import {controls} from "../Hooks/useColors.ts";
-import BetHistoryTable from "./BetHistoryTable.tsx";
 import { toast } from "react-toastify";
+import type {BetHistoryItem} from "../Utils/types.ts";
+import {BetHistoryTable} from "./BetHistoryTable.tsx";
 
 interface SpinControlsProps {
     handleSpin: () => void;
@@ -9,6 +10,8 @@ interface SpinControlsProps {
     OnSetSelectedLevel: Dispatch<SetStateAction<number>>;
     level: number;
     freeSpinCount: number;
+    history: BetHistoryItem[];
+
 }
 
 export const SpinControls: FC<SpinControlsProps> = ({
@@ -16,7 +19,8 @@ export const SpinControls: FC<SpinControlsProps> = ({
                                                         spinState,
                                                         OnSetSelectedLevel,
                                                         level,
-                                                        freeSpinCount
+                                                        freeSpinCount,
+                                                        history
                                                     }) => {
     return (
         <div className="Spin-main-controls">
@@ -69,7 +73,8 @@ export const SpinControls: FC<SpinControlsProps> = ({
                     {spinState ? "Spinning" : "Spin"}
                 </div>
             </div>
-            <BetHistoryTable />
+            <BetHistoryTable   history={history}
+            />
 
         </div>
     );
