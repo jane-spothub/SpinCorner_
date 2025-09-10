@@ -687,6 +687,13 @@ canvas {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+
+.bet-history-spin th,
+.bet-history-spin td {
+    width: 50%;   /* equal width */
+    text-align: center; /* optional, for neat alignment */
+}
+
 .history-bet-titles{
     background: linear-gradient(
             to bottom,
