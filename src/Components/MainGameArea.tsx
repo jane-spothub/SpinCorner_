@@ -167,8 +167,14 @@ export const MainGameArea = () => {
             // 2. Play sound + show popup
             if (nextResult.type === "text" && nextResult.value === "Nunge Tosha") {
                 playSpinCornerSnd("popUpLose");
-            } else {
+            } else if(nextResult.type === "text" && nextResult.value === "Zako 2" ||
+                nextResult.type === "text" && nextResult.value === "Zako 3"||
+                nextResult.type === "text" && nextResult.value === "SPIN TENA"
+            )  {
+                playSpinCornerSnd("BonusWinSnd");
+            }else{
                 playSpinCornerSnd("popUpWin");
+
             }
             setPopupKey(prev => prev + 1);
             setIsPopUp(true);

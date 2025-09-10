@@ -4,6 +4,7 @@ import PopUpWin from "./AudioFiles/popupwin.wav";
 import PopUpLose from "./AudioFiles/popuplose.wav";
 import BetAmountSnd from "./AudioFiles/betAmountsnd.wav";
 import playBetSnd from "./AudioFiles/betsnd.wav";
+import BonusSnd from "./AudioFiles/bonusSound.mp3";
 // import spinCBackgroundSound from "./SafariSlotSonds/background-music.mp3";
 
 export const useSpinAudio = (isMuted: boolean) => {
@@ -13,7 +14,8 @@ export const useSpinAudio = (isMuted: boolean) => {
             popUpWin: new Audio(PopUpWin),
             popUpLose: new Audio(PopUpLose),
             BetAmountSnd: new Audio(BetAmountSnd),
-            PlaySnd: new Audio(playBetSnd)
+            PlaySnd: new Audio(playBetSnd),
+            BonusWinSnd: new Audio(BonusSnd)
         };
     }, []);
 
