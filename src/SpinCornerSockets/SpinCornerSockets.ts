@@ -7,7 +7,7 @@ export const SpinCornerSockets = () => {
 
     const connectSocket = useCallback(() => {
         if (ws.current && ws.current.readyState !== WebSocket.CLOSED) {
-            console.log('WebSocket connected');
+            // console.log('WebSocket connected');
             return;
         }
 
@@ -27,13 +27,13 @@ export const SpinCornerSockets = () => {
         };
 
         ws.current.onmessage = (event: MessageEvent<string>) => {
-            console.log('Received a raw message event:', event);
+            // console.log('Received a raw message event:', event);
 
             if (event && event.data) {
-                console.log('Raw message data:', event.data);
+                // console.log('Raw message data:', event.data);
 
             } else {
-                console.error('Event or event.data is null');
+                // console.error('Event or event.data is null');
             }
         };
 
@@ -42,7 +42,7 @@ export const SpinCornerSockets = () => {
         };
 
         ws.current.onclose = () => {
-            console.log('WebSocket connection closed');
+            // console.log('WebSocket connection closed');
         };
     }, []);
 
@@ -51,10 +51,10 @@ export const SpinCornerSockets = () => {
 
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             ws.current.send(message);
-            console.log('Message sent:', message);
+            // console.log('Message sent:', message);
         } else {
             messageQueue.current.push(data);
-            console.error('WebSocket is not open. Message queued.');
+            // console.error('WebSocket is not open. Message queued.');
         }
     };
 

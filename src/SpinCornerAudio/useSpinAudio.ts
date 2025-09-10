@@ -46,26 +46,28 @@ export const useSpinAudio = (isMuted: boolean) => {
     //     };
     // }, [spinCornerBackgroundSound, isMuted]);
 
-    const playSpinWheelLoop = useCallback(() => {
+    const playSpinWheelLoop = useCallback((spinDuration: number) => {
         if (isMuted) return;
 
         const shuffleSound = SpinCornerAudioInstances.RollSnd;
         shuffleSound.currentTime = 0;
-        // shuffleSound.volume= 10;
         shuffleSound.play();
 
+        // Loop sound every time it ends
         const interval = setInterval(() => {
             shuffleSound.currentTime = 0;
             shuffleSound.volume = 0.8;
             shuffleSound.play();
         }, shuffleSound.duration * 1000);
 
+        // Stop the loop after spinDuration
         setTimeout(() => {
             clearInterval(interval);
             shuffleSound.pause();
             shuffleSound.currentTime = 0;
-        }, 2500);
+        }, spinDuration);
     }, [SpinCornerAudioInstances.RollSnd, isMuted]);
+
 
     const playSpinCornerSnd = useCallback(
         (soundKey: keyof typeof SpinCornerAudioInstances) => {

@@ -321,26 +321,22 @@
     border-radius: 10px;
     color: white;
     font-size: 28px;
+    font-weight:bold;
     border-bottom: 1px solid #fd0000;
     /*padding-bottom: 10px;*/
 }
 .three-d-text-win{
     width:100%;
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*align-items: center;*/
-    /*margin-bottom: 20px;*/
     border-bottom: 1px solid #FFD700;
-    /*padding-bottom: 10px;*/
     border-radius: 10px;
     color:black;
+    font-weight:bold;
     font-size: 28px;
     background: linear-gradient(180deg, yellow, #ff9800);
 }
 .amount-won {
     font-weight: bold;
     color:white;
-    /*animation: glowBreath 2s infinite ease-in-out;*/
 }
 
 /* fade in & out */
@@ -360,16 +356,16 @@
 }
 
 
-@keyframes glowBreath {
-    0%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #00c6ff, 0 0 20px #00c6ff;
-        color: #fff;
-    }
-    50% {
-        text-shadow: 0 0 20px #6b95e7, 0 0 40px #00c6ff, 0 0 60px #00c6ff;
-        color: #ffffff;
-    }
-}
+/*@keyframes glowBreath {*/
+/*    0%, 100% {*/
+/*        text-shadow: 0 0 5px #fff, 0 0 10px #00c6ff, 0 0 20px #00c6ff;*/
+/*        color: #fff;*/
+/*    }*/
+/*    50% {*/
+/*        text-shadow: 0 0 20px #6b95e7, 0 0 40px #00c6ff, 0 0 60px #00c6ff;*/
+/*        color: #ffffff;*/
+/*    }*/
+/*}*/
 
 canvas {
     width: 100%;

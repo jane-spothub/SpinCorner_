@@ -56,7 +56,7 @@ export const MainGameArea = () => {
         socket.onmessage = (event: MessageEvent<string>) => {
             try {
                 const data: SpinResult = JSON.parse(event.data);
-                console.log("Game response:", data);
+                // console.log("Game response:", data);
                 const outcome: WheelSegment =
                     data.outcome.kind === "cash"
                         ? {type: "number", value: data.outcome.amount}
@@ -69,8 +69,9 @@ export const MainGameArea = () => {
                     setBalance(Number(data.Balance));
                 }, spinDuration); // now popup waits for spin to visually end
 
-            } catch (err) {
-                console.error("Error parsing server message:", err);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (error) {
+                // console.error("Error parsing server message:", err);
             }
         };
 
@@ -78,10 +79,11 @@ export const MainGameArea = () => {
     // Spin end handler
     useEffect(() => {
         if (spinState) {
-            playSpinWheelLoop();
+            const spinDuration = 5000;
+            playSpinWheelLoop(3500);
             const timer = setTimeout(() => {
                 setSpinState(false);
-            }, 5000); // spin duration
+            }, spinDuration); // spin duration
             return () => clearTimeout(timer);
         }
     }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
