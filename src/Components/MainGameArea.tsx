@@ -1,11 +1,12 @@
 import {Canvas} from "./Canvas";
 import {useEffect, useState} from "react";
-import "../assets/maincss.css"
+import "../assets/maincss.css";
 import {SpinControls} from "./SpinControls.tsx";
 import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
-import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
+import spinLogo from "../assets/img/scene/spin-corner-logo-1.png";
 import {GameSettings} from "./GameSettings.tsx";
 import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
+
 import type {
     BetHistoryItem,
     BetHistoryResponse,
@@ -14,6 +15,7 @@ import type {
     SpinResult,
     WheelSegment
 } from "../Utils/types.ts";
+
 import {SpinCornerSockets} from "../SpinCornerSockets/SpinCornerSockets.ts";
 
 export const MainGameArea = () => {

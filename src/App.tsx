@@ -30,7 +30,6 @@ function App() {
         pointer,
         spinBackground,
         bonusSnd
-        // add more images/sounds here
     ];
 
     return (
