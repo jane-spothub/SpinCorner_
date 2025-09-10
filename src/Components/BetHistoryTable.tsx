@@ -9,8 +9,8 @@ export const BetHistoryTable = ({history}: Props) => {
         if (result === "0") return {color: "#e53e3e", fontWeight: "bold"};
         if (result.includes("K") || !isNaN(Number(result))) return {color: "#ffdd00", fontWeight: "bold"};
         if (result==="1 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
-        if (result==="2 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
-        if (result==="3 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
+        if (result==="2 Free Spins") return {color: "#4fd1c5", fontWeight: "bold"};
+        if (result==="3 Free Spins") return {color: "#4fd1c5", fontWeight: "bold"};
         if (result.includes("Gonga")) return {color: "#6ffd00", fontWeight: "bold"};
         return {color: "#e2e8f0"};
     };

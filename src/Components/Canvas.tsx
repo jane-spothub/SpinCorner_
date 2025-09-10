@@ -60,6 +60,8 @@ export const Canvas: FC<CanvasProps> = ({spinState, winner, freeSpinCount}) => {
             );
             ctx.restore();
         }
+
+
         const mainShadowGradient = ctx.createRadialGradient(
             centerX, centerY, radius,         // start exactly at the wheel edge
             centerX, centerY, radius + 27     // extend shadow outward
