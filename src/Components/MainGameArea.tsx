@@ -156,7 +156,7 @@ export const MainGameArea = () => {
         setSpinState(true);
         const spinDuration = 4550;   // wheel animation
         const popupDuration = 1000;  // how long popup stays visible
-        const buffer = 400;          // small gap before next spin
+        const buffer = 350;          // small gap before next spin
         const totalCycle = spinDuration + popupDuration + buffer;
 
         // 1. End spin after animation
