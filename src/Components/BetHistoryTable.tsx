@@ -45,7 +45,7 @@ export const BetHistoryTable = ({ history }: Props) => {
                         style={{ background: index % 2 === 0 ? "#080a0e" : "#191f2a" }}
                     >
                         <td className="bet-item">{formatBetAmount(item.betAmount)}</td>
-                        <td className="bet-item">{item.spinsUsed}</td>
+                        {/*<td className="bet-item">{item.spinsUsed}</td>*/}
                         <td className="bet-item" style={{ ...getResultStyle(item.result) }}>
                             {item.result}
                         </td>
