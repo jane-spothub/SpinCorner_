@@ -14,6 +14,7 @@ import PopUpWin from "./SpinCornerAudio/AudioFiles/popupwin.wav";
 import PopUpLose from "./SpinCornerAudio/AudioFiles/popuplose.wav";
 import BetAmountSnd from "./SpinCornerAudio/AudioFiles/betAmountsnd.wav";
 import playBetSnd from "./SpinCornerAudio/AudioFiles/betsnd.wav";
+import bonusSnd from "./SpinCornerAudio/AudioFiles/bonusSound.mp3";
 
 function App() {
     const [loaded, setLoaded] = useState(false);
@@ -27,7 +28,8 @@ function App() {
         BetAmountSnd,
         playBetSnd,
         pointer,
-        spinBackground
+        spinBackground,
+        bonusSnd
         // add more images/sounds here
     ];
 
