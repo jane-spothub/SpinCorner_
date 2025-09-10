@@ -7,7 +7,7 @@ interface Props {
 export const BetHistoryTable = ({history}: Props) => {
     const getResultStyle = (result: string) => {
         if (result === "0") return {color: "#e53e3e", fontWeight: "bold"};
-        if (result.includes("K") || !isNaN(Number(result))) return {color: "#ffaf00", fontWeight: "bold"};
+        if (result.includes("K") || !isNaN(Number(result))) return {color: "#ffdd00", fontWeight: "bold"};
         if (result==="1 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
         if (result==="2 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
         if (result==="3 Free Spin") return {color: "#4fd1c5", fontWeight: "bold"};
@@ -54,12 +54,8 @@ export const BetHistoryTable = ({history}: Props) => {
                             style={{background: index % 2 === 0 ? "#080a0e" : "#191f2a"}}
                         >
                             <td className="bet-item">{formatBetAmount(item.betAmount)}</td>
-                            <td className="bet-item"
-                                style={{...getResultStyle(result)
-
-                            }
-
-                            }>
+                            <td className="bet-item" style={{...getResultStyle(result)}}
+                            >
                                 {result}
                             </td>
                         </tr>
@@ -68,6 +64,5 @@ export const BetHistoryTable = ({history}: Props) => {
             </tbody>
         </table>
 </div>
-)
-    ;
+);
 };
