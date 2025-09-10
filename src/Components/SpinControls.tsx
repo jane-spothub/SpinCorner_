@@ -66,7 +66,7 @@ export const SpinControls: FC<SpinControlsProps> = ({
                         }
                     }}
                 >
-                    {spinState ? "Spin" : "Spin"}
+                    {spinState ? "Spinning" : "Spin"}
                 </div>
             </div>
             <BetHistoryTable />
