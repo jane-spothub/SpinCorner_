@@ -35,7 +35,7 @@ export const BetHistoryTable = ({ history }: Props) => {
                 <tr style={{ background: "#202733" }}>
                     <th className="history-bet-titles">Bet Amount</th>
                     <th className="history-bet-titles">Spins Used</th>
-                    <th className="history-bet-titles">Result</th>
+                    {/*<th className="history-bet-titles">Result</th>*/}
                 </tr>
                 </thead>
                 <tbody>
