@@ -8,13 +8,12 @@ import type {WheelSegment} from "../Utils/types.ts";
 
 interface CanvasProps {
     spinState: boolean;
-    OnSetWinner: (w: WheelSegment) => void;
-    // winner: ColorBlock | null;
+    winner: WheelSegment | null;
     // level: number;
     freeSpinCount: number;
 }
 
-export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount}) => {
+export const Canvas: FC<CanvasProps> = ({spinState, winner, freeSpinCount}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const offsetRef = useRef(0); // rotation offset
     const logo = useRef<HTMLImageElement | null>(null);
@@ -49,48 +48,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         colorsRef.current = wheelData;
-        // const colors = colorsRef.current;
-        // const sliceAngle = (2 * Math.PI) / colors.length;
-        // const sliceColors = ["#f44336", "#2196f3", "#4caf50", "#ffeb3b", "#9c27b0"];
-        //
-        // const innerRadius = 100; // 👈 adjust until it matches the black circle in the real wheel
-        //
-        // colors.forEach((block, i) => {
-        //     const startAngle = i * sliceAngle + offsetRef.current;
-        //     const endAngle = startAngle + sliceAngle;
-        //
-        //     ctx.beginPath();
-        //
-        //     // start at inner arc
-        //     ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
-        //     // outer arc
-        //     ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-        //     ctx.closePath();
-        //
-        //     // fill background
-        //     ctx.fillStyle = sliceColors[i % sliceColors.length];
-        //     ctx.fill();
-        //
-        //     ctx.strokeStyle = "#000";
-        //     ctx.lineWidth = 2;
-        //     ctx.stroke();
-        //
-        //     // 📝 draw text
-        //     ctx.save();
-        //     ctx.translate(centerX, centerY);
-        //     ctx.rotate((startAngle + endAngle) / 2);
-        //
-        //     ctx.textAlign = "center";
-        //     ctx.fillStyle = "#000";
-        //     ctx.font = "bold 22px Arial";
-        //     ctx.fillText(
-        //         block.value.toString(),
-        //         (innerRadius + radius) / 2, // 👈 place text halfway between inner & outer radius
-        //         0
-        //     );
-        //     ctx.restore();
-        // });
-        // Create radial gradient for shadow just outside the border
 
         if (wheelImg.current) {
             ctx.save();
@@ -130,12 +87,6 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
 
         ctx.globalCompositeOperation = "source-atop";
         ctx.restore();
-// // 🔴 Debug pointer alignment
-//         ctx.strokeStyle = "red";
-//         ctx.beginPath();
-//         ctx.moveTo(centerX, centerY);
-//         ctx.lineTo(centerX, centerY - radius);
-//         ctx.stroke();
 
         if (logo.current) {
             const logoWidth = 235;   // custom width
@@ -225,57 +176,33 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
     }, [drawWheel]);
     const prevSpin = usePrevious(spinState); // track previous value
 
-//     useEffect(() => {
-//         if (!spinState || prevSpin === spinState) return;
-//         colorsRef.current = wheelData;
-//         const colors = colorsRef.current;
-//         const spinDuration = 3000;
-//         const start = performance.now();
-//
-//         // === Step 1: pick random winner at start ===
-//         const winnerIndex = Math.floor(Math.random() * colors.length);
-//         const sliceAngle = (2 * Math.PI) / colors.length;
-//         const sliceMiddle = winnerIndex * sliceAngle + sliceAngle / 2;
-// // pointer is at 12 o’clock => -90deg => -Math.PI/2
-//         const targetOffset = -sliceMiddle + Math.PI / 2;
-//
-// // === Step 3: add extra spins ===
-//         const extraSpins = 4 * 2 * Math.PI;
-//         const startOffset = offsetRef.current % (2 * Math.PI);
-//
-//         function animate(now: number) {
-//             const elapsed = now - start;
-//             const t = Math.min(elapsed / spinDuration, 1);
-//
-//             // ease-out
-//             const easeOut = 1 - Math.pow(1 - t, 3);
-//             // === Step 4: interpolate between start and target with extra spins ===
-//             offsetRef.current =
-//                 startOffset + extraSpins * (1 - easeOut) + (targetOffset - startOffset) * easeOut;
-//
-//             drawWheel();
-//
-//             if (t < 1) {
-//                 requestAnimationFrame(animate);
-//             } else {
-//                 offsetRef.current = targetOffset; // lock in
-//                 drawWheel();
-//                 OnSetWinner(colors[winnerIndex]);
-//             }
-//         }
-//
-//         requestAnimationFrame(animate);
-//     }, [spinState, drawWheel, prevSpin, OnSetWinner]);
+
 
     useEffect(() => {
-        if (!spinState || prevSpin === spinState) return;
+        if (!spinState) return;
+        if (prevSpin === true && spinState) return; // ignore if already spinning
+
         colorsRef.current = wheelData;
         const colors = colorsRef.current;
         const spinDuration = 5000;
         const start = performance.now();
 
+        // const mappedWinner = mapWinnerToWheel(winner);
+        if (winner === null) return;
+
+        // const winnerIndex = colors[winner]
+        const winnerIndex = colors.findIndex(
+            (segment) =>
+                segment.type === winner.type && segment.value === winner.value
+        );
+
+        if (winnerIndex === -1) {
+            console.error("Winner not found in wheelData:", winner);
+            return;
+        }
+
         // === Step 1: pick random winner ===
-        const winnerIndex = Math.floor(Math.random() * colors.length);
+        // const winnerIndex = Math.floor(Math.random() * colors.length);
         const sliceAngle = (2 * Math.PI) / colors.length;
 
         // === Step 2: pick random stop position inside the winner slice ===
@@ -312,14 +239,17 @@ export const Canvas: FC<CanvasProps> = ({spinState, OnSetWinner, freeSpinCount})
             if (t < 1) {
                 requestAnimationFrame(animate);
             } else {
-                offsetRef.current = targetOffset; // lock in
+                offsetRef.current = startOffset + extraSpins + (targetOffset - startOffset);
                 drawWheel();
-                OnSetWinner(colors[winnerIndex]);
+                // console.log("winner index", winnerIndex);
+                // console.log("wheel data", wheelData);
+                // console.log("winner on canvas",winner);
             }
         }
 
         requestAnimationFrame(animate);
-    }, [spinState, drawWheel, prevSpin, OnSetWinner]);
+    }, [spinState, drawWheel, prevSpin, winner]);
+
 
     return <canvas ref={canvasRef} width={820} height={820}/>;
 };

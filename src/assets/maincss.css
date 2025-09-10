@@ -283,7 +283,7 @@
     transform: translateX(50%);
     color: white;
     padding: 20px 40px;
-    border-radius: 16px;
+    /*border-radius: 16px;*/
     text-align: center;
     font-size: 1.5rem;
     opacity: 0;
@@ -296,7 +296,12 @@
     gap:10px;
     width: 100%;
     max-width: 250px;
-    background: linear-gradient(to top, #021f26 20%, rgb(0, 0, 0) 75%);
+    background: linear-gradient(to bottom, #1a1a1a 0%, #0a0a0a 100%);
+    border: 2px solid #FFD700;
+    border-radius: 12px;
+    /*width: 300px;*/
+    /*padding: 20px;*/
+    /*background: linear-gradient(to top, #021f26 20%, rgb(0, 0, 0) 75%);*/
 }
 
 .pop-container{
@@ -309,15 +314,33 @@
 .three-d-text-lost{
     width:100%;
     background: linear-gradient(180deg, #fd0000, #5b0404);
-
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+    /*margin-bottom: 20px;*/
+    border-radius: 10px;
+    color: white;
+    font-size: 28px;
+    border-bottom: 1px solid #fd0000;
+    /*padding-bottom: 10px;*/
 }
 .three-d-text-win{
     width:100%;
-    background: linear-gradient(180deg, #00c6ff, #08617a);
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+    /*margin-bottom: 20px;*/
+    border-bottom: 1px solid #FFD700;
+    /*padding-bottom: 10px;*/
+    border-radius: 10px;
+    color:black;
+    font-size: 28px;
+    background: linear-gradient(180deg, yellow, #ff9800);
 }
 .amount-won {
     font-weight: bold;
-    animation: glowBreath 2s infinite ease-in-out;
+    color:white;
+    /*animation: glowBreath 2s infinite ease-in-out;*/
 }
 
 /* fade in & out */
@@ -339,12 +362,12 @@
 
 @keyframes glowBreath {
     0%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #057494, 0 0 20px #00c6ff;
+        text-shadow: 0 0 5px #fff, 0 0 10px #00c6ff, 0 0 20px #00c6ff;
         color: #fff;
     }
     50% {
-        text-shadow: 0 0 20px #057798, 0 0 40px #00c6ff, 0 0 60px #00c6ff;
-        color: #00ff67;
+        text-shadow: 0 0 20px #6b95e7, 0 0 40px #00c6ff, 0 0 60px #00c6ff;
+        color: #ffffff;
     }
 }
 

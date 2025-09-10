@@ -6,32 +6,34 @@ import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png"
 import {GameSettings} from "./GameSettings.tsx";
 import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
-import type {WheelSegment} from "../Utils/types.ts";
-// import {SpinCornerSockets} from "../SpinCornerSockets/SpinCornerSockets.ts";
+import type {BuySpinsRequest, SpinResult, WheelSegment} from "../Utils/types.ts";
+import {SpinCornerSockets} from "../SpinCornerSockets/SpinCornerSockets.ts";
 
 export const MainGameArea = () => {
     const [spinState, setSpinState] = useState<boolean>(false);
-    const [winner, setWinner] = useState<WheelSegment | null>(null);
     const [selectedLevel, setSelectedLevel] = useState<number>(20);
-    const [balance, setBalance] = useState<number>(1000);
+    const [balance, setBalance] = useState<string|number>("---");
     const [freeSpinCount, setFreeSpinCount] = useState<number>(0);
     const [isPopUp, setIsPopUp] = useState<boolean>(false);
     const [isSettingsToggle, setIsSettingsToggle] = useState<boolean>(false);
     const [isMuted, setIsMuted] = useState(false);
-    // const {connectSocket, sendSpinData, getSocket} = SpinCornerSockets()
+    const {connectSocket, sendSpinData, getSocket} = SpinCornerSockets()
     const {playSpinCornerSnd, playSpinWheelLoop} = useSpinAudio(isMuted)
-    // const [set]
     const [popupKey, setPopupKey] = useState(0);
+
+    const [resultQueue, setResultQueue] = useState<WheelSegment[]>([]);
+    const [currentResult, setCurrentResult] = useState<WheelSegment | null>(null);
+
+
     const handleSpin = () => {
         playSpinCornerSnd("BetAmountSnd");
-        // const sendSData: BuySpinsRequest = {
-        //     msisdn: "254707717501",
-        //     action: "buyspins",
-        //     spins: "1x",
-        //     amount: "20"
-        // }
-        // sendSpinData(sendSData);
-
+        const sendSData: BuySpinsRequest = {
+            msisdn: "254707717501",
+            action: "buyspins",
+            spins: `${selectedLevel === 20 ? "1x" : (selectedLevel === 49 ? "2x" : "4x")}`,
+            amount: `${selectedLevel}`
+        }
+        sendSpinData(sendSData);
 
         // if (spinState) return;
         // if (freeSpinCount > 0) return;
@@ -44,44 +46,35 @@ export const MainGameArea = () => {
         if (spinsToAdd > 0) {
             setFreeSpinCount(prev => prev + spinsToAdd);
         }
-        setSpinState(true);
-        setBalance((prev) => prev - selectedLevel);
-
     };
-    // useEffect(() => {
-    //     connectSocket();
-    //     const socket = getSocket();
-    //     if (!socket) return;
-    //
-    //     socket.onmessage = (event: MessageEvent<string>) => {
-    //         try {
-    //             const data: SpinResult = JSON.parse(event.data);
-    //             console.log("Game response:", data);
-    //             setSpinResponse(data);
-    //             setTimeout(() => {
-    //                 setBalance(data.Balance);
-    //                 setAmountWon(parseFloat(data.winnings));
-    //             }, 2500)
-    //
-    //             // If backend says insufficient balance, show toast
-    //             if (data.message === "Insufficient Account Balance") {
-    //                 showToast(data.message);
-    //             }
-    //
-    //             if (data.winningPaylines) {
-    //                 const serverReels = data.winningPaylines.reels;
-    //                 setServerReels(serverReels);
-    //
-    //                 const results = mapServerWinsToResults(
-    //                     data.winningPaylines.wins || []
-    //                 );
-    //                 setPaylineResults(results);
-    //             }
-    //         } catch (err) {
-    //             console.error("Error parsing server message:", err);
-    //         }
-    //     };
-    // }, [connectSocket, getSocket]);
+
+    useEffect(() => {
+        connectSocket();
+        const socket = getSocket();
+        if (!socket) return;
+
+        socket.onmessage = (event: MessageEvent<string>) => {
+            try {
+                const data: SpinResult = JSON.parse(event.data);
+                console.log("Game response:", data);
+                const outcome: WheelSegment =
+                    data.outcome.kind === "cash"
+                        ? {type: "number", value: data.outcome.amount}
+                        : {type: "text", value: data.outcome.label};
+
+                // Add result to queue
+                setResultQueue(prev => [...prev, outcome]);
+                const spinDuration = 5000; // match your wheel animation time
+                setTimeout(() => {
+                    setBalance(Number(data.Balance));
+                }, spinDuration); // now popup waits for spin to visually end
+
+            } catch (err) {
+                console.error("Error parsing server message:", err);
+            }
+        };
+
+    }, [connectSocket, freeSpinCount, getSocket, playSpinCornerSnd]);
     // Spin end handler
     useEffect(() => {
         if (spinState) {
@@ -94,38 +87,20 @@ export const MainGameArea = () => {
     }, [playSpinCornerSnd, playSpinWheelLoop, spinState]);
 
     useEffect(() => {
-        if (!winner) return;
 
-        setIsPopUp(false);
-        setTimeout(() =>
-
-        {    setPopupKey(prev => prev + 1); // forces popup to remount
-
-            setIsPopUp(true)
-        }, 20);
-
-        if (winner.value === "NUNGE TOSHEKA") {
-            playSpinCornerSnd("popUpLose");
-        } else {
-            playSpinCornerSnd("popUpWin");
-        }
-
+        if (!currentResult) return;
         let freeSpinsToAdd = 0;
-        if (winner.type === "number") {
-            setBalance(prev => prev + winner.value);
-        } else {
-            switch (winner.value) {
-                case "ZAKO 2":
+        if (currentResult.type == "text") {
+
+            switch (currentResult.value) {
+                case "Zako 2":
                     freeSpinsToAdd = 2;
                     break;
-                case "ZAKO 3":
+                case "Zako 3":
                     freeSpinsToAdd = 3;
                     break;
                 case "SPIN TENA":
                     freeSpinsToAdd = 1;
-                    break;
-                case "GONGA 25K":
-                    setBalance(prev => prev + 25000);
                     break;
             }
         }
@@ -134,33 +109,65 @@ export const MainGameArea = () => {
             setFreeSpinCount(prev => prev + freeSpinsToAdd);
         }
 
-        const timer = setTimeout(() => setIsPopUp(false), 4500);
-        return () => clearTimeout(timer);
+    }, [currentResult]);
 
-    }, [winner]);
 
-    // Consume free spins when spin ends
     useEffect(() => {
-        if (!spinState && freeSpinCount > 0) {
-            const timer = setTimeout(() => {
-                setFreeSpinCount(prev => prev - 1);
-                setSpinState(true);
-            }, 1000);
-            return () => clearTimeout(timer);
-        }
-    }, [spinState, freeSpinCount]);
+        if (spinState || resultQueue.length === 0) return;
+        // Take the next result from queue
+        const [nextResult, ...rest] = resultQueue;
+        setResultQueue(rest);
+        setCurrentResult(nextResult);
+
+        // Start spinning
+        setSpinState(true);
+        const spinDuration = 4550;   // wheel animation
+        const popupDuration = 1000;  // how long popup stays visible
+        const buffer = 400;          // small gap before next spin
+        const totalCycle = spinDuration + popupDuration + buffer;
+
+        // 1. End spin after animation
+        setTimeout(() => {
+            setSpinState(false);
+            setFreeSpinCount(prev => Math.max(0, prev - 1));
+
+            // 2. Play sound + show popup
+            if (nextResult.type === "text" && nextResult.value === "Nunge Tosha") {
+                playSpinCornerSnd("popUpLose");
+            } else {
+                playSpinCornerSnd("popUpWin");
+            }
+            setPopupKey(prev => prev + 1);
+            setIsPopUp(true);
+
+            // 3. Hide popup after popupDuration
+            setTimeout(() => {
+                setIsPopUp(false);
+            }, popupDuration);
+
+        }, spinDuration);
+
+        // 4. Wait for full cycle before moving to the next spin
+        const nextSpinTimer = setTimeout(() => {
+            // This useEffect will rerun automatically if resultQueue still has items
+        }, totalCycle);
+
+        return () => clearTimeout(nextSpinTimer);
+
+    }, [resultQueue, spinState, playSpinCornerSnd]);
+
 
     return (
         <div className="Spin-main-container">
-
             <div className="spin-game-area">
                 <div className="main-game-area">
                     <div className="spin-corner-top-bar">
                         <div className="spin-balance-container">
                             Bal:
                             <div className="spin-corner-balance">
-                                {balance}
+                                {typeof balance === "number" ? balance.toFixed(1) : balance}
                             </div>
+
                         </div>
                         <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
                         <div className="Spin-main-settings">
@@ -184,7 +191,7 @@ export const MainGameArea = () => {
 
                     <Canvas
                         spinState={spinState}
-                        OnSetWinner={setWinner}
+                        winner={currentResult}
                         freeSpinCount={freeSpinCount}
                     />
 
@@ -208,39 +215,66 @@ export const MainGameArea = () => {
             )}
 
             {isPopUp && (
-                <div className="popup" key={popupKey}>
-                    {winner && (
+                <>
+
+                {currentResult && (
+                <div className="popup" key={popupKey}
+                style={{
+                    border:`${currentResult.type === "text" && currentResult.value === "Nunge Tosha"? (
+                        "2px solid red"
+                    ):(
+                        "2px solid #FFD700"  
+                    )}`,
+                    boxShadow:`${currentResult.type === "text" && currentResult.value === "Nunge Tosha"? (
+                    "0 0 20px red"
+                    ):(
+                        "0 0 20px rgba(255, 215, 0, 0.3)"
+                    )}`
+
+
+                }}
+                >
+
                         <div className="pop-container">
-                            {winner.type === "text" && winner.value === "NUNGE TOSHEKA" ? (
-                                <div className="three-d-text-lost">You Lost!</div>
+                            {/* Win/Loss header */}
+                            {currentResult.type === "text" && currentResult.value === "Nunge Tosha" ? (
+                                <>
+                                    <div className="three-d-text-lost">You Lost!</div>
+                                    {currentResult.type === "text" && currentResult.value === "Nunge Tosha" && (
+                                        <div className="amount-won">Try Again</div>
+                                    )}
+                                </>
+
                             ) : (
-                                <div className="three-d-text-win">You Won!</div>
-                            )}
+                                <>
+                                    <div className="three-d-text-win">You Won!</div>
+                                    {/*Bonus / Cash amounts */}
+                                    {currentResult.type === "text" && currentResult.value === "SPIN TENA" && (
+                                        <div className="amount-won"> 1 free spin! </div>
+                                    )}
+                                    {currentResult.type === "text" && currentResult.value === "Zako 2" && (
+                                        <div className="amount-won"> 2 free spins! </div>
+                                    )}
+                                    {currentResult.type === "text" && currentResult.value === "Zako 3" && (
+                                        <div className="amount-won"> 3 free spins! </div>
+                                    )}
+                                    {currentResult.type === "text" && currentResult.value === "Gonga 25K" && (
+                                        <div className="amount-won"> 25,000kes </div>
+                                    )}
 
-                            {winner.type === "text" && winner.value === "SPIN TENA" && (
-                                <div className="amount-won"> 1 free spin! </div>
-                            )}
-                            {winner.type === "text" && winner.value === "ZAKO 2" && (
-                                <div className="amount-won"> 2 free spins! </div>
-                            )}
-                            {winner.type === "text" && winner.value === "ZAKO 3" && (
-                                <div className="amount-won"> 3 free spins! </div>
-                            )}
-                            {winner.type === "number" && (
-                                <div className="amount-won"> {winner.value} kes </div>
-                            )}
+                                    {currentResult.type === "number" && (
 
-                            {winner.type === "text" && winner.value === "GONGA 25K" && (
-                                <div className="amount-won"> 25,000 kes</div>
-                            )}
+                                        <div className="amount-won">{currentResult.value}kes</div>
+                                    )}
 
-                            {winner.type === "text" && winner.value === "NUNGE TOSHEKA" && (
-                                <div className="amount-won">Try Again !! </div>
+                                </>
                             )}
-
                         </div>
-                    )}
+
+
                 </div>
+                )}
+                </>
             )}
             <HowToPlaySpin/>
         </div>

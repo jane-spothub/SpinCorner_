@@ -7,6 +7,7 @@ interface GameSettingsProps {
     OnSetIsMuted:Dispatch<SetStateAction<boolean>>;
     isMuted:boolean;
 }
+    // const [winner, setWinner] = useState<WheelSegment | null>(null);
 
 export const GameSettings = ({isOpen, onClose,OnSetIsMuted,isMuted}: GameSettingsProps) => {
     const [showHowToPlay, setShowHowToPlay] = useState(false);
