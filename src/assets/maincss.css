@@ -97,6 +97,7 @@
     background: rgba(14, 10, 10, 0.22);
     background: url("../assets/img/scene/Background2.webp") center;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .Spin-main-controls {
