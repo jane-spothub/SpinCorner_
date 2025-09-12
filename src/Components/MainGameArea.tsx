@@ -2,7 +2,6 @@ import {Canvas} from "./Canvas";
 import {useEffect, useState} from "react";
 import "../assets/maincss.css";
 import {SpinControls} from "./SpinControls.tsx";
-import {HowToPlaySpin} from "./HowToPlaySpin.tsx";
 import spinLogo from "../assets/img/scene/spin-corner-logo-1.png";
 import {GameSettings} from "./GameSettings.tsx";
 import {useSpinAudio} from "../SpinCornerAudio/useSpinAudio.ts";
@@ -36,8 +35,11 @@ export const MainGameArea = () => {
 
     const handleSpin = () => {
         playSpinCornerSnd("BetAmountSnd");
+        // const queryParams = new URLSearchParams(window.location.search);
+        // const sess = queryParams.get("sess") || " ";
         const sendSData: BuySpinsRequest = {
             msisdn: "254707717501",
+            // msisdn: sess,
             action: "buyspins",
             spins: `${selectedLevel === 20 ? "1x" : (selectedLevel === 49 ? "2x" : "4x")}`,
             amount: `${selectedLevel}`
@@ -46,6 +48,7 @@ export const MainGameArea = () => {
 
         const sendHData: BetHistorySendData = {
             history: "1",
+            // msisdn: sess
             msisdn: "254707717501"
         }
         sendSpinData(sendHData);
@@ -169,12 +172,12 @@ export const MainGameArea = () => {
             // 2. Play sound + show popup
             if (nextResult.type === "text" && nextResult.value === "Nunge Tosha") {
                 playSpinCornerSnd("popUpLose");
-            } else if(nextResult.type === "text" && nextResult.value === "Zako 2" ||
-                nextResult.type === "text" && nextResult.value === "Zako 3"||
+            } else if (nextResult.type === "text" && nextResult.value === "Zako 2" ||
+                nextResult.type === "text" && nextResult.value === "Zako 3" ||
                 nextResult.type === "text" && nextResult.value === "SPIN TENA"
-            )  {
+            ) {
                 playSpinCornerSnd("BonusWinSnd");
-            }else{
+            } else {
                 playSpinCornerSnd("popUpWin");
 
             }
@@ -203,61 +206,72 @@ export const MainGameArea = () => {
             <div className="spin-game-area">
                 <div className="main-game-area">
                     <div className="spin-corner-top-bar">
-                        <div className="spin-balance-container">
+                        <div className="balance">
                             Bal:
-                            <div className="spin-corner-balance">
-                                {typeof balance === "number" ? balance.toFixed(1) : balance}
+                            <div className="balance-amount">
+                                {balance === "---" ? (
+                                    <div className="balance-loader">
+                                        <div className="balance-progress"></div>
+                                    </div>
+                                ) : (
+                                    <div className="spin-corner-balance">
+                                        {typeof balance === "number" ? balance.toFixed(1) : balance}
+                                    </div>
+                                )}
                             </div>
-
-                        </div>
-                        <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
-                        <div className="Spin-main-settings">
-                            {isSettingsToggle ? (
-                                <div className="spin-corner-icons"
-                                     onClick={() => setIsSettingsToggle(false)}
-                                >
-                                    ⚙
-                                </div>
-                            ) : (
-                                <div className="spin-corner-icons"
-                                     onClick={() => setIsSettingsToggle(true)}
-                                >
-                                    ⚙
-                                </div>
-                            )}
                         </div>
 
-
+                    <img className="spin-corner-logo" src={spinLogo} alt="spin-logo"/>
+                    <div className="Spin-main-settings">
+                        {isSettingsToggle ? (
+                            <div className="spin-corner-icons"
+                                 onClick={() => setIsSettingsToggle(false)}
+                            >
+                                ⚙
+                            </div>
+                        ) : (
+                            <div className="spin-corner-icons"
+                                 onClick={() => setIsSettingsToggle(true)}
+                            >
+                                ⚙
+                            </div>
+                        )}
                     </div>
 
-                    <Canvas
-                        spinState={spinState}
-                        winner={currentResult}
-                        freeSpinCount={freeSpinCount}
-                    />
 
-                    <SpinControls
-                        freeSpinCount={freeSpinCount}
-                        handleSpin={handleSpin}
-                        spinState={spinState}
-                        OnSetSelectedLevel={setSelectedLevel}
-                        level={selectedLevel}
-                        history={history}
-                    />
                 </div>
-            </div>
 
-            {isSettingsToggle && (
-                <GameSettings
-                    isOpen={isSettingsToggle}
-                    onClose={() => setIsSettingsToggle(false)}
-                    OnSetIsMuted={setIsMuted}
-                    isMuted={isMuted}
+                <Canvas
+                    spinState={spinState}
+                    winner={currentResult}
+                    freeSpinCount={freeSpinCount}
                 />
-            )}
 
-            {isPopUp && (
-                <>
+                <SpinControls
+                    freeSpinCount={freeSpinCount}
+                    handleSpin={handleSpin}
+                    spinState={spinState}
+                    OnSetSelectedLevel={setSelectedLevel}
+                    level={selectedLevel}
+                    history={history}
+                />
+            </div>
+        </div>
+
+    {
+        isSettingsToggle && (
+            <GameSettings
+                isOpen={isSettingsToggle}
+                onClose={() => setIsSettingsToggle(false)}
+                OnSetIsMuted={setIsMuted}
+                isMuted={isMuted}
+            />
+        )
+    }
+
+    {
+        isPopUp && (
+            <>
 
                 {currentResult && (
                     <div className="popup" key={popupKey}
@@ -316,9 +330,10 @@ export const MainGameArea = () => {
 
                     </div>
                 )}
-                </>
-            )}
-            <HowToPlaySpin/>
-        </div>
-    );
+            </>
+        )
+    }
+</div>
+)
+    ;
 };

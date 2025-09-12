@@ -27,9 +27,10 @@ export const BetHistoryTable = ({history}: Props) => {
             case "x":
                 return "20 kes";
             default:
-                return betAmount; // fallback if something else comes
+                return betAmount;
         }
     };
+
     if (history.length === 0) {
         return (
             <div className="bet-history-container">
@@ -41,13 +42,6 @@ export const BetHistoryTable = ({history}: Props) => {
                         <th className="history-bet-titles">Result</th>
                     </tr>
                     </thead>
-                    <tr>
-                        <tbody>
-
-                        </tbody>
-                    </tr>
-
-
                 </table>
                 <div className="loader-container">
                     <div className="loader"></div>

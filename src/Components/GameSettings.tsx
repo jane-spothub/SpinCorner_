@@ -92,7 +92,7 @@ export const GameSettings = ({isOpen, onClose,OnSetIsMuted,isMuted}: GameSetting
                                 <ul className="prize-list">
                                     <li><span className="prize-amount">Cash prizes</span> from 50 KES to 25,000 KES</li>
                                     <li><span className="prize-amount">Free spins</span> - SPIN TENA (1 spin), Zako 2 (2 spins), Zako 3 (3 spins)</li>
-                                    <li><span className="prize-amount">Big bonuses</span> - Gonga 3K, 10K, and 25K prizes</li>
+                                    <li><span className="prize-amount">Big bonuses</span> - 25K and 7,500 prizes</li>
                                     <li><span className="prize-amount">Try again</span> - "Nunge Tosha" means no win this time</li>
                                 </ul>
                             </div>

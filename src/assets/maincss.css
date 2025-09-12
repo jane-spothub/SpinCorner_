@@ -91,6 +91,41 @@
     color: #ffcb00;
 }
 
+.balance {
+    /*font-size: 20px;*/
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-radius: 20px;
+    background: #181a1f;
+    padding: 10px;
+    font-size: 1.3rem;
+    color: #FFD700;
+
+}
+
+.balance-amount {
+    color: #ffcb00;
+}
+.balance-loader {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 196, 0, 0.2); /* faint ring */
+    border-top: 3px solid #ffcb00;            /* bright green segment */
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 8px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 .main-game-area{
     display: flex;
     flex-direction: column;
